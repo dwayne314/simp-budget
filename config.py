@@ -11,8 +11,7 @@ class Config:
     """The base config class for the application"""
     APP_NAME = os.environ.get('APP_NAME') or 'api'
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret-key'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(base_dir, 'app.db')
+    SQLALCHEMY_DATABASE_URI = 'postgresql://dwayne314:postgres@localhost:5432/simp_budget'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
