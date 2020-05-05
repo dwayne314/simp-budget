@@ -42,23 +42,25 @@ class Accounts(db.Model):
     updated_at = db.Column(
         db.DateTime(), default=datetime.utcnow, nullable=False)
 
+    # Relationships
+    transactions = db.relationship(
+        'Transactions', backref='account', lazy='dynamic', cascade='all, delete')
+
     @property
     def current_balance(self):
         """The current balance of an account in cents"""
         pass
 
-
-class AccountTransactions(db.Model):
-    """Account / Transactions junction table"""
-
-    account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), primary_key=True)
-    transaction_id = db.Column(db.Integer, db.ForeignKey('transactions.id'), primary_key=True)
+    def get_transaction(self, transaction_id):
+        """Returns a transaction by id"""
+        pass
 
 
 class Transactions(db.Model):
     """Represent debits and credits to an account's balance"""
 
     id = db.Column(db.Integer, primary_key=True)
+    account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     amount = db.Column(db.Integer, nullable=False)
     note = db.Column(db.String, nullable=True)
     created_at = db.Column(db.DateTime(), default=datetime.utcnow, nullable=False)
