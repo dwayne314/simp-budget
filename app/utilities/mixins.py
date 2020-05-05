@@ -20,11 +20,12 @@ class SerializerMixin(object):
                 and a filter_val that the record must equal
         """
 
-        failed_filters = \
-            [filter_ for filter_ in filters
-             if getattr(rec, filter_['filter_field']) != filter_['filter_val']]
+        if rec:
+            failed_filters = \
+                [filter_ for filter_ in filters
+                 if getattr(rec, filter_['filter_field']) != filter_['filter_val']]
 
-        return len(failed_filters) == 0
+            return len(failed_filters) == 0
 
     @classmethod
     def serialize_all(cls, filters=[]):
