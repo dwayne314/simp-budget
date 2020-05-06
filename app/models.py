@@ -1,6 +1,5 @@
 """This module contains all of the application's models"""
 
-
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
@@ -34,6 +33,12 @@ class Users(db.Model, SerializerMixin):
     def validate_password(self, password):
         """Returns True if the password matches the hash"""
         return check_password_hash(self.password_hash, password)
+
+    @classmethod
+    def is_duplicate(cls, email):
+        """Returns whether the new email is a duplicate"""
+        duplicate_config = dict(email=email)
+        return bool(cls.query.filter_by(**duplicate_config).first())
 
 
 class Accounts(db.Model, SerializerMixin):
