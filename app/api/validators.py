@@ -5,14 +5,26 @@ from app.models import Users
 
 
 class Validator():
-    """The base validator class for the application"""
+    """The base validator class for the application
+
+    Raises:
+        ValueError: If the class does not have a tested_fields attribute or
+            the class contains an exclude attribute not found in the
+            tested_fields
+
+    """
 
     def __init__(self, **kwargs):
-        try:
-            self.tested_fields
-        except:
+        if not getattr(self, 'tested_fields', None):
             raise ValueError('Child Validator class must contain a tested_fields '
                              'attribute')
+
+        if getattr(self, 'exclude', None):
+            for key in self.exclude.keys():
+                if key not in self.tested_fields:
+                    raise ValueError('Excluded fields must be a member of the '
+                                     'tested_fields')
+            
         self.attributes = kwargs
         self.errors = {}
 
@@ -34,17 +46,22 @@ class UserValidator(Validator):
     action type. Each validate function returns a dict containing the
     validation status, errors, and results.
 
+    Arguments:
+        exclude (dict): a dictionary with keys
+
     """
 
     email_regex = '^.+@(\[?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$'
     tested_fields = ['first_name', 'last_name', 'email', 'password']
 
-    def __init__(self, **kwargs):
-        super(UserValidator, self).__init__(**kwargs)
+    def __init__(self, exclude={}, **kwargs):
         self.first_name = kwargs.get('first_name')
         self.last_name = kwargs.get('last_name')
         self.email = kwargs.get('email')
         self.password = kwargs.get('password')
+        self.exclude = exclude
+        super(UserValidator, self).__init__(**kwargs)
+
 
     def extract_common_validators(self):
         """Validates fields common to all validate methods"""
@@ -88,7 +105,8 @@ class UserValidator(Validator):
             if not re.match(self.email_regex, self.email):
                 self.errors['email'] = 'That is not a valid email.'
             else:
-                if Users.is_duplicate(self.email):
+                if Users.is_duplicate(self.email) \
+                        and not self.exclude.get('email') == self.email:
                     self.errors['email'] = 'That email is taken.'
 
         return {

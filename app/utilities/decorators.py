@@ -18,8 +18,8 @@ def err_if_not_found(model, id_field):
         @wraps(func)
         def view_wrapper(*args, **kwargs):
 
-            account = model.serialize_one(kwargs[id_field])
-            if not account:
+            record = model.serialize_one(kwargs[id_field])
+            if not record:
                 return abort(404)
             return func(*args, **kwargs)
         return view_wrapper

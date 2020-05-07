@@ -24,7 +24,7 @@ class Users(db.Model, SerializerMixin):
 
     # Relationships
     accounts = db.relationship(
-        'Accounts', backref='school', lazy='dynamic', cascade='all, delete')
+        'Accounts', backref='user', lazy='dynamic', cascade='all, delete')
 
     def hash_password(self, password):
         """Creates a password hash from the supplied password"""

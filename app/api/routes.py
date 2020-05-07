@@ -55,7 +55,7 @@ def get_user(user_id):
 def patch_user(user_id):
     """Patches a user by id"""
     user = Users.query.get(user_id)
-    validator = UserValidator(**request.get_json())
+    validator = UserValidator({'email': user.email}, **request.get_json())
     validate_results = validator.validate_patch_user()
     if validate_results['isValid']:
         for key, val in validate_results['result'].items():
