@@ -66,7 +66,11 @@ class Accounts(db.Model, SerializerMixin):
 
     def get_transaction(self, transaction_id):
         """Returns a transaction by id"""
-        pass
+        transactions = [tran for tran in self.transactions
+                        if tran.id == transaction_id]
+        if transactions:
+            return transactions[0]
+        return None
 
 
 class Transactions(db.Model, SerializerMixin):

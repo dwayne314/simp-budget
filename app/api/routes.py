@@ -164,11 +164,11 @@ def post_transactions(account_id):
     """Creates a transaction for an account"""
     validator = TransationValidator(**request.get_json())
     validate_results = validator.validate_create_transaction()
+
     if validate_results['isValid']:
         validate_results['result']['account_id'] = account_id
         new_transaction = Transactions(**validate_results['result'])
         db.session.add(new_transaction)
-
         db.session.commit()
         serialized_transaction = Transactions.serialize_one(new_transaction.id)
         return {'success': True,
@@ -178,53 +178,54 @@ def post_transactions(account_id):
 
 @bp.route('/accounts/<int:account_id>/transactions/<int:transaction_id>',
           methods=['GET'])
+@err_if_not_found(Accounts, 'account_id')
 def get_transaction(account_id, transaction_id):
     """Gets a transaction from an account by id"""
-    first_transaction = Transactions.query \
-        .filter_by(account_id=account_id) \
-        .filter_by(id=transaction_id).first()
+    account = Accounts.query.get(account_id)
+    transaction = account.get_transaction(transaction_id)
 
-    if not first_transaction:
-        return abort(404)
+    if transaction:
+        serialized_transaction = Transactions.serialize_one(transaction.id)
+        return {'success': True,
+                'message': 'Transaction found',
+                'data': serialized_transaction}, 200
+    return abort(404)
 
-    transaction = Transactions.serialize_one(first_transaction.id)
-    return {'success': True,
-            'message': 'Transaction found',
-            'data': transaction}, 200
 
 @bp.route('/accounts/<int:account_id>/transactions/<int:transaction_id>',
           methods=['PATCH'])
+@err_if_not_found(Accounts, 'account_id')
 def patch_transaction(account_id, transaction_id):
     """Patches a transaction from an account by id"""
-    transaction = Transactions.query \
-        .filter_by(account_id=account_id) \
-        .filter_by(id=transaction_id).first()
+    account = Accounts.query.get(account_id)
+    transaction = account.get_transaction(transaction_id)
 
-    validator = TransationValidator(**request.get_json())
-    validate_results = validator.validate_patch_transaction()
-    if validate_results['isValid']:
-        for key, val in validate_results['result'].items():
-            setattr(transaction, key, val)
-        db.session.commit()
+    if transaction:
+        validator = TransationValidator(**request.get_json())
+        validate_results = validator.validate_patch_transaction()
 
-        # Pull updated account data
-        serialized_transaction = Transactions.serialize_one(transaction_id)
-        return {'success': True,
-                'message': 'Account updated',
-                'data': serialized_transaction}, 200
+        if validate_results['isValid']:
+            for key, val in validate_results['result'].items():
+                setattr(transaction, key, val)
+            db.session.commit()
+            serialized_transaction = Transactions.serialize_one(
+                transaction_id)
+            return {'success': True,
+                    'message': 'Account updated',
+                    'data': serialized_transaction}, 200
 
-    return abort(400, validate_results["errors"])
+        return abort(400, validate_results["errors"])
+    return abort(404)
 
 @bp.route('/accounts/<int:account_id>/transactions/<int:transaction_id>',
           methods=['DELETE'])
 def delete_transaction(account_id, transaction_id):
     """Api router for a single account transaction resource"""
-    first_transaction = Transactions.query \
-        .filter_by(account_id=account_id) \
-        .filter_by(id=transaction_id).first()
-
-    if not first_transaction:
-        return abort(404)
-
-    message = f'Transaction {transaction_id} has been deleted'
-    return {'success': True, 'message': message, 'data': {}}, 200
+    account = Accounts.query.get(account_id)
+    transaction = account.get_transaction(transaction_id)
+    if transaction:
+        db.session.delete(transaction)
+        db.session.commit()
+        message = f'Transaction deleted'
+        return {'success': True, 'message': message, 'data': {}}, 200
+    return abort(404)
