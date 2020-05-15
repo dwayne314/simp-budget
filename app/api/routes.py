@@ -4,7 +4,8 @@ from flask import current_app, request, abort, jsonify, g
 from app import db
 from app.api import bp
 from app.models import Users, Accounts, Transactions
-from app.utilities.decorators import err_if_not_found, roles_required
+from app.utilities.decorators import (err_if_not_found, roles_required,
+                                      enforce_owner_by_id)
 from app.api.validators import (UserValidator, AccountValidator,
                                 TransationValidator)
 from app.api.auth import basic_auth, token_auth
@@ -68,16 +69,18 @@ def post_users():
     return abort(400, validate_results["errors"])
 
 @bp.route('/users/<int:user_id>', methods=['GET'])
-@err_if_not_found(Users, 'user_id')
 @token_auth.login_required
+@err_if_not_found(Users, 'user_id')
+@enforce_owner_by_id('user_id', ['admin'])
 def get_user(user_id):
     """Gets a user by id"""
     user = Users.serialize_one(user_id)
     return {'success': True, 'message': 'User found', 'data': user}, 200
 
 @bp.route('/users/<int:user_id>', methods=['PATCH'])
-@err_if_not_found(Users, 'user_id')
 @token_auth.login_required
+@err_if_not_found(Users, 'user_id')
+@enforce_owner_by_id('user_id', ['admin'])
 def patch_user(user_id):
     """Patches a user by id"""
     user = Users.query.get(user_id)
@@ -97,8 +100,9 @@ def patch_user(user_id):
     return abort(400, validate_results["errors"])
 
 @bp.route('/users/<int:user_id>', methods=['DELETE'])
-@err_if_not_found(Users, 'user_id')
 @token_auth.login_required
+@err_if_not_found(Users, 'user_id')
+@enforce_owner_by_id('user_id', ['admin'])
 def delete_user(user_id):
     """Deletes a user by id"""
     user = Users.query.get(user_id)
