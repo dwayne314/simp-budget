@@ -1,10 +1,18 @@
 """This module contains all of the application's models"""
 
-from datetime import datetime
+import base64
+import os
+from datetime import datetime, timedelta
+from sqlalchemy import event
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 from app.utilities.mixins import SerializerMixin
 
+
+ROLES = {
+    'default': 'general',
+    'admin': 'admin'
+}
 
 class Users(db.Model, SerializerMixin):
     """Represents a user."""
@@ -15,8 +23,11 @@ class Users(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(128), nullable=False)
     last_name = db.Column(db.String(128), index=True, nullable=False)
+    role = db.Column(db.String(128), nullable=False)
     email = db.Column(db.String(128), index=True, nullable=False, unique=True)
     password_hash = db.Column(db.String(128))
+    auth_token = db.Column(db.String(32), index=True, unique=True)
+    auth_token_expiration = db.Column(db.DateTime)
     created_at = db.Column(
         db.DateTime(), default=datetime.utcnow, nullable=False)
     updated_at = db.Column(
@@ -34,11 +45,47 @@ class Users(db.Model, SerializerMixin):
         """Returns True if the password matches the hash"""
         return check_password_hash(self.password_hash, password)
 
+    def get_token(self, expires_in=3600):
+        """Retrieves a user's auth token"""
+        now = datetime.now()
+        if self.auth_token and \
+                self.auth_token_expiration > now + timedelta(seconds=60):
+            return self.auth_token
+
+        self.auth_token = base64.b64encode(os.urandom(24)).decode('utf-8')
+        self.auth_token_expiration = now + timedelta(seconds=expires_in)
+        db.session.add(self)
+        return self.auth_token
+
+    def revoke_token(self):
+        """Revokes a user's auth token"""
+        self.auth_token_expiration = datetime.utcnow() - timedelta(seconds=1)
+
+
     @classmethod
     def is_duplicate(cls, email):
         """Returns whether the new email is a duplicate"""
         duplicate_config = dict(email=email)
         return bool(cls.query.filter_by(**duplicate_config).first())
+
+    @staticmethod
+    def check_token(token):
+        """Returns the user if the auth token is valid"""
+        user = Users.query.filter_by(auth_token=token).first()
+        if user is None or user.auth_token_expiration < datetime.now():
+            return None
+        return user
+
+    @staticmethod
+    def initialize_role(mapper, connection, target):
+        """Initializes the employees role to the default role"""
+        target.role = ROLES['default']
+
+    @classmethod
+    def __declare_last__(cls):
+        """Before update and insert events set the school and district ids"""
+
+        event.listen(Users, 'before_insert', cls.initialize_role)
 
 
 class Accounts(db.Model, SerializerMixin):
