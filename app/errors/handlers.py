@@ -9,6 +9,16 @@ def validation_error(error):
     db.session.rollback()
     return {'success': False, 'error': error.description}, 400
 
+@bp.app_errorhandler(401)
+def authentication_error(error):
+    db.session.rollback()
+    return {'success': False, 'error': 'Authentication error'}, 401
+
+@bp.app_errorhandler(403)
+def authorization_error(error):
+    db.session.rollback()
+    return {'success': False, 'error': 'Authorizatiion error'}, 403
+
 @bp.app_errorhandler(404)
 def internal_error(error):
     db.session.rollback()

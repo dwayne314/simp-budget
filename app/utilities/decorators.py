@@ -2,7 +2,7 @@
 
 
 from functools import wraps
-from flask import abort
+from flask import abort, g
 
 
 def err_if_not_found(model, id_field):
@@ -14,7 +14,7 @@ def err_if_not_found(model, id_field):
 
     """
 
-    def role_wrapper(func):
+    def error_wrapper(func):
         @wraps(func)
         def view_wrapper(*args, **kwargs):
 
@@ -23,4 +23,16 @@ def err_if_not_found(model, id_field):
                 return abort(404)
             return func(*args, **kwargs)
         return view_wrapper
-    return role_wrapper
+    return error_wrapper
+
+def roles_required(roles):
+    """Throws a 403 error if a user does not have an acceptable role"""
+
+    def wrapper(func):
+        @wraps(func)
+        def view_wrapper(*args, **kwargs):
+            if g.current_user.role not in roles:
+                return abort(403)
+            return func(*args, **kwargs)
+        return view_wrapper
+    return wrapper
