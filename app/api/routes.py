@@ -5,7 +5,7 @@ from app import db
 from app.api import bp
 from app.models import Users, Accounts, Transactions
 from app.utilities.decorators import (err_if_not_found, roles_required,
-                                      enforce_owner_by_id)
+                                      enforce_owner_by_id, add_child_result)
 from app.api.validators import (UserValidator, AccountValidator,
                                 TransationValidator)
 from app.api.auth import basic_auth, token_auth
@@ -216,57 +216,46 @@ def post_transactions(account_id):
 
 @bp.route('/accounts/<int:account_id>/transactions/<int:transaction_id>',
           methods=['GET'])
-@err_if_not_found(Accounts, 'account_id')
 @token_auth.login_required
-def get_transaction(account_id, transaction_id):
+@add_child_result('account_id', 'transaction_id')
+def get_transaction(account_id, transaction_id, result):
     """Gets a transaction from an account by id"""
-    account = Accounts.query.get(account_id)
-    transaction = account.get_transaction(transaction_id)
 
-    if transaction:
-        serialized_transaction = Transactions.serialize_one(transaction.id)
-        return {'success': True,
-                'message': 'Transaction found',
-                'data': serialized_transaction}, 200
-    return abort(404)
-
+    serialized_transaction = result.serialize_one(transaction_id)
+    return {'success': True,
+            'message': 'Transaction found',
+            'data': serialized_transaction}, 200
 
 @bp.route('/accounts/<int:account_id>/transactions/<int:transaction_id>',
           methods=['PATCH'])
-@err_if_not_found(Accounts, 'account_id')
 @token_auth.login_required
-def patch_transaction(account_id, transaction_id):
+@add_child_result('account_id', 'transaction_id')
+def patch_transaction(account_id, transaction_id, result):
     """Patches a transaction from an account by id"""
-    account = Accounts.query.get(account_id)
-    transaction = account.get_transaction(transaction_id)
 
-    if transaction:
-        validator = TransationValidator(**request.get_json())
-        validate_results = validator.validate_patch_transaction()
+    validator = TransationValidator(**request.get_json())
+    validate_results = validator.validate_patch_transaction()
 
-        if validate_results['isValid']:
-            for key, val in validate_results['result'].items():
-                setattr(transaction, key, val)
-            db.session.commit()
-            serialized_transaction = Transactions.serialize_one(
-                transaction_id)
-            return {'success': True,
-                    'message': 'Account updated',
-                    'data': serialized_transaction}, 200
+    if validate_results['isValid']:
+        for key, val in validate_results['result'].items():
+            setattr(result, key, val)
+        db.session.commit()
+        serialized_transaction = Transactions.serialize_one(
+            transaction_id)
+        return {'success': True,
+                'message': 'Account updated',
+                'data': serialized_transaction}, 200
 
-        return abort(400, validate_results["errors"])
-    return abort(404)
+    return abort(400, validate_results["errors"])
 
 @bp.route('/accounts/<int:account_id>/transactions/<int:transaction_id>',
           methods=['DELETE'])
 @token_auth.login_required
-def delete_transaction(account_id, transaction_id):
+@add_child_result('account_id', 'transaction_id')
+def delete_transaction(account_id, transaction_id, result):
     """Api router for a single account transaction resource"""
-    account = Accounts.query.get(account_id)
-    transaction = account.get_transaction(transaction_id)
-    if transaction:
-        db.session.delete(transaction)
-        db.session.commit()
-        message = f'Transaction deleted'
-        return {'success': True, 'message': message, 'data': {}}, 200
-    return abort(404)
+
+    db.session.delete(result)
+    db.session.commit()
+    message = f'Transaction deleted'
+    return {'success': True, 'message': message, 'data': {}}, 200

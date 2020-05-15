@@ -3,6 +3,7 @@
 
 from functools import wraps
 from flask import abort, g
+from app.models import Accounts, Transactions
 
 
 def err_if_not_found(model, id_field):
@@ -73,3 +74,50 @@ def enforce_owner_by_id(id_field, exclude_roles=[]):
             return func(*args, **kwargs)
         return view_wrapper
     return error_wrapper
+
+
+def add_child_result(parent_id_field, child_id_field):
+    """Attaches a "result" kwarg to a view with a resource
+
+    The resource attached to the view is the resource that owns a view's
+    child_id_field as long as the resource is owned by the view's
+    parent_id_field.
+
+    Arguments:
+        id_field (str): the route field name containing the owners id
+        exclude_roles (lsit): user roles excluded from the validation
+
+    Returns:
+        json: the JSON response for a 403 error
+        func: the original route function with a "result" kwarg referencing
+            the resource identified by the child_id_field
+
+    """
+
+    def wrapper(func):
+        @wraps(func)
+        def view_wrapper(*args, **kwargs):
+
+            child_id = kwargs[child_id_field]
+            parent_id = kwargs[parent_id_field]
+
+            if parent_id_field == 'account_id' and \
+                    child_id_field == 'transaction_id':
+                result = Transactions.query \
+                    .filter_by(id=child_id) \
+                    .filter_by(account_id=parent_id).first()
+
+            elif parent_id_field == 'user_id' and \
+                    child_id_field == 'account_id':
+
+                result = Accounts.query \
+                    .filter_by(id=child_id) \
+                    .filter_by(user_id=parent_id).first()
+
+            if not result:
+                return abort(404)
+
+            kwargs['result'] = result
+            return func(*args, **kwargs)
+        return view_wrapper
+    return wrapper
