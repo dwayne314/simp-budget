@@ -73,7 +73,7 @@ def enforce_owner_by_id(id_field, exclude_roles=[]):
                 return abort(403)
             return func(*args, **kwargs)
         return view_wrapper
-    return error_wrapper
+    return wrapper
 
 
 def add_child_result(parent_id_field, child_id_field):
