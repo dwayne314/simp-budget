@@ -114,22 +114,29 @@ def delete_user(user_id):
 # Account Routes
 #
 
-@bp.route('/accounts', methods=['GET'])
+@bp.route('/users/<int:user_id>/accounts', methods=['GET'])
 @token_auth.login_required
-def get_accounts():
+@err_if_not_found(Users, 'user_id')
+@enforce_owner_by_id('user_id', ['admin'])
+def get_accounts(user_id):
     """Gets all accounts"""
+    user = Users.query.get(user_id)
+    accounts = [Accounts.serialize_one(acct.id) for acct
+                in user.accounts.all()]
     accounts = Accounts.serialize_all()
     message = 'Data found' if accounts else 'Data not found'
     return {'success': True, 'message': message, 'data': accounts}, 200
 
-@bp.route('/accounts', methods=['POST'])
+@bp.route('/users/<int:user_id>/accounts', methods=['POST'])
 @token_auth.login_required
-def post_accounts():
+@enforce_owner_by_id('user_id', ['admin'])
+def post_accounts(user_id):
     """Creates an account"""
     validator = AccountValidator(**request.get_json())
     validate_results = validator.validate_create_account()
     if validate_results['isValid']:
         new_account = Accounts(**validate_results['result'])
+        setattr(new_account, 'user_id', user_id)
         db.session.add(new_account)
 
         db.session.commit()
@@ -139,25 +146,26 @@ def post_accounts():
                 'data': serialized_account}, 201
     return abort(400, validate_results["errors"])
 
-@bp.route('/accounts/<int:account_id>', methods=['GET'])
-@err_if_not_found(Accounts, 'account_id')
+@bp.route('/users/<int:user_id>/accounts/<int:account_id>', methods=['GET'])
 @token_auth.login_required
-def get_account(account_id):
+@enforce_owner_by_id('user_id', ['admin'])
+@add_child_result('user_id', 'account_id')
+def get_account(user_id, account_id, result):
     """Gets an account by id"""
-    account = Accounts.serialize_one(account_id)
+    account = Accounts.serialize_one(result.id)
     return {'success': True, 'message': 'Account found', 'data': account}, 200
 
-@bp.route('/accounts/<int:account_id>', methods=['PATCH'])
-@err_if_not_found(Accounts, 'account_id')
+@bp.route('/users/<int:user_id>/accounts/<int:account_id>', methods=['PATCH'])
 @token_auth.login_required
-def patch_account(account_id):
+@enforce_owner_by_id('user_id', ['admin'])
+@add_child_result('user_id', 'account_id')
+def patch_account(user_id, account_id, result):
     """Patches an account by id"""
-    account = Accounts.query.get(account_id)
     validator = AccountValidator(**request.get_json())
     validate_results = validator.validate_patch_account()
     if validate_results['isValid']:
         for key, val in validate_results['result'].items():
-            setattr(account, key, val)
+            setattr(result, key, val)
         db.session.commit()
 
         # Pull updated account data
@@ -168,12 +176,13 @@ def patch_account(account_id):
 
     return abort(400, validate_results["errors"])
 
-@bp.route('/accounts/<int:account_id>', methods=['DELETE'])
-@err_if_not_found(Accounts, 'account_id')
+@bp.route('/users/<int:user_id>/accounts/<int:account_id>', methods=['DELETE'])
 @token_auth.login_required
-def delete_account(account_id):
+@enforce_owner_by_id('user_id', ['admin'])
+@add_child_result('user_id', 'account_id')
+def delete_account(user_id, account_id, result):
     """Deletes an account by id"""
-    account = Accounts.query.get(account_id)
+    account = Accounts.query.get(result.id)
     db.session.delete(account)
     db.session.commit()
     return {'success': True, 'message': 'Account deleted', 'data': {}}, 200
@@ -182,29 +191,33 @@ def delete_account(account_id):
 # Transaction Routes
 #
 
-@bp.route('/accounts/<int:account_id>/transactions', methods=['GET'])
-@err_if_not_found(Accounts, 'account_id')
+@bp.route('/users/<int:user_id>/accounts/<int:account_id>/transactions',
+          methods=['GET'])
 @token_auth.login_required
-def get_transactions(account_id):
+@enforce_owner_by_id('user_id', ['admin'])
+@err_if_not_found(Accounts, 'account_id')
+@add_child_result('user_id', 'account_id')
+def get_transactions(user_id, account_id, result):
     """Gets all transactions for an account"""
-    account = Accounts.query.get(account_id)
     transactions = [Transactions.serialize_one(tran.id) for tran
-                    in account.transactions.all()]
+                    in result.transactions.all()]
     message = 'Data found' if transactions else 'Data not found'
     return {'success': True,
             'message': message,
             'data': transactions}, 200
 
-@bp.route('/accounts/<int:account_id>/transactions', methods=['POST'])
-@err_if_not_found(Accounts, 'account_id')
+@bp.route('/users/<int:user_id>/accounts/<int:account_id>/transactions',
+          methods=['POST'])
 @token_auth.login_required
-def post_transactions(account_id):
+@enforce_owner_by_id('user_id', ['admin'])
+@add_child_result('user_id', 'account_id')
+def post_transactions(user_id, account_id, result):
     """Creates a transaction for an account"""
     validator = TransationValidator(**request.get_json())
     validate_results = validator.validate_create_transaction()
 
     if validate_results['isValid']:
-        validate_results['result']['account_id'] = account_id
+        validate_results['result']['account_id'] = result.id
         new_transaction = Transactions(**validate_results['result'])
         db.session.add(new_transaction)
         db.session.commit()
@@ -214,47 +227,53 @@ def post_transactions(account_id):
                 'data': serialized_transaction}, 201
     return abort(400, validate_results["errors"])
 
-@bp.route('/accounts/<int:account_id>/transactions/<int:transaction_id>',
-          methods=['GET'])
+@bp.route('/users/<int:user_id>/accounts/<int:account_id>/transactions'
+          '/<int:transaction_id>', methods=['GET'])
 @token_auth.login_required
+@enforce_owner_by_id('user_id', ['admin'])
 @add_child_result('account_id', 'transaction_id')
-def get_transaction(account_id, transaction_id, result):
+def get_transaction(user_id, account_id, transaction_id, result):
     """Gets a transaction from an account by id"""
-
-    serialized_transaction = result.serialize_one(transaction_id)
-    return {'success': True,
-            'message': 'Transaction found',
-            'data': serialized_transaction}, 200
-
-@bp.route('/accounts/<int:account_id>/transactions/<int:transaction_id>',
-          methods=['PATCH'])
-@token_auth.login_required
-@add_child_result('account_id', 'transaction_id')
-def patch_transaction(account_id, transaction_id, result):
-    """Patches a transaction from an account by id"""
-
-    validator = TransationValidator(**request.get_json())
-    validate_results = validator.validate_patch_transaction()
-
-    if validate_results['isValid']:
-        for key, val in validate_results['result'].items():
-            setattr(result, key, val)
-        db.session.commit()
-        serialized_transaction = Transactions.serialize_one(
-            transaction_id)
+    account = Accounts.query.get_or_404(account_id)
+    if user_id == account.user_id:
+        serialized_transaction = result.serialize_one(result.id)
         return {'success': True,
-                'message': 'Account updated',
+                'message': 'Transaction found',
                 'data': serialized_transaction}, 200
+    return abort(404)
 
-    return abort(400, validate_results["errors"])
-
-@bp.route('/accounts/<int:account_id>/transactions/<int:transaction_id>',
-          methods=['DELETE'])
+@bp.route('/users/<int:user_id>/accounts/<int:account_id>/transactions'
+          '/<int:transaction_id>', methods=['PATCH'])
 @token_auth.login_required
+@enforce_owner_by_id('user_id', ['admin'])
 @add_child_result('account_id', 'transaction_id')
-def delete_transaction(account_id, transaction_id, result):
-    """Api router for a single account transaction resource"""
+def patch_transaction(user_id, account_id, transaction_id, result):
+    """Patches a transaction from an account by id"""
+    account = Accounts.query.get_or_404(account_id)
+    if user_id == account.user_id:
+        validator = TransationValidator(**request.get_json())
+        validate_results = validator.validate_patch_transaction()
 
+        if validate_results['isValid']:
+            for key, val in validate_results['result'].items():
+                setattr(result, key, val)
+            db.session.commit()
+            serialized_transaction = Transactions.serialize_one(
+                transaction_id)
+            return {'success': True,
+                    'message': 'Account updated',
+                    'data': serialized_transaction}, 200
+
+        return abort(400, validate_results["errors"])
+    return abort(404)
+
+@bp.route('users/<int:user_id>/accounts/<int:account_id>/transactions'
+          '/<int:transaction_id>', methods=['DELETE'])
+@token_auth.login_required
+@enforce_owner_by_id('user_id', ['admin'])
+@add_child_result('account_id', 'transaction_id')
+def delete_transaction(user_id, account_id, transaction_id, result):
+    """Api router for a single account transaction resource"""
     db.session.delete(result)
     db.session.commit()
     message = f'Transaction deleted'

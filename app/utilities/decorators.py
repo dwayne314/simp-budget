@@ -65,7 +65,7 @@ def enforce_owner_by_id(id_field, exclude_roles=[]):
 
     """
 
-    def error_wrapper(func):
+    def wrapper(func):
         @wraps(func)
         def view_wrapper(*args, **kwargs):
             if g.current_user.id != kwargs[id_field] and \
