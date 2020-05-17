@@ -1,0 +1,190 @@
+.accounts-container {
+    box-sizing: border-box;
+}
+
+.accounts-logo-container {
+    padding-left: 30px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.accounts-header-text {
+    font-size: 36px;
+}
+
+.accounts-header-container {
+
+    margin: 0px 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.new-account-icon {
+        vertical-align: center;
+
+    cursor: pointer;
+
+    text-align: center;
+    position: relative;
+}
+
+.new-account-icon img {
+    position: absolute;
+    transform: translate(-100%,-50%);
+    top: 50%;
+    left: 50%;
+}
+
+.search-form-container {
+    box-sizing: border-box;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.search-form form {
+    margin: 0px 30px;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+} 
+
+.search-form input {
+    text-align: center;    
+    width: 100%;
+    height: 40px;
+    border: 0px;
+} 
+
+.search-form input::placeholder {
+    text-align: center;
+}
+
+.all-accounts-container {
+    display: flex;
+    flex-direction: column;
+    /*margin: 0px 30px;*/
+
+}
+.account-container {
+    color: var(--primary-color);
+}
+
+.account-container-clicked {
+    background-color: #c4c4c4;
+    color: #ffffff;
+}
+
+.account-header-container {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    border-bottom: 1px solid #ffffff;
+    padding: 0px 30px;   
+}
+
+.account-container-clicked .account-header-container  {
+
+    background-color: var(--secondary-color);
+}
+
+.account-header-container  > div {
+    margin: auto 0px;
+}
+
+.account-triangle {
+    width: 0; 
+    height: 0; 
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 9px solid #1c5f9d;
+}
+
+.account-triangle-clicked {
+    width: 0; 
+    height: 0; 
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 9px solid #ffffff;
+}
+
+.account-tractions-exerpt-container {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    background-color: #c4c4c4;
+
+/*     display: grid;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: auto auto 50px;    
+    padding: 0px 40px;
+    box-sizing: border-box;
+    grid-gap: 15px; */ 
+    color: var(--primary-color);  
+}
+
+tr {
+    height: 40px;
+    vertical-align: middle;
+    width: 100%;
+    padding: 0px 20px;
+}
+
+tr > td {
+    border-bottom: 1px solid white;
+    padding: 0px 10px;
+}
+
+tr > td:last-child {
+    text-align: right;
+    padding-right: 30px;
+}
+
+tr > td:first-child {
+    text-align: left;
+    padding-left: 30px;
+}
+
+.account-transaction-exerpt-note {
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-transaction-exerpt-date {
+    width: 30px;
+}
+
+.account-transaction-exerpt-header-item {
+    font-style: italic;
+    font-weight: 700;
+}
+
+.account-transaction-button-container {
+    padding: 0px 30px;
+    box-sizing: border-box;
+    background-color: #c4c4c4;
+    height: 38px;
+    margin: 10px 0px;
+
+
+
+}
+
+.account-transaction-button-container .button-container {
+    font-size: 16px;
+    max-width: 400px;
+    margin: 0px auto;
+    border-radius: 5px;
+}
+
+.account-transaction-button-container  a {
+    text-decoration: none;
+    color: inherit;
+}
