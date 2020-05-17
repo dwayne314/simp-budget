@@ -11,6 +11,7 @@ import {
     CreateTransaction,
     EditTransaction
 } from '../pages';
+import './App.css';
 
 
 const App = () => {
