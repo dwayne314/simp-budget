@@ -1,3 +1,9 @@
+.home-logo-container {
+
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
 .home-container {
     background-color: var(--primary-color);
     height: 200vh;
@@ -47,6 +53,12 @@
 .home-button {
     color: white;
 }
+
+.home-button a {
+    text-decoration: none;
+    color: inherit;
+}
+
 
 .home-footer-container {
     color: white;
