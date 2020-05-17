@@ -1,11 +1,14 @@
 import React from 'react';
 import PrimaryLogo from '../../static/icons/logo-primary.svg';
+import SecondaryLogo from '../../static/icons/logo-secondary.svg';
 import './Logo.css'
 
-const Logo = () => {
+const Logo = (props) => {
+    const { isPrimary } = props;
+
     return (
         <div className="logo-container">
-            <img src={PrimaryLogo} alt="we-budget logo"></img>
+            <img src={isPrimary ? PrimaryLogo : SecondaryLogo} alt="we-budget logo"></img>
         </div>
     );
 };

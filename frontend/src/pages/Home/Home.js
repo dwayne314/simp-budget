@@ -8,7 +8,7 @@ const Home = () => {
     return (
         <div className="home-container">
             <div className="home-sub-container">
-                <Logo />
+                <Logo isPrimary={true} />
                 <div className="home-center-container">
                     <div className="home-text-container">
                         <div className="home-text-header">
@@ -19,7 +19,7 @@ const Home = () => {
                         </div>
                     </div>
                     <div className="home-button">
-                        <Button cta={"Start Saving"}/>
+                        <Button isPrimary={true} cta={"Start Saving"}/>
 
                     </div>
 
