@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import './Accounts.css';
 import Logo from '../../components/Logo/Logo';
@@ -8,9 +8,10 @@ import Button from '../../components/Button/Button';
 
 const Accounts = () => {
 
-    const accounts = [{id: 1, name: 'PNC Bank', balance: '$300,000,00.89'},
-                      {id: 2, name: 'PNC Bank', balance: '$300,00.89', selected: true},
-                      {id: 3, name: 'PNC Bank', balance: '$300,00.89', selected: true}]
+
+    const accounts = [{id: 1, name: 'PNC Bank', balance: '$300,000.89'},
+                      {id: 2, name: 'PNC Bank', balance: '$300,000.89', selected: true},
+                      {id: 3, name: 'PNC Bank', balance: '$300,000.89', selected: true}]
 
     const transactions = [{amount: '$40.70', note: 'For Foodsdssddffdffdfdffsdafdafdffaddds', date: '3/17'},
                           {amount: '$1,000,000.09', note: 'For Dress', date: '3/18'},
@@ -59,10 +60,8 @@ const Accounts = () => {
                 }
             </div>
             <div className="account-transaction-button-container">
-                <Button isPrimary={false} cta={"View Account"} linkPath={`/accounts/${account.id}/transactions`}/>
+                <Button isPrimary={false} cta={"View Account"} linkPath={`/accounts/${account.id}/view`}/>
             </div>
-
-
         </div> 
     ));
     return (
@@ -90,7 +89,6 @@ const Accounts = () => {
             <div className="all-accounts-container">
                 {allAccounts}
             </div>
-
         </div>
     );
 };
