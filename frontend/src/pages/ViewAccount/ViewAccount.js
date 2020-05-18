@@ -5,7 +5,7 @@ import Button from '../../components/Button/Button';
 
 
 const ViewAccount = () => {
-    const accountId = 1
+    const currentAccount = {accountId: 1, name: 'PNC Bank', balance: '$30,000.78', description: 'I am a description.'}
     const transactions = [{amount: '$40.70', note: 'For Foodsdssddffdffdfdffsdafdafdffaddds', date: '3/17'},
                           {amount: '$1,000,000.09', note: 'For Dress', date: '3/18'},
                           {amount: '$200.42', note: 'For Food', date: '3/19'},
@@ -34,18 +34,21 @@ const ViewAccount = () => {
                 <Logo isPrimary={false}/>
             </div>
             <div className="view-account-header-container">
-                <div className="view-account-header-text">Accounts</div>
-                <div className="account-balance">$30,000.78</div>
+                <div className="view-account-header-text">{currentAccount.name}</div>
+                <div className="account-balance">{currentAccount.balance}</div>
+            </div>
+            <div className="account-description-container">
+                {currentAccount.description}
             </div>
             <div className="modify-account-container">
                 <div className="modify-account-button-container">
-                    <Button isPrimary={false} cta={"Edit Account"} linkPath={`/accounts/${accountId}/edit`}/>
+                    <Button isPrimary={false} cta={"Edit Account"} linkPath={`/accounts/${currentAccount.accountId}/edit`}/>
                 </div>
                 <div className="modify-account-button-container">
-                    <Button isDelete={true} cta={"Delete Account"} linkPath={`/accounts/${accountId}/delete`}/>
+                    <Button isDelete={true} cta={"Delete Account"} linkPath={`/accounts/${currentAccount.accountId}/delete`}/>
                 </div>
             </div>
-            <div className="search-form-container">
+            <div className="view-account-search-form-container">
                 <div>
                     <div className="search-form">
                         <form>
@@ -57,7 +60,7 @@ const ViewAccount = () => {
             {allTransactions}  
             <div className="modify-account-transaction-buttons">
                     <Button isPrimary={true} cta={"Select Transactions"}/>
-                    <Button isPrimary={false} cta={"New Transaction"} linkPath={`/accounts/${accountId}/transactions/create`}/>
+                    <Button isPrimary={false} cta={"New Transaction"} linkPath={`/accounts/${currentAccount.accountId}/transactions/create`}/>
 
             </div>    
         </div>
