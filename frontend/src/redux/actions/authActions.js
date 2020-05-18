@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { fetchAccounts } from './'
 import { applyAuthToken } from '../../utilities';
 
 
@@ -22,6 +23,7 @@ export const fetchLogin = authParams => dispatch => {
         .then(response => {
             applyAuthToken(response.data.token)   
             dispatch(login(response.data.id));
+            dispatch(fetchAccounts())
         })
         .catch(err => {
             dispatch(login(undefined));

@@ -1,7 +1,8 @@
-import { LOGIN } from '../actions/'
+import { LOGIN, SET_ACCOUNTS } from '../actions'
 
 const initialState = {
-    currentUserId: null
+    currentUserId: null,
+    accounts: [],
 };
 
 const rootReducer = (state=initialState, action) => {
@@ -12,6 +13,11 @@ const rootReducer = (state=initialState, action) => {
                 currentUserId: action.payload.currentUserId
             };
 
+        case SET_ACCOUNTS:
+            return {
+                ...state,
+                accounts: action.payload.accounts
+            }
         default:
             return state
     };
