@@ -22,7 +22,6 @@ const Accounts = () => {
         <div className="account-container">
             <div className="account-header-container">
                 <div className="account-name">{account.name}</div>
-                <div className="account-balance">{account.balance}</div>
                 <div className="account-triangle"></div>
             </div>
 
@@ -31,8 +30,7 @@ const Accounts = () => {
         <div className={"account-container account-container-clicked"}>
             <div className="account-header-container">
                 <div className="account-name">{account.name}</div>
-                <div className="account-balance">{account.balance}</div>
-                <div className="account-triangle-clicked"></div>
+                 <div className="account-triangle-clicked"></div>
             </div>
             <div className="account-tractions-exerpt-container">
                 {/* If availableaccount transactions vs no */}

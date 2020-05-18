@@ -1,13 +1,14 @@
+.register-container {
+    background-color: #ffffff;
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+}
+
 .register-logo-container {
     padding-left: 30px;
     margin-top: 15px;
     margin-bottom: 20px;
     display: inline-block;    
-}
-
-.register-container {
-    background-color: #ffffff;
-    height: 100vh;
 }
 
 .register-form-container {

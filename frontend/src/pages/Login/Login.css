@@ -1,13 +1,15 @@
+.login-container {
+    background-color: #ffffff;
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+
+}
+
 .login-logo-container {
     padding-left: 30px;
     margin-top: 15px;
     margin-bottom: 20px;
     display: inline-block;    
-}
-
-.login-container {
-    background-color: #ffffff;
-    height: 100vh;
 }
 
 .login-form-container {
