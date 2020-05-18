@@ -1,8 +1,8 @@
-import { isLoggedIn } from './authSelectors';
+import { currentUserId } from './authSelectors';
 
 const currentState = state => state
 
 export {
-    isLoggedIn,
+    currentUserId,
     currentState
 }

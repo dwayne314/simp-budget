@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Login.css';
 import Logo from '../../components/Logo/Logo';
 import Button from '../../components/Button/Button';
+import { fetchLogin } from '../../redux/actions';
+import { currentUserId } from '../../redux/selectors';
 
 
 const Login = () => {
+
+    const dispatch = useDispatch();
+
+    const currentUser = useSelector(currentUserId)
+
+    useEffect(() => {
+        dispatch(fetchLogin({
+            
+            'username': 'qq@gmail.com',
+            'password': 'qqqqqqq'
+        }))
+    }, [])
+    
+    // Perform actions when a user is logged in
+    useEffect(() => {
+        if (currentUser) console.log('logged in')
+        else console.log('not logged in')
+    }, [currentUser])
+
     return (
         <div className="login-container">
 

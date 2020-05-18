@@ -1,7 +1,8 @@
-import { LOGIN, login } from './authActions';
+import { LOGIN, login, fetchLogin } from './authActions';
 
 
 export {
     LOGIN,
-    login
+    login,
+    fetchLogin
 };

@@ -1,7 +1,7 @@
 import { LOGIN } from '../actions/'
 
 const initialState = {
-    isLoggedIn: false
+    currentUserId: null
 };
 
 const rootReducer = (state=initialState, action) => {
@@ -9,7 +9,7 @@ const rootReducer = (state=initialState, action) => {
         case LOGIN:
             return {
                 ...state,
-                isLoggedIn: true
+                currentUserId: action.payload.currentUserId
             };
 
         default:
