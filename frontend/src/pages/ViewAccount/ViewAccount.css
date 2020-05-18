@@ -1,0 +1,118 @@
+.view-account-container {
+        margin-bottom: 94px;
+
+}
+
+.view-account-logo-container {
+    padding: 0 30px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.account-balance {
+    margin: auto 0px;
+    color: #12a64d;
+}
+
+.view-account-header-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+    font-size: 24px;
+}
+
+.modify-account-container {
+    padding: 0 30px;
+    display: flex;
+    color: white;
+}
+
+.modify-account-button-container {
+    width: 100%;
+}
+
+.modify-account-button-container a {
+    text-decoration: none;
+}
+
+.button-text {
+    font-size: 18px;
+    color: white;    
+}
+
+.search-form-container {
+    box-sizing: border-box;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.search-form form {
+    margin: 0px 30px;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+} 
+
+.search-form input {
+    text-align: center;    
+    width: 100%;
+    height: 40px;
+    border: 0px;
+} 
+
+.search-form input::placeholder {
+    text-align: center;
+}
+
+.view-account-transaction-container {
+    background-color: #c4c4c4;
+    position: relative;
+    width: 100%;
+    height: 70px;
+    padding: 5px 30px;
+    box-sizing: border-box;
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-top: 1px solid #ffffff;
+}
+
+.view-account-transaction-header {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+   width: 100%;
+
+}
+
+.view-account-transaction-note{
+   position: relative;
+       display: inline-block;
+
+}
+
+.view-account-transaction-note {
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;  
+   width: inherit;
+   align-content: flex-end;
+}
+
+.modify-account-transaction-buttons > div {
+    margin: 0px;
+    bottom: 0px;
+}
+
+.modify-account-transaction-buttons .button-container {
+    position: fixed;
+    botton: 0px;
+    margin: 0px;
+}
+
+.modify-account-transaction-buttons .button-container:last-child {
+    bottom: 47px;
+}

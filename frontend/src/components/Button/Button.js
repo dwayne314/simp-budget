@@ -4,8 +4,8 @@ import './Button.css';
 
 
 const Button = (props) => {
-    const { cta, isPrimary=false, linkPath=null } = props;
-    const btn = <div className={`button-container${!isPrimary ? ' button-primary' : ' button-secondary'}`}>
+    const { cta, isPrimary=false, linkPath=null, isDelete=false } = props;
+    const btn = <div className={`button-container${!isPrimary ? ' button-primary' : ' button-secondary'}${isDelete ? ' button-delete' : ''}`}>
                     <div className="button-text">{cta}</div>
                 </div>
     return (

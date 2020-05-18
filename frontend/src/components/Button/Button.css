@@ -17,6 +17,10 @@
     background-color: var(--secondary-color);
 }
 
+.button-delete {
+    background-color: #cf0000;
+}
+
 .button-text {
     display: inline;
     text-align: center;
