@@ -1,4 +1,4 @@
-import { LOGIN, login, fetchLogin } from './authActions';
+import { LOGIN, login, fetchLogin, fetchRegister } from './authActions';
 import { fetchAccounts, SET_ACCOUNTS } from './accountActions';
 
 
@@ -7,5 +7,6 @@ export {
     login,
     fetchLogin,
     fetchAccounts,
-    SET_ACCOUNTS
+    SET_ACCOUNTS,
+    fetchRegister
 };

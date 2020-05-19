@@ -29,3 +29,20 @@ export const fetchLogin = authParams => dispatch => {
             dispatch(login(undefined));
         })
 };
+
+// 
+// Register Actions 
+//
+
+export const REGISTER = 'REGISTER';
+
+export const fetchRegister = userData => dispatch => {
+    axios
+        .post('/users', userData)
+        .then(response => {
+            dispatch(login(undefined));
+        })
+        .catch(err => {
+            console.log(err.response.data.error)
+        })
+};

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Login.css';
@@ -8,25 +8,31 @@ import { fetchLogin } from '../../redux/actions';
 import { currentUserId } from '../../redux/selectors';
 
 
-const Login = () => {
+const Login = (props) => {
 
     const dispatch = useDispatch();
+    const currentUser = useSelector(currentUserId);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    const currentUser = useSelector(currentUserId)
+    const updateEmail = evt => {
+        setEmail(evt.target.value)
+    }
 
-    useEffect(() => {
+    const updatePassword = evt => {
+        setPassword(evt.target.value)
+    }
+
+    const submitForm = () => {
         dispatch(fetchLogin({
-            
-            'username': 'qq@gmail.com',
-            'password': 'qqqqqqq'
-        }))
-    }, [])
-    
-    // Perform actions when a user is logged in
+            'username': email,
+            password
+        }));
+    };
+
     useEffect(() => {
-        if (currentUser) console.log('logged in')
-        else console.log('not logged in')
-    }, [currentUser])
+        if (currentUser) props.history.push(`/accounts`)
+    }, [ props.history, currentUser])
 
     return (
         <div className="login-container">
@@ -46,7 +52,7 @@ const Login = () => {
                                 <label htmlFor="last-name">Email</label>
                             </div>
                             <div className="form-input">
-                                <input type="text"/>
+                                <input onChange={updateEmail} type="text" value={email}/>
                             </div>
                         </div>
                         <div className="form-item-container">
@@ -54,11 +60,11 @@ const Login = () => {
                                 <label htmlFor="last-name">Password</label>
                             </div>
                             <div className="form-input">
-                                <input type="password"/>
+                                <input onChange={updatePassword} type="password" value={password}/>
                             </div>
                         </div>
                         <div className="form-item-container form-button-container">
-                            <Button cta={"Login Here"} isPrimary={false}/>
+                            <Button onClick={submitForm} cta={"Login Here"} isPrimary={false}/>
                         </div>
                     </form>
                 </div>
