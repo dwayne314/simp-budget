@@ -1,5 +1,11 @@
 import { LOGIN, login, fetchLogin, fetchRegister } from './authActions';
 import { fetchAccounts, SET_ACCOUNTS } from './accountActions';
+import {
+    setFlashMessages,
+    SET_FLASH_MESSAGES,
+    pushFlashMessage,
+    PUSH_FLASH_MESSAGE
+} from './notificationActions';
 
 
 export {
@@ -8,5 +14,9 @@ export {
     fetchLogin,
     fetchAccounts,
     SET_ACCOUNTS,
-    fetchRegister
+    fetchRegister,
+    SET_FLASH_MESSAGES,
+    setFlashMessages,
+    PUSH_FLASH_MESSAGE,
+    pushFlashMessage,
 };

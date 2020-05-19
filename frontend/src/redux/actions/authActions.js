@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { fetchAccounts } from './'
+import { fetchAccounts, pushFlashMessage } from './'
 import { applyAuthToken } from '../../utilities';
-
 
 // 
 // Login Actions 
@@ -21,12 +20,18 @@ export const fetchLogin = authParams => dispatch => {
     axios
         .post('/tokens', {}, {auth: authParams})
         .then(response => {
-            applyAuthToken(response.data.token)   
+            applyAuthToken(response.data.token);
             dispatch(login(response.data.id));
-            dispatch(fetchAccounts())
+            dispatch(fetchAccounts());
         })
         .catch(err => {
+            const errorMsg = err.response.data.error;
             dispatch(login(undefined));
+
+            if (typeof errorMsg === 'string') {
+                dispatch(pushFlashMessage(errorMsg, 'error'));
+
+            }
         })
 };
 
@@ -43,6 +48,10 @@ export const fetchRegister = userData => dispatch => {
             dispatch(login(undefined));
         })
         .catch(err => {
+            const errorMsg = err.response.data.error;
+            if (typeof errorMsg === 'string') {
+                dispatch(pushFlashMessage(errorMsg, 'error'))
+            }
             console.log(err.response.data.error)
         })
 };

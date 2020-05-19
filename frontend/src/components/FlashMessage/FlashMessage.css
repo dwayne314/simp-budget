@@ -1,0 +1,15 @@
+.flash-message-container {
+    position: absolute;
+    height: 30px;
+    width: 100%;
+}
+
+.flash-message {
+    text-align: left;
+    padding-left: 30px;
+    line-height: 30px;
+    box-sizing: border-box;
+    background-color: #d85d52;
+    border-bottom: .5px solid white;
+    color: black;
+}
