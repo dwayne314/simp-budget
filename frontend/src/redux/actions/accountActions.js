@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 // 
-// Login Actions 
+// Account Actions 
 //
 
 export const SET_ACCOUNTS = 'SET_ACCOUNTS';

@@ -86,7 +86,6 @@
 }
 
 .account-container-clicked .account-header-container  {
-
     background-color: var(--secondary-color);
 }
 
@@ -100,6 +99,7 @@
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     border-bottom: 9px solid #1c5f9d;
+    cursor: pointer;
 }
 
 .account-triangle-clicked {
@@ -108,6 +108,7 @@
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     border-top: 9px solid #ffffff;
+    cursor: pointer;
 }
 
 .account-tractions-exerpt-container {
