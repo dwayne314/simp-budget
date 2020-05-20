@@ -51,7 +51,7 @@ const Register = (props) => {
         if (!errors.length && isSubmitted) {
             props.history.push('/login');    
         }    
-    }, [])
+    }, [isSubmitted])
 
     return (
         <div className="register-container">
