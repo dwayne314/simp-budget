@@ -1,5 +1,7 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Route } from 'react-router-dom';
+import { flashMessages } from '../redux/selectors';
 import FlashMessage from '../components/FlashMessage/FlashMessage';
 
 import {
@@ -17,9 +19,11 @@ import './App.css';
 
 
 const App = () => {
+        const messages = useSelector(flashMessages);
+
     return (
         <div className='app-container'>
-            <FlashMessage />
+             <FlashMessage />
             <Route exact path="/" component={Home}></Route>
             <Route exact path="/login" component={Login}></Route>
             <Route exact path="/register" component={Register}></Route>

@@ -22,15 +22,22 @@ const FlashMessage = (props) => {
     ));
 
     useEffect(() => {
-        const clearLastMessage = window.setTimeout(() => {
-            dispatch(setFlashMessages(messages.slice(1)));
-        }, 3000);
+        if (messages.length) {
+            const clearLastMessage = window.setTimeout(() => {
+                dispatch(setFlashMessages(messages.slice(1)));
+            }, 3000);
 
-        return () => {
-            window.clearTimeout(clearLastMessage);
-        };
+            return () => {
+                window.clearTimeout(clearLastMessage);
+            };    
+        }
+        
 
     }, [dispatch, messages]);
+
+    useEffect(() => {
+    })
+
 
     return (
         (messages.length) ? 

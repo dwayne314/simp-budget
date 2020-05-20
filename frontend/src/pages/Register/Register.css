@@ -71,3 +71,10 @@
     text-decoration: none;
     color: var(--primary-color);
 }
+
+.login-error {
+    display: inline-block;
+    color: red;
+    padding-top: 5px;
+    font-size: 14px;
+}

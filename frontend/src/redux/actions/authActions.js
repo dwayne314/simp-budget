@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { fetchAccounts, pushFlashMessage } from './'
+import { fetchAccounts, pushFlashMessage, setErrors } from './'
 import { applyAuthToken } from '../../utilities';
 
 // 
@@ -29,7 +29,7 @@ export const fetchLogin = authParams => dispatch => {
             dispatch(login(undefined));
 
             if (typeof errorMsg === 'string') {
-                dispatch(pushFlashMessage(errorMsg, 'error'));
+                dispatch(pushFlashMessage('Invalid username or password.', 'error'));
 
             }
         })
@@ -52,6 +52,8 @@ export const fetchRegister = userData => dispatch => {
             if (typeof errorMsg === 'string') {
                 dispatch(pushFlashMessage(errorMsg, 'error'))
             }
-            console.log(err.response.data.error)
+            else {
+                dispatch(setErrors(errorMsg))
+            }
         })
 };

@@ -1,5 +1,5 @@
 import { currentUserId } from './authSelectors';
-import { flashMessages } from './notificationSelectors';
+import { flashMessages, getErrors} from './notificationSelectors';
 
 
 const currentState = state => state
@@ -7,5 +7,6 @@ const currentState = state => state
 export {
     currentUserId,
     currentState,
-    flashMessages
+    flashMessages,
+    getErrors
 }

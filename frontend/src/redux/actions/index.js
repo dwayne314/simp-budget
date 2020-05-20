@@ -4,7 +4,9 @@ import {
     setFlashMessages,
     SET_FLASH_MESSAGES,
     pushFlashMessage,
-    PUSH_FLASH_MESSAGE
+    PUSH_FLASH_MESSAGE,
+    setErrors,
+    SET_ERRORS
 } from './notificationActions';
 
 
@@ -19,4 +21,6 @@ export {
     setFlashMessages,
     PUSH_FLASH_MESSAGE,
     pushFlashMessage,
+    SET_ERRORS,
+    setErrors,
 };

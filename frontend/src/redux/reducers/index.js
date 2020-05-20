@@ -1,9 +1,17 @@
-import { LOGIN, SET_ACCOUNTS, SET_FLASH_MESSAGES, PUSH_FLASH_MESSAGE } from '../actions'
+import { 
+    LOGIN,
+    SET_ACCOUNTS,
+    SET_FLASH_MESSAGES,
+    PUSH_FLASH_MESSAGE,
+    SET_ERRORS
+} from '../actions'
+
 
 const initialState = {
     currentUserId: null,
     accounts: [],
     flashMessages: [],
+    errors: {}
 };
 
 const rootReducer = (state=initialState, action) => {
@@ -27,7 +35,6 @@ const rootReducer = (state=initialState, action) => {
             };
 
         case PUSH_FLASH_MESSAGE:
-        console.log(state)
             return {
                 ...state,
                 flashMessages: [...state.flashMessages, {
@@ -35,6 +42,12 @@ const rootReducer = (state=initialState, action) => {
                     messageType: action.payload.messageType
                 }]
             };
+
+        case SET_ERRORS:
+            return {
+                ...state,
+                errors: action.payload.errors
+            }
         default:
             return state
     };
