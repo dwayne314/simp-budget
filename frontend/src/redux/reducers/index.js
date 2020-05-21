@@ -1,6 +1,8 @@
 import { 
     LOGIN,
     SET_ACCOUNTS,
+    SET_TRANSACTIONS,
+    ADD_TRANSACTIONS,
     SET_FLASH_MESSAGES,
     PUSH_FLASH_MESSAGE,
     SET_ERRORS
@@ -10,6 +12,7 @@ import {
 const initialState = {
     currentUserId: null,
     accounts: [],
+    transactions: [],
     flashMessages: [],
     errors: {}
 };
@@ -27,6 +30,18 @@ const rootReducer = (state=initialState, action) => {
                 ...state,
                 accounts: action.payload.accounts
             };
+
+        case SET_TRANSACTIONS:
+            return {
+                ...state,
+                transactions: action.payload.transactions
+            }
+
+        case ADD_TRANSACTIONS:
+            return {
+                ...state,
+                transactions: [...state.transactions, ...action.payload.transaction]
+            }
 
         case SET_FLASH_MESSAGES:
             return {

@@ -16,7 +16,7 @@ export const login = (currentUserId) => ({
 });
 
 // Requests an auth token from the backend
-export const fetchLogin = authParams => dispatch => {
+export const fetchLogin = authParams => (dispatch, getState) => {
     axios
         .post('/tokens', {}, {auth: authParams})
         .then(response => {
@@ -25,12 +25,11 @@ export const fetchLogin = authParams => dispatch => {
             dispatch(fetchAccounts());
         })
         .catch(err => {
-            const errorMsg = err.response.data.error;
+            const errorMsg = err.response;
             dispatch(login(undefined));
 
             if (typeof errorMsg === 'string') {
                 dispatch(pushFlashMessage('Invalid username or password.', 'error'));
-
             }
         })
 };

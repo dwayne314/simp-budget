@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { fetchTransactions } from './'
 
 // 
 // Account Actions 
@@ -21,6 +21,13 @@ export const fetchAccounts = () => (dispatch, getState) => {
         .get(`/users/${currentUserId}/accounts`)
         .then(response => {
             dispatch(set_accounts(response.data.data))
+            return getState().accounts
+        })
+        // Fetch all transactions for the accounts
+        .then(accounts => {
+            for (let i=0; i < accounts.length; i++) {
+                dispatch(fetchTransactions(accounts[i].id));
+            }
         })
         .catch(err => {
             console.log(err.response)

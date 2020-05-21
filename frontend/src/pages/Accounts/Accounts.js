@@ -1,39 +1,43 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Accounts.css';
 import Logo from '../../components/Logo/Logo';
 import newIcon from '../../static/icons/new-icon.svg';
 import Button from '../../components/Button/Button';
-import { getAccounts, currentState } from '../../redux/selectors';
-import { fetchAccounts } from '../../redux/actions';
+import { getAccounts, getTransactions } from '../../redux/selectors';
 
 
 const Accounts = () => {
-
     const accounts = useSelector(getAccounts); 
+    const transactions = useSelector(getTransactions);
     const [allAccounts, setAllAccounts] = useState(accounts);
 
-    const transactions = [{amount: '$40.70', note: 'For Foodsdssddffdffdfdffsdafdafdffaddds', date: '3/17'},
-                          {amount: '$1,000,000.09', note: 'For Dress', date: '3/18'},
-                          {amount: '$200.42', note: 'For Food', date: '3/19'}]
-
-    const updateCurrentAccount = (accountId) => {
+    const toggleActiveAccount = (accountId) => {
         const updatedAccounts = allAccounts.map(account => {
             if (account.id === accountId) {
                 account.selected = !account.selected ? true : false
+            }
+            else {
+                account.selected = false
             }
             return account;
         });
         setAllAccounts(updatedAccounts);
     };
 
+    const getAccountTransactions = (accountId) => {
+        return transactions.filter(transaction => transaction.account_id === accountId);
+    }
+
     const showAllAccounts = allAccounts.map(account => {
+        const accountTransactions = getAccountTransactions(account.id);
+
         return !account.selected ?
             <div key={`account ${account.id}`} className="account-container">
                 <div className="account-header-container">
                     <div className="account-name">{account.name}</div>
-                    <div className="account-triangle" onClick={() => updateCurrentAccount(account.id)}></div>
+                    <div className="account-triangle" onClick={() => toggleActiveAccount(account.id)}></div>
                 </div>
 
             </div>
@@ -41,12 +45,10 @@ const Accounts = () => {
             <div className={"account-container account-container-clicked"}>
                 <div className="account-header-container">
                     <div className="account-name">{account.name}</div>
-                     <div className="account-triangle-clicked" onClick={() => updateCurrentAccount(account.id)}></div>
+                     <div className="account-triangle-clicked" onClick={() => toggleActiveAccount(account.id)}></div>
                 </div>
                 <div className="account-tractions-exerpt-container">
                     {/* If availableaccount transactions vs no */}
-                    {account.id === 2 ? ''
-                        :
                         <Fragment>
 
                             <thead className="account-tractions-exerpt-header">
@@ -56,7 +58,7 @@ const Accounts = () => {
                                     <td className="account-transaction-exerpt-date account-transaction-exerpt-header-item">Date</td>                                               
                                 </tr>
                             </thead>
-                            {transactions.map(transaction => (
+                            {accountTransactions.map(transaction => (
                                 <tbody className="account-tractions-exerpt-header">
                                     <tr>
                                         <td className="account-transaction-exerpt-amount">{transaction.amount}</td>
@@ -66,13 +68,11 @@ const Accounts = () => {
                                 </tbody>))
                             }
                         </Fragment>
-                    }
                 </div>
                 <div className="account-transaction-button-container">
                     <Button isPrimary={false} cta={"View Account"} linkPath={`/accounts/${account.id}/view`}/>
                 </div>
-            </div>          
-
+            </div>
     });
 
     useEffect(() => {
