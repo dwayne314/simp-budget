@@ -6,6 +6,7 @@ import Logo from '../../components/Logo/Logo';
 import newIcon from '../../static/icons/new-icon.svg';
 import Button from '../../components/Button/Button';
 import { getAccounts, getTransactions } from '../../redux/selectors';
+import { formatDate } from '../../utilities';
 
 
 const Accounts = () => {
@@ -63,7 +64,7 @@ const Accounts = () => {
                                     <tr>
                                         <td className="account-transaction-exerpt-amount">{transaction.amount}</td>
                                         <td className="account-transaction-exerpt-note">{transaction.note}</td>
-                                        <td className="account-transaction-exerpt-date">{transaction.date}</td>                                               
+                                        <td className="account-transaction-exerpt-date">{formatDate(transaction.created_at)}</td>                                               
                                     </tr>
                                 </tbody>))
                             }

@@ -1,32 +1,29 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import './ViewAccount.css';
 import Logo from '../../components/Logo/Logo';
 import Button from '../../components/Button/Button';
+import { getAccountById, getTransactionsByAccountId } from '../../redux/selectors';
+import { formatUSD, formatDate } from '../../utilities';
 
 
-const ViewAccount = () => {
-    const currentAccount = {accountId: 1, name: 'PNC Bank', balance: '$30,000.78', description: 'I am a description.'}
-    const transactions = [{amount: '$40.70', note: 'For Foodsdssddffdffdfdffsdafdafdffaddds', date: '3/17'},
-                          {amount: '$1,000,000.09', note: 'For Dress', date: '3/18'},
-                          {amount: '$200.42', note: 'For Food', date: '3/19'},
-                          {amount: '$1,000,000.09', note: 'For Dress', date: '3/18'},
-                          {amount: '$200.42', note: 'For Food', date: '3/19'},
-                          {amount: '$1,000,000.09', note: 'For Dress', date: '3/18'},
-                          {amount: '$200.42', note: 'For Food', date: '3/19'},
-                          {amount: '$1,000,000.09', note: 'For Dress', date: '3/18'},
-                          {amount: '$200.42', note: 'For Food', date: '3/19'}]
+const ViewAccount = (props) => {
+    const { id:accountId } = props.match.params;
+    const currentAccount = useSelector(state => getAccountById(state)(Number(accountId)));
+    const transactions = useSelector(state => getTransactionsByAccountId(state)(Number(accountId)));
+    const accountBalance = transactions.reduce((acc, tran) => acc + tran.amount, 0);
 
     const allTransactions = transactions.map(tran => (
          <div className="view-account-transaction-container">
             <div className="view-account-transaction-header">
-                <div className="view-account-transaction-date">{tran.date}</div>
-                <div className="view-account-transaction-amount">{tran.amount}</div>
+                <div className="view-account-transaction-date">{formatDate(tran.created_at)}</div>
+                <div className="view-account-transaction-amount">{formatUSD(tran.amount)}</div>
             </div>
             <div className="view-account-transaction-note">
                 {tran.note}
             </div>
         </div> 
-        ))
+    ));
 
     return (
         <div className="view-account-container">
@@ -35,7 +32,7 @@ const ViewAccount = () => {
             </div>
             <div className="view-account-header-container">
                 <div className="view-account-header-text">{currentAccount.name}</div>
-                <div className="account-balance">{currentAccount.balance}</div>
+                <div className="account-balance">{formatUSD(accountBalance)}</div>
             </div>
             <div className="account-description-container">
                 {currentAccount.description}

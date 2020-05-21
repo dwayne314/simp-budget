@@ -20,8 +20,6 @@ export const fetchTransactions = (accountId) => (dispatch, getState) => {
     axios
         .get(`/users/${currentUserId}/accounts/${accountId}/transactions`)
         .then(response => {
-            // dispatch(set_transactions(response.data.data))
-            console.log(response.data.data)
             dispatch(add_transactions(response.data.data))
         })
         .catch(err => {

@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import './Login.css';
 import Logo from '../../components/Logo/Logo';
 import Button from '../../components/Button/Button';
-import { fetchLogin, fetchTransactions } from '../../redux/actions';
-import { currentUserId, getAccounts, getTransactions, currentState } from '../../redux/selectors';
+import { fetchLogin } from '../../redux/actions';
+import { currentUserId, getAccounts } from '../../redux/selectors';
 
 
 const Login = (props) => {
@@ -15,9 +15,6 @@ const Login = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const accounts = useSelector(getAccounts)
-    const state = useSelector(currentState);
-
-
 
     const updateEmail = evt => {
         setEmail(evt.target.value)
@@ -40,9 +37,6 @@ const Login = (props) => {
         }
 
     }, [ props.history, currentUser, accounts])
-    useEffect(() => {
-       console.log(state) 
-    }, [state])
 
     return (
         <div className="login-container">

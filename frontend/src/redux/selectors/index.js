@@ -1,7 +1,7 @@
 import { currentUserId } from './authSelectors';
 import { flashMessages, getErrors} from './notificationSelectors';
-import { getAccounts } from './accountSelectors';
-import { getTransactions } from './transactionSelectors';
+import { getAccounts, getAccountById } from './accountSelectors';
+import { getTransactions, getTransactionsByAccountId } from './transactionSelectors';
 
 
 const currentState = state => state
@@ -12,5 +12,7 @@ export {
     flashMessages,
     getErrors,
     getAccounts,
-    getTransactions
+    getAccountById,
+    getTransactions,
+    getTransactionsByAccountId    
 }
