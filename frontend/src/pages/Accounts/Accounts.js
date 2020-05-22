@@ -13,6 +13,12 @@ const Accounts = () => {
     const accounts = useSelector(getAccounts); 
     const transactions = useSelector(getTransactions);
     const [allAccounts, setAllAccounts] = useState(accounts);
+    const [seachText, setSearchText] = useState('');
+
+    const updateSearchText = (evt) => setSearchText(evt.target.value);
+    const getAccountTransactions = (accountId) => transactions
+        .filter(transaction => transaction.account_id === accountId);
+    const submiSearchtForm = (evt) => evt.preventDefault();
 
     const toggleActiveAccount = (accountId) => {
         const updatedAccounts = allAccounts.map(account => {
@@ -27,9 +33,7 @@ const Accounts = () => {
         setAllAccounts(updatedAccounts);
     };
 
-    const getAccountTransactions = (accountId) => {
-        return transactions.filter(transaction => transaction.account_id === accountId);
-    }
+
 
     const showAllAccounts = allAccounts.map(account => {
         const accountTransactions = getAccountTransactions(account.id);
@@ -77,8 +81,8 @@ const Accounts = () => {
     });
 
     useEffect(() => {
-        setAllAccounts(accounts)
-    }, [accounts])
+        setAllAccounts(accounts.filter(account => account.name.indexOf(seachText) !== -1 ));
+    }, [accounts, seachText]);
 
     return (
         <div className="accounts-container">
@@ -96,8 +100,8 @@ const Accounts = () => {
             <div className="search-form-container">
                 <div>
                     <div className="search-form">
-                        <form>
-                            <input type="text" placeholder="Search"></input>
+                        <form onSubmit={submiSearchtForm}>
+                            <input onChange={updateSearchText} type="text" placeholder="Search" value={seachText}></input>
                         </form>
                     </div>
                 </div>

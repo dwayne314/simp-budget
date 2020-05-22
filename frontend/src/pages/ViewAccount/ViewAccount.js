@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import './ViewAccount.css';
 import Logo from '../../components/Logo/Logo';
@@ -12,8 +12,14 @@ const ViewAccount = (props) => {
     const currentAccount = useSelector(state => getAccountById(state)(Number(accountId)));
     const transactions = useSelector(state => getTransactionsByAccountId(state)(Number(accountId)));
     const accountBalance = transactions.reduce((acc, tran) => acc + tran.amount, 0);
+    const [searchText, setSearchText] = useState('');
+    const filteredTransactions = transactions
+        .filter(tran => tran.note.indexOf(searchText) !== -1);
 
-    const allTransactions = transactions.map(tran => (
+    const updateSearchText = (evt) => setSearchText(evt.target.value);
+    const submiSearchtForm = (evt) => evt.preventDefault();
+
+    const showAllTransactions = filteredTransactions.map(tran => (
          <div className="view-account-transaction-container">
             <div className="view-account-transaction-header">
                 <div className="view-account-transaction-date">{formatDate(tran.created_at)}</div>
@@ -23,7 +29,7 @@ const ViewAccount = (props) => {
                 {tran.note}
             </div>
         </div> 
-    ));
+    )); 
 
     return (
         <div className="view-account-container">
@@ -48,13 +54,13 @@ const ViewAccount = (props) => {
             <div className="view-account-search-form-container">
                 <div>
                     <div className="search-form">
-                        <form>
-                            <input type="text" placeholder="Search"></input>
+                        <form onSubmit={submiSearchtForm}>
+                            <input onChange={updateSearchText} type="text" placeholder="Search Transactions" value={searchText}></input>
                         </form>
                     </div>
                 </div>
             </div>
-            {allTransactions}  
+            {showAllTransactions}  
             <div className="modify-account-transaction-buttons">
                     <Button isPrimary={true} cta={"Select Transactions"}/>
                     <Button isPrimary={false} cta={"New Transaction"} linkPath={`/accounts/${currentAccount.accountId}/transactions/create`}/>
