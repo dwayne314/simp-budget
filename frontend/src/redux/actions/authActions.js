@@ -41,18 +41,20 @@ export const fetchLogin = authParams => (dispatch, getState) => {
 export const REGISTER = 'REGISTER';
 
 export const fetchRegister = userData => dispatch => {
-    axios
+    return axios
         .post('/users', userData)
         .then(response => {
             dispatch(login(undefined));
+            return {success: true};
         })
         .catch(err => {
             const errorMsg = err.response.data.error;
             if (typeof errorMsg === 'string') {
-                dispatch(pushFlashMessage(errorMsg, 'error'))
+                dispatch(pushFlashMessage(errorMsg, 'error'));
             }
             else {
-                dispatch(setErrors(errorMsg))
+                dispatch(setErrors(errorMsg));
             }
+            return {success: false};
         })
 };

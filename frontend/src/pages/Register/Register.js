@@ -5,11 +5,10 @@ import './Register.css';
 import Logo from '../../components/Logo/Logo';
 import Button from '../../components/Button/Button';
 import { fetchRegister } from '../../redux/actions';
-import { currentState, getErrors } from '../../redux/selectors';
+import { getErrors } from '../../redux/selectors';
 
 
 const Register = (props) => {
-    const state = useSelector(currentState)
     const dispatch = useDispatch()
     const errors = useSelector(getErrors)
 
@@ -38,20 +37,21 @@ const Register = (props) => {
    
     const submitForm = async (e) => {
         e.preventDefault();
-        await dispatch(fetchRegister({
+        
+        const submitAction = await dispatch(fetchRegister({
             first_name: firstName,
             last_name: lastName,
             email,
-            password
-        }));
-        setSubmitted(true);        
+            password}));
+
+        if (submitAction.success) setSubmitted(true);             
     };    
 
     useEffect(() => {
         if (!errors.length && isSubmitted) {
             props.history.push('/login');    
         }    
-    }, [isSubmitted])
+    }, [isSubmitted, errors.length, props.history]);
 
     return (
         <div className="register-container">
