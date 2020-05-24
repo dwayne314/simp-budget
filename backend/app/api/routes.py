@@ -123,7 +123,6 @@ def get_accounts(user_id):
     user = Users.query.get(user_id)
     accounts = [Accounts.serialize_one(acct.id) for acct
                 in user.accounts.all()]
-    accounts = Accounts.serialize_all()
     message = 'Data found' if accounts else 'Data not found'
     return {'success': True, 'message': message, 'data': accounts}, 200
 
