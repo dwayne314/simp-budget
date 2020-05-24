@@ -14,26 +14,27 @@ const Login = (props) => {
     const dispatch = useDispatch();
     const currentUser = useSelector(currentUserId);
     const errors = useSelector(getErrors);
+    const accounts = useSelector(getAccounts);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const accounts = useSelector(getAccounts)
+    const [loginErrors, setLoginErrors] = useState('');
 
-    const updateEmail = evt => {
-        setEmail(evt.target.value)
-    }
+    const updateEmail = evt => setEmail(evt.target.value);
+    const updatePassword = evt => setPassword(evt.target.value);
 
-    const updatePassword = evt => {
-        setPassword(evt.target.value)
-    }
+    // Clear errors and then attempt to login
+    const submitForm = async (e) => {
+        e.preventDefault();
+        setLoginErrors('');
+        dispatch(setErrors({}));
 
-    const submitForm = () => {
         const userAttrs = { email, password }
-
-        const {errors, result, isValid } = loginValidator(userAttrs);
+        const { errors, result, isValid } = loginValidator(userAttrs);
 
         if (isValid) {
-            dispatch(fetchLogin(result));
+            const submitAction = await dispatch(fetchLogin(result));
+            if (!submitAction.success) setLoginErrors(submitAction.error);
         }
         else {
             dispatch(setErrors(errors));
@@ -45,7 +46,7 @@ const Login = (props) => {
             props.history.push(`/accounts`)
         }
 
-    }, [ props.history, currentUser, accounts])
+    }, [props.history, currentUser, accounts])
 
     return (
         <div className="login-container">
@@ -57,6 +58,13 @@ const Login = (props) => {
                 <div className="login-form-header">
                     Login
                 </div>
+                {loginErrors ? 
+                    <div className="login-errors-container">
+                        <div className="login-errors">{`${loginErrors}`}</div>
+                    </div>
+                    :
+                    ""
+                }
                 <div className="login-form">
                     
                     <form>

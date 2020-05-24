@@ -17,20 +17,19 @@ export const login = (currentUserId) => ({
 
 // Requests an auth token from the backend
 export const fetchLogin = authParams => (dispatch, getState) => {
-    axios
+    return axios
         .post('/tokens', {}, {auth: authParams})
         .then(response => {
             applyAuthToken(response.data.token);
             dispatch(login(response.data.id));
             dispatch(fetchAccounts());
+
+            return {success: true};
+
         })
         .catch(err => {
-            const errorMsg = err.response;
             dispatch(login(undefined));
-
-            if (typeof errorMsg === 'string') {
-                dispatch(pushFlashMessage('Invalid username or password.', 'error'));
-            }
+            return {success: false, error: 'Authentication error: Invalid email/password'};
         })
 };
 
@@ -49,12 +48,7 @@ export const fetchRegister = userData => dispatch => {
         })
         .catch(err => {
             const errorMsg = err.response.data.error;
-            if (typeof errorMsg === 'string') {
-                dispatch(pushFlashMessage(errorMsg, 'error'));
-            }
-            else {
-                dispatch(setErrors(errorMsg));
-            }
+            dispatch(setErrors(errorMsg));
             return {success: false};
         })
 };

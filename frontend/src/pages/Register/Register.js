@@ -10,8 +10,8 @@ import { registrationValidator } from '../../utilities';
 
 
 const Register = (props) => {
-    const dispatch = useDispatch()
-    const errors = useSelector(getErrors)
+    const dispatch = useDispatch();
+    const errors = useSelector(getErrors);
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -19,25 +19,16 @@ const Register = (props) => {
     const [password, setPassword] = useState('');
     const [isSubmitted, setSubmitted] = useState(false);
 
+    const updateFirstName = evt => setFirstName(evt.target.value);
+    const updateLastName = evt => setLastName(evt.target.value);
+    const updateEmail = evt => setEmail(evt.target.value);
+    const updatePassword = evt => setPassword(evt.target.value);
 
-    const updateFirstName = evt => {
-        setFirstName(evt.target.value)
-    }
-
-    const updateLastName = evt => {
-        setLastName(evt.target.value)
-    }
-
-    const updateEmail = evt => {
-        setEmail(evt.target.value)
-    }
-
-    const updatePassword = evt => {
-        setPassword(evt.target.value)
-    }
-   
+    // Clear errors and then attempt to register
     const submitForm = async (e) => {
         e.preventDefault();
+        dispatch(setErrors({}));
+
         const userAttrs = {
             first_name: firstName,
             last_name: lastName,
