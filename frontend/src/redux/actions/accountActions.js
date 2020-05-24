@@ -33,3 +33,16 @@ export const fetchAccounts = () => (dispatch, getState) => {
             console.log(err.response)
         })
 };
+
+export const fetchNewAccount = (accountAttrs) => (dispatch, getState) => {
+    const currentUserId = getState().currentUserId;    
+    return axios
+        .post(`/users/${currentUserId}/accounts`, accountAttrs)
+        .then(response => {
+            dispatch(fetchAccounts());
+            return {success: true};
+        })
+        .catch(err => {
+            return {success: false, error: 'This account could not be created at this time'};
+        })
+};

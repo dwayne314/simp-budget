@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { formatUSD, formatDate } from './formatters'
-import { registrationValidator, loginValidator } from './validators';
+import { registrationValidator, loginValidator, newAccountValidator } from './validators';
 import { getErrors } from './errors';
 
 
@@ -20,5 +20,6 @@ export {
     formatDate,
     registrationValidator,
     loginValidator,
+    newAccountValidator,
     getErrors
 };

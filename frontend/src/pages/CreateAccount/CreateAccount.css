@@ -63,3 +63,27 @@
 .form-button-container {
     color: white;
 }
+
+.new-account-error {
+    display: inline-block;
+    color: red;
+    padding-top: 5px;
+    font-size: 14px;
+}
+
+.new-account-errors-container {
+    height: 20px;
+    width: 100%;
+    padding: 0 30px;
+    margin-top: 15px;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+
+.new-account-errors {
+    width: 100%;
+    height: 20px;
+    color: red;
+}

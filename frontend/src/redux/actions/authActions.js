@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { fetchAccounts, pushFlashMessage, setErrors } from './'
+import { fetchAccounts, setErrors } from './'
 import { applyAuthToken } from '../../utilities';
 
 // 
