@@ -1,6 +1,6 @@
 import { LOGIN, login, fetchLogin, fetchRegister } from './authActions';
 import { fetchAccounts, fetchNewAccount, SET_ACCOUNTS } from './accountActions';
-import { fetchTransactions, SET_TRANSACTIONS, ADD_TRANSACTIONS } from './transactionActions';
+import { fetchTransactions, fetchTransaction, add_transactions, SET_TRANSACTIONS, ADD_TRANSACTIONS } from './transactionActions';
 import {
     setFlashMessages,
     SET_FLASH_MESSAGES,
@@ -19,6 +19,8 @@ export {
     fetchNewAccount,
     SET_ACCOUNTS,
     fetchTransactions,
+    fetchTransaction,
+    add_transactions,
     SET_TRANSACTIONS,
     ADD_TRANSACTIONS,
     fetchRegister,

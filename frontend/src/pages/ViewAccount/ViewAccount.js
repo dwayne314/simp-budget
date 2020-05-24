@@ -45,10 +45,10 @@ const ViewAccount = (props) => {
             </div>
             <div className="modify-account-container">
                 <div className="modify-account-button-container">
-                    <Button isPrimary={false} cta={"Edit Account"} linkPath={`/accounts/${currentAccount.accountId}/edit`}/>
+                    <Button isPrimary={false} cta={"Edit Account"} linkPath={`/accounts/${currentAccount.id}/edit`}/>
                 </div>
                 <div className="modify-account-button-container">
-                    <Button isDelete={true} cta={"Delete Account"} linkPath={`/accounts/${currentAccount.accountId}/delete`}/>
+                    <Button isDelete={true} cta={"Delete Account"} linkPath={`/accounts/${currentAccount.id}/delete`}/>
                 </div>
             </div>
             <div className="view-account-search-form-container">
@@ -63,7 +63,7 @@ const ViewAccount = (props) => {
             {showAllTransactions}  
             <div className="modify-account-transaction-buttons">
                     <Button isPrimary={true} cta={"Select Transactions"}/>
-                    <Button isPrimary={false} cta={"New Transaction"} linkPath={`/accounts/${currentAccount.accountId}/transactions/create`}/>
+                    <Button isPrimary={false} cta={"New Transaction"} linkPath={`/accounts/${currentAccount.id}/transactions/create`}/>
 
             </div>    
         </div>

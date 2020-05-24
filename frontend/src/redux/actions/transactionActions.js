@@ -35,3 +35,16 @@ export const add_transactions = (transaction) => ({
         transaction
     }
 });
+
+export const fetchTransaction = ({amount, note}, accountId) => (dispatch, getState) => {
+    const currentUserId = getState().currentUserId;
+    return axios
+        .post(`/users/${currentUserId}/accounts/${accountId}/transactions`, {amount, note})
+        .then(response => {
+            console.log()
+            return {success: true, transaction: response.data.data};
+        })
+        .catch(err => {
+            return {success: false, error: 'This transaction could not be created at this time.'};
+        })
+};
