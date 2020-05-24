@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import './Register.css';
 import Logo from '../../components/Logo/Logo';
 import Button from '../../components/Button/Button';
-import { fetchRegister } from '../../redux/actions';
+import { fetchRegister, setErrors } from '../../redux/actions';
 import { getErrors } from '../../redux/selectors';
+import { registrationValidator } from '../../utilities';
 
 
 const Register = (props) => {
@@ -37,14 +38,22 @@ const Register = (props) => {
    
     const submitForm = async (e) => {
         e.preventDefault();
-        
-        const submitAction = await dispatch(fetchRegister({
+        const userAttrs = {
             first_name: firstName,
             last_name: lastName,
             email,
-            password}));
+            password
+        };
 
-        if (submitAction.success) setSubmitted(true);             
+        const {errors, result, isValid } = registrationValidator(userAttrs);
+
+        if (isValid) {
+            const submitAction = await dispatch(fetchRegister(result));
+            if (submitAction.success) setSubmitted(true);   
+        }
+        else {
+            dispatch(setErrors(errors));
+        }
     };    
 
     useEffect(() => {

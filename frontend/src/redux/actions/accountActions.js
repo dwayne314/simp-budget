@@ -12,7 +12,7 @@ export const set_accounts = (accounts) => ({
     payload: {
         accounts
     }
-})
+});
 
 export const fetchAccounts = () => (dispatch, getState) => {
 
