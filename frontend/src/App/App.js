@@ -1,9 +1,9 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Route } from 'react-router-dom';
-import { flashMessages } from '../redux/selectors';
+import { useLocation } from 'react-router';
+import { setErrors } from '../redux/actions';
 import FlashMessage from '../components/FlashMessage/FlashMessage';
-
 import {
     Home, 
     Login,
@@ -19,11 +19,15 @@ import './App.css';
 
 
 const App = () => {
-        const messages = useSelector(flashMessages);
+    const dispatch = useDispatch();
+    const location = useLocation();
+    useEffect(() => {
+        dispatch(setErrors({}));
+    }, [location.pathname, dispatch]);
 
     return (
         <div className='app-container'>
-             <FlashMessage />
+            <FlashMessage />
             <Route exact path="/" component={Home}></Route>
             <Route exact path="/login" component={Login}></Route>
             <Route exact path="/register" component={Register}></Route>
