@@ -93,7 +93,8 @@ const ViewAccount = (props) => {
             actionButtons = (
                 <Fragment>
                     <div className="modify-account-button-container">
-                        <Button isDelete={true} cta={"Delete"} linkPath={`/accounts/${currentAccount.id}/transactions/${selectedTransactionId}/delete`}/>
+
+                        <Button isDelete={true} cta={"Delete"} linkPath={`/accounts/${currentAccount.id}/transactions/delete`}/>
                     </div>
                 </Fragment>
             )
