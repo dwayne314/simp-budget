@@ -14,7 +14,7 @@ export const set_transactions = (accounts) => ({
     }
 });
 
-export const fetchTransactions = (accountId) => (dispatch, getState) => {
+export const postTransactions = (accountId) => (dispatch, getState) => {
 
     const currentUserId = getState().currentUserId;
     axios
@@ -36,7 +36,7 @@ export const add_transactions = (transaction) => ({
     }
 });
 
-export const fetchTransaction = ({amount, note}, accountId) => (dispatch, getState) => {
+export const postTransaction = ({amount, note}, accountId) => (dispatch, getState) => {
     const currentUserId = getState().currentUserId;
     return axios
         .post(`/users/${currentUserId}/accounts/${accountId}/transactions`, {amount, note})

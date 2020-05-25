@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import './Login.css';
 import Logo from '../../components/Logo/Logo';
 import Button from '../../components/Button/Button';
-import { fetchLogin, setErrors } from '../../redux/actions';
+import { postLogin, setErrors } from '../../redux/actions';
 import { currentUserId, getAccounts, getErrors } from '../../redux/selectors';
 import { loginValidator } from '../../utilities';
 
@@ -33,7 +33,7 @@ const Login = (props) => {
         const { errors, result, isValid } = loginValidator(userAttrs);
 
         if (isValid) {
-            const submitAction = await dispatch(fetchLogin(result));
+            const submitAction = await dispatch(postLogin(result));
             if (!submitAction.success) setLoginErrors(submitAction.error);
         }
         else {

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { fetchTransactions } from './'
+import { postTransactions } from './'
 
 // 
 // Account Actions 
@@ -26,7 +26,7 @@ export const fetchAccounts = () => (dispatch, getState) => {
         // Fetch all transactions for the accounts
         .then(accounts => {
             for (let i=0; i < accounts.length; i++) {
-                dispatch(fetchTransactions(accounts[i].id));
+                dispatch(postTransactions(accounts[i].id));
             }
         })
         .catch(err => {
@@ -34,7 +34,20 @@ export const fetchAccounts = () => (dispatch, getState) => {
         })
 };
 
-export const fetchNewAccount = (accountAttrs) => (dispatch, getState) => {
+export const postAccount = (accountAttrs) => (dispatch, getState) => {
+    const currentUserId = getState().currentUserId;    
+    return axios
+        .post(`/users/${currentUserId}/accounts`, accountAttrs)
+        .then(response => {
+            dispatch(fetchAccounts());
+            return {success: true};
+        })
+        .catch(err => {
+            return {success: false, error: 'This account could not be created at this time'};
+        })
+};
+
+export const patchAccount = (accountAttrs) => (dispatch, getState) => {
     const currentUserId = getState().currentUserId;    
     return axios
         .post(`/users/${currentUserId}/accounts`, accountAttrs)

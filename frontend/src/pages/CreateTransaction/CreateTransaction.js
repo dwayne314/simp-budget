@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './CreateTransaction.css';
 import Logo from '../../components/Logo/Logo';
 import Button from '../../components/Button/Button';
-import { setErrors, fetchTransaction, add_transactions } from '../../redux/actions';
+import { setErrors, postTransaction, add_transactions } from '../../redux/actions';
 import { getErrors } from '../../redux/selectors';
 import { newTransactiontValidator } from '../../utilities';
 
@@ -31,7 +31,7 @@ const CreateTransaction = (props) => {
         const { errors, result, isValid } = newTransactiontValidator(transactionAttrs);
 
         if (isValid) {
-            const submitAction = await dispatch(fetchTransaction(result, accountId));
+            const submitAction = await dispatch(postTransaction(result, accountId));
             if (!submitAction.success) {
                 setTransactionErrors(submitAction.error);
             }

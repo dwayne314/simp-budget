@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './CreateAccount.css';
 import Logo from '../../components/Logo/Logo';
 import Button from '../../components/Button/Button';
-import { setErrors, fetchNewAccount } from '../../redux/actions';
+import { setErrors, postAccount } from '../../redux/actions';
 import { getErrors } from '../../redux/selectors';
 import { newAccountValidator } from '../../utilities';
 
@@ -25,7 +25,7 @@ const CreateAccount = (props) => {
         const { errors, result, isValid } = newAccountValidator(accountAttrs);
 
         if (isValid) {
-            const submitAction = await dispatch(fetchNewAccount(result));
+            const submitAction = await dispatch(postAccount(result));
             if (submitAction.success) {
                 console.log(`Account ${result.name} created.`)
                 props.history.push('/accounts');

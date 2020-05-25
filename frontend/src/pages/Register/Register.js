@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import './Register.css';
 import Logo from '../../components/Logo/Logo';
 import Button from '../../components/Button/Button';
-import { fetchRegister, setErrors } from '../../redux/actions';
+import { postRegister, setErrors } from '../../redux/actions';
 import { getErrors } from '../../redux/selectors';
 import { registrationValidator } from '../../utilities';
 
@@ -39,7 +39,7 @@ const Register = (props) => {
         const {errors, result, isValid } = registrationValidator(userAttrs);
 
         if (isValid) {
-            const submitAction = await dispatch(fetchRegister(result));
+            const submitAction = await dispatch(postRegister(result));
             if (submitAction.success) setSubmitted(true);   
         }
         else {

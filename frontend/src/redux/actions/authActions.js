@@ -16,7 +16,7 @@ export const login = (currentUserId) => ({
 });
 
 // Requests an auth token from the backend
-export const fetchLogin = authParams => (dispatch, getState) => {
+export const postLogin = authParams => (dispatch, getState) => {
     return axios
         .post('/tokens', {}, {auth: authParams})
         .then(response => {
@@ -39,7 +39,7 @@ export const fetchLogin = authParams => (dispatch, getState) => {
 
 export const REGISTER = 'REGISTER';
 
-export const fetchRegister = userData => dispatch => {
+export const postRegister = userData => dispatch => {
     return axios
         .post('/users', userData)
         .then(response => {
