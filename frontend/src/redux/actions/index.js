@@ -1,6 +1,12 @@
 import { LOGIN, login, postLogin, postRegister } from './authActions';
-import { fetchAccounts, postAccount, SET_ACCOUNTS } from './accountActions';
-import { postTransactions, postTransaction, add_transactions, SET_TRANSACTIONS, ADD_TRANSACTIONS } from './transactionActions';
+import { fetchAccounts, postAccount, patchAccount, SET_ACCOUNTS } from './accountActions';
+import {
+    postTransactions,
+    postTransaction,
+    add_transactions,
+    SET_TRANSACTIONS,
+    ADD_TRANSACTIONS
+} from './transactionActions';
 import {
     setFlashMessages,
     SET_FLASH_MESSAGES,
@@ -17,6 +23,7 @@ export {
     postLogin,
     fetchAccounts,
     postAccount,
+    patchAccount,
     SET_ACCOUNTS,
     postTransactions,
     postTransaction,

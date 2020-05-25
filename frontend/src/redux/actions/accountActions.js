@@ -47,15 +47,15 @@ export const postAccount = (accountAttrs) => (dispatch, getState) => {
         })
 };
 
-export const patchAccount = (accountAttrs) => (dispatch, getState) => {
+export const patchAccount = (accountAttrs, accountId) => (dispatch, getState) => {
     const currentUserId = getState().currentUserId;    
     return axios
-        .post(`/users/${currentUserId}/accounts`, accountAttrs)
+        .patch(`/users/${currentUserId}/accounts/${accountId}`, accountAttrs)
         .then(response => {
             dispatch(fetchAccounts());
             return {success: true};
         })
         .catch(err => {
-            return {success: false, error: 'This account could not be created at this time'};
+            return {success: false, error: 'This account could not be updated at this time'};
         })
 };
