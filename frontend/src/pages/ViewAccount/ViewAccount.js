@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import './ViewAccount.css';
 import Logo from '../../components/Logo/Logo';
@@ -13,23 +13,97 @@ const ViewAccount = (props) => {
     const transactions = useSelector(state => getTransactionsByAccountId(state)(Number(accountId)));
     const accountBalance = transactions.reduce((acc, tran) => acc + tran.amount, 0);
     const [searchText, setSearchText] = useState('');
+    const [selectedTransactions, setSelectedTransactions] = useState([]);
+    const [selectTransactionToggle, setSelectTransactionToggle] = useState(false);
     const filteredTransactions = transactions
         .filter(tran => tran.note.indexOf(searchText) !== -1);
 
     const updateSearchText = (evt) => setSearchText(evt.target.value);
     const submiSearchtForm = (evt) => evt.preventDefault();
+    const updateSelectTransactionToggle = () => {
+        setSelectedTransactions([]);        
+        setSelectTransactionToggle(selectTransactionToggle ? false : true);
+    };
 
-    const showAllTransactions = filteredTransactions.map(tran => (
-         <div className="view-account-transaction-container">
-            <div className="view-account-transaction-header">
-                <div className="view-account-transaction-date">{formatDate(tran.created_at)}</div>
-                <div className="view-account-transaction-amount">{formatUSD(tran.amount)}</div>
+    const toggleSelection = transactionId => {
+        const transactionIndex = selectedTransactions.indexOf(transactionId);
+        if (transactionIndex === -1) {
+            setSelectedTransactions([...selectedTransactions, transactionId]);
+        }
+        else {
+            setSelectedTransactions(selectedTransactions.filter(tranId => tranId !== transactionId));
+        }
+    };
+
+    const showAllTransactions = filteredTransactions.map(tran => {
+        let transactionClasses = `view-account-transaction-container${(selectedTransactions.indexOf(tran.id) !== -1) ? ' selected-transaction' : ''}`
+        transactionClasses = transactionClasses + `${selectTransactionToggle ? ' selectable-transaction' : ''}` 
+        return (
+            <div onClick={selectTransactionToggle ? () => toggleSelection(tran.id) : null} 
+                  className={transactionClasses}>
+                <div className="view-account-transaction-header">
+                    <div className="view-account-transaction-date">{formatDate(tran.created_at)}</div>
+                    <div className="view-account-transaction-amount">{formatUSD(tran.amount)}</div>
+                </div>
+                <div className="view-account-transaction-note">
+                    {tran.note}
+                </div>
             </div>
-            <div className="view-account-transaction-note">
-                {tran.note}
-            </div>
-        </div> 
-    )); 
+        )
+    });
+
+    const showActionButtons = () => {
+        let actionButtons;
+        if (!selectTransactionToggle) {
+            actionButtons = (
+                <Fragment>
+                    <div className="modify-account-button-container">
+                        <Button isPrimary={false} cta={"Edit Account"} linkPath={`/accounts/${currentAccount.id}/edit`}/>
+                    </div>
+                    <div className="modify-account-button-container">
+                        <Button isDelete={true} cta={"Delete Account"} linkPath={`/accounts/${currentAccount.id}/delete`}/>
+                    </div>
+                </Fragment>
+            )
+        } else if (selectTransactionToggle && !selectedTransactions.length) {
+            actionButtons = (
+                <Fragment>
+                    <div className="modify-account-button-container">
+                        <Button isDulledPrimary={true} cta={"Edit"}/>
+                    </div>
+                    <div className="modify-account-button-container">
+                        <Button isDulledDelete={true} cta={"Delete"}/>
+                    </div>
+                </Fragment>
+            )
+        } else if (selectTransactionToggle && selectedTransactions.length < 2) {
+            const selectedTransactionId = selectedTransactions[0];
+
+            actionButtons = (
+                <Fragment>
+                    <div className="modify-account-button-container">
+                        <Button isPrimary={false} cta={"Edit"} linkPath={`/accounts/${currentAccount.id}/transactions/${selectedTransactionId}/edit`}/>
+                    </div>
+                    <div className="modify-account-button-container">
+                        <Button isDelete={true} cta={"Delete"} linkPath={`/accounts/${currentAccount.id}/transactions/${selectedTransactionId}/delete`}/>
+                    </div>
+                </Fragment>
+            )
+        } else {
+            actionButtons = (
+                <Fragment>
+                    <div className="modify-account-button-container">
+                        <Button isDelete={true} cta={"Delete"} linkPath={`/accounts/${currentAccount.id}/transactions/delete`}/>
+                    </div>
+                </Fragment>
+            )
+        } 
+        return actionButtons;
+    };
+
+    useEffect(() => {
+        console.log(selectedTransactions)
+    })
 
     return (
         <div className="view-account-container">
@@ -44,12 +118,7 @@ const ViewAccount = (props) => {
                 {currentAccount.description}
             </div>
             <div className="modify-account-container">
-                <div className="modify-account-button-container">
-                    <Button isPrimary={false} cta={"Edit Account"} linkPath={`/accounts/${currentAccount.id}/edit`}/>
-                </div>
-                <div className="modify-account-button-container">
-                    <Button isDelete={true} cta={"Delete Account"} linkPath={`/accounts/${currentAccount.id}/delete`}/>
-                </div>
+                {showActionButtons()}
             </div>
             <div className="view-account-search-form-container">
                 <div>
@@ -61,10 +130,15 @@ const ViewAccount = (props) => {
                 </div>
             </div>
             {showAllTransactions}  
-            <div className="modify-account-transaction-buttons">
-                    <Button isPrimary={true} cta={"Select Transactions"}/>
+            <div className="modify-account-transaction-floating-buttons">
+            {!selectTransactionToggle ? 
+                <Fragment>
                     <Button isPrimary={false} cta={"New Transaction"} linkPath={`/accounts/${currentAccount.id}/transactions/create`}/>
-
+                    <Button onClick={updateSelectTransactionToggle} isPrimary={true} cta={"Select Transactions"}/>
+                </Fragment>
+                :
+                <Button onClick={updateSelectTransactionToggle} isPrimary={true} cta={"Stop Selection"}/>
+            }
             </div>    
         </div>
     );
