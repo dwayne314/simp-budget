@@ -13,7 +13,8 @@ import {
     ViewAccount,
     EditAccount,
     CreateTransaction,
-    EditTransaction
+    EditTransaction,
+    DeleteAccount
 } from '../pages';
 import './App.css';
 
@@ -35,6 +36,7 @@ const App = () => {
             <Route exact path="/accounts/create" component={CreateAccount}></Route>
             <Route exact path="/accounts/:id/view" component={ViewAccount}></Route>
             <Route exact path="/accounts/:id/edit" component={EditAccount}></Route>
+            <Route exact path="/accounts/:id/delete" component={DeleteAccount}></Route>
             <Route exact path="/accounts/:id/transactions/create" component={CreateTransaction}></Route>                
             <Route exact path="/accounts/:id/transactions/:transactionId/edit" component={EditTransaction}></Route>
         </div>

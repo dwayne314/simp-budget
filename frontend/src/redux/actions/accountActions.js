@@ -59,3 +59,16 @@ export const patchAccount = (accountAttrs, accountId) => (dispatch, getState) =>
             return {success: false, error: 'This account could not be updated at this time'};
         })
 };
+
+export const deleteAccount = (accountId) => (dispatch, getState) => {
+    const currentUserId = getState().currentUserId;    
+    return axios
+        .delete(`/users/${currentUserId}/accounts/${accountId}`)
+        .then(response => {
+            dispatch(fetchAccounts());
+            return {success: true};
+        })
+        .catch(err => {
+            return {success: false, error: 'This account could not be deleted at this time'};
+        })
+};
