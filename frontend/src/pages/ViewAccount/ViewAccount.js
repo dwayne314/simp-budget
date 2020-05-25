@@ -64,7 +64,7 @@ const ViewAccount = (props) => {
                         <Button isDelete={true} cta={"Delete Account"} linkPath={`/accounts/${currentAccount.id}/delete`}/>
                     </div>
                 </Fragment>
-            )
+            );
         } else if (selectTransactionToggle && !selectedTransactions.length) {
             actionButtons = (
                 <Fragment>
@@ -75,7 +75,7 @@ const ViewAccount = (props) => {
                         <Button isDulledDelete={true} cta={"Delete"}/>
                     </div>
                 </Fragment>
-            )
+            );
         } else if (selectTransactionToggle && selectedTransactions.length < 2) {
             const selectedTransactionId = selectedTransactions[0];
 
@@ -85,19 +85,24 @@ const ViewAccount = (props) => {
                         <Button isPrimary={false} cta={"Edit"} linkPath={`/accounts/${currentAccount.id}/transactions/${selectedTransactionId}/edit`}/>
                     </div>
                     <div className="modify-account-button-container">
-                        <Button isDelete={true} cta={"Delete"} linkPath={`/accounts/${currentAccount.id}/transactions/${selectedTransactionId}/delete`}/>
+                        <Button isDelete={true}
+                                cta={"Delete"}
+                                data={{transactions: selectedTransactions, accountId}}
+                                linkPath={`/accounts/${currentAccount.id}/transactions/delete`}/>
                     </div>
                 </Fragment>
-            )
+            );
         } else {
             actionButtons = (
                 <Fragment>
                     <div className="modify-account-button-container">
-
-                        <Button isDelete={true} cta={"Delete"} linkPath={`/accounts/${currentAccount.id}/transactions/delete`}/>
+                        <Button isDelete={true}
+                                cta={"Delete"}
+                                data={{transactions: selectedTransactions, accountId}}                                
+                                linkPath={`/accounts/${currentAccount.id}/transactions/delete`}/>
                     </div>
                 </Fragment>
-            )
+            );
         } 
         return actionButtons;
     };

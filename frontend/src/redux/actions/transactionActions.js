@@ -48,3 +48,50 @@ export const postTransaction = ({amount, note}, accountId) => (dispatch, getStat
             return {success: false, error: 'This transaction could not be created at this time.'};
         })
 };
+
+export const REMOVE_TRANSACTIONS = 'REMOVE_TRANSACTIONS';
+
+export const removeTransactions = (transactionIds) => ({
+    type: REMOVE_TRANSACTIONS,
+    payload: {
+        transactionIds
+    }
+});
+
+export const deleteTransactions = (transactionIds, accountId) => async (dispatch, getState) => {
+    const currentUserId = getState().currentUserId;
+    let deletedIds = [];
+    let errorIds = [];
+
+    const deleteTransaction = (transactionId) => {
+        return axios
+            .delete(`/users/${currentUserId}/accounts/${accountId}/transactions/${transactionId}`)
+            .then(response => {
+                return {success: true, transactionId};
+            })
+            .catch(err => {
+                console.log(err)
+                return {success: false, transactionId};
+            })
+    };
+
+    for (let i=0; i < transactionIds.length; i++) {
+        const deleteStatus = await deleteTransaction(transactionIds[i]);
+        if (deleteStatus.success) {
+            deletedIds.push(deleteStatus.transactionId)
+        } else {
+            errorIds.push(deleteStatus.transactionId);
+        }
+    }
+
+    // Remove transactions from redux
+    dispatch(removeTransactions(deletedIds))
+
+    if (errorIds.length && !deletedIds.length) {
+        return {success: false, error: 'These transactions could not be deleted at this time.'};
+    } else if (errorIds.length && deletedIds.length) {
+        return {success: false, error: 'Not all transactions could be deleted at this time.'};
+    } else {
+        return {success: true};
+    }
+};
