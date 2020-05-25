@@ -25,3 +25,14 @@
     display: inline;
     text-align: center;
 }
+
+.dulled-primary { 
+    background-color: #d0a2a2;
+    cursor: default;
+
+}
+
+.dulled-delete {
+    background-color: #a4b6c8;
+    cursor: default;
+}

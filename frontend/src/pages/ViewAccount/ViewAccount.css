@@ -108,17 +108,26 @@
    align-content: flex-end;
 }
 
-.modify-account-transaction-buttons > div {
-    margin: 0px;
-    bottom: 0px;
+.modify-account-transaction-floating-buttons {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }
 
-.modify-account-transaction-buttons .button-container {
-    position: fixed;
+.modify-account-transaction-floating-buttons a {
+    text-decoration: none;
+}
+
+.modify-account-transaction-floating-buttons .button-container {
+    display: block;
     botton: 0px;
     margin: 0px;
 }
 
-.modify-account-transaction-buttons .button-container:last-child {
-    bottom: 47px;
+.selected-transaction {
+    background-color: #7f8686;
+}
+
+.selectable-transaction {
+    cursor: pointer;
 }
