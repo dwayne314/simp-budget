@@ -8,6 +8,7 @@ import EditAccount from './EditAccount/EditAccount';
 import DeleteAccount from './DeleteAccount/DeleteAccount';
 import CreateTransaction from './CreateTransaction/CreateTransaction';
 import EditTransaction from './EditTransaction/EditTransaction';
+import DeleteTransactions from './DeleteTransactions/DeleteTransactions';
 
 
 export {
@@ -20,5 +21,6 @@ export {
     EditAccount,
     DeleteAccount,
     CreateTransaction,
-    EditTransaction
+    EditTransaction,
+    DeleteTransactions
 }

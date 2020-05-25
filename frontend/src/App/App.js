@@ -12,9 +12,10 @@ import {
     CreateAccount,
     ViewAccount,
     EditAccount,
+    DeleteAccount,
     CreateTransaction,
     EditTransaction,
-    DeleteAccount
+    DeleteTransactions
 } from '../pages';
 import './App.css';
 
@@ -39,6 +40,7 @@ const App = () => {
             <Route exact path="/accounts/:id/delete" component={DeleteAccount}></Route>
             <Route exact path="/accounts/:id/transactions/create" component={CreateTransaction}></Route>                
             <Route exact path="/accounts/:id/transactions/:transactionId/edit" component={EditTransaction}></Route>
+            <Route exact path="/accounts/:id/transactions/delete" component={DeleteTransactions}></Route>
         </div>
     );
 };

@@ -3,6 +3,7 @@ import {
     SET_ACCOUNTS,
     SET_TRANSACTIONS,
     ADD_TRANSACTIONS,
+    REMOVE_TRANSACTIONS,
     SET_FLASH_MESSAGES,
     PUSH_FLASH_MESSAGE,
     SET_ERRORS
@@ -41,6 +42,13 @@ const rootReducer = (state=initialState, action) => {
             return {
                 ...state,
                 transactions: [...state.transactions, ...action.payload.transaction]
+            }
+
+        case REMOVE_TRANSACTIONS:
+            const { transactionIds } = action.payload
+            return {
+                ...state,
+                transactions: state.transactions.filter(tran => transactionIds.indexOf(tran.id) === -1)
             }
 
         case SET_FLASH_MESSAGES:

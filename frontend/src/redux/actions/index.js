@@ -4,8 +4,11 @@ import {
     postTransactions,
     postTransaction,
     add_transactions,
+    deleteTransactions,
+    removeTransactions,  
     SET_TRANSACTIONS,
-    ADD_TRANSACTIONS
+    ADD_TRANSACTIONS,
+    REMOVE_TRANSACTIONS
 } from './transactionActions';
 import {
     setFlashMessages,
@@ -29,8 +32,11 @@ export {
     postTransactions,
     postTransaction,
     add_transactions,
+    deleteTransactions,
+    removeTransactions,
     SET_TRANSACTIONS,
     ADD_TRANSACTIONS,
+    REMOVE_TRANSACTIONS,
     postRegister,
     SET_FLASH_MESSAGES,
     setFlashMessages,
