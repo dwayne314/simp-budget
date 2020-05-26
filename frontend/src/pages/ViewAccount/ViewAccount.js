@@ -16,7 +16,7 @@ const ViewAccount = (props) => {
     const [selectedTransactions, setSelectedTransactions] = useState([]);
     const [selectTransactionToggle, setSelectTransactionToggle] = useState(false);
     const filteredTransactions = transactions
-        .filter(tran => tran.note.indexOf(searchText) !== -1);
+        .filter(tran => tran.note.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
 
     const updateSearchText = (evt) => setSearchText(evt.target.value);
     const submiSearchtForm = (evt) => evt.preventDefault();

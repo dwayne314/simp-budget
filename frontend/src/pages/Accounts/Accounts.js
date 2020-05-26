@@ -80,7 +80,7 @@ const Accounts = () => {
     });
 
     useEffect(() => {
-        setAllAccounts(accounts.filter(account => account.name.indexOf(seachText) !== -1 ));
+        setAllAccounts(accounts.filter(account => account.name.toLowerCase().indexOf(seachText.toLowerCase()) !== -1 ));
     }, [accounts, seachText]);
 
     return (
