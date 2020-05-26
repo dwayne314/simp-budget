@@ -111,8 +111,7 @@
     cursor: pointer;
 }
 
-.account-tractions-exerpt-container {
-    display: table;
+.account-tractions-exerpt-container > table{
     table-layout: fixed;
     width: 100%;
     background-color: #c4c4c4;

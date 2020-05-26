@@ -39,7 +39,7 @@ const ViewAccount = (props) => {
         let transactionClasses = `view-account-transaction-container${(selectedTransactions.indexOf(tran.id) !== -1) ? ' selected-transaction' : ''}`
         transactionClasses = transactionClasses + `${selectTransactionToggle ? ' selectable-transaction' : ''}` 
         return (
-            <div onClick={selectTransactionToggle ? () => toggleSelection(tran.id) : null} 
+            <div key={tran.id} onClick={selectTransactionToggle ? () => toggleSelection(tran.id) : null} 
                   className={transactionClasses}>
                 <div className="view-account-transaction-header">
                     <div className="view-account-transaction-date">{formatDate(tran.created_at)}</div>

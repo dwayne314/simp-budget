@@ -33,7 +33,7 @@ const Accounts = () => {
         setAllAccounts(updatedAccounts);
     };
 
-    const showAllAccounts = allAccounts.map(account => {
+    const showAllAccounts = allAccounts.map((account, index) => {
         const accountTransactions = getAccountTransactions(account.id);
 
         return !account.selected ?
@@ -45,7 +45,7 @@ const Accounts = () => {
 
             </div>
             :
-            <div className={"account-container account-container-clicked"}>
+            <div key={account.id} className={"account-container account-container-clicked"}>
                 <div className="account-header-container">
                     <div className="account-name">{account.name}</div>
                      <div className="account-triangle-clicked" onClick={() => toggleActiveAccount(account.id)}></div>
@@ -53,23 +53,24 @@ const Accounts = () => {
                 <div className="account-tractions-exerpt-container">
                     {/* If availableaccount transactions vs no */}
                         <Fragment>
-
-                            <thead className="account-tractions-exerpt-header">
-                                <tr>
-                                    <td className="account-transaction-exerpt-amount account-transaction-exerpt-header-item">Amount</td>
-                                    <td className="account-transaction-exerpt-note account-transaction-exerpt-header-item">Note</td>
-                                    <td className="account-transaction-exerpt-date account-transaction-exerpt-header-item">Date</td>                                               
-                                </tr>
-                            </thead>
-                            {accountTransactions.map(transaction => (
-                                <tbody className="account-tractions-exerpt-header">
+                            <table>
+                                <thead className="account-tractions-exerpt-header">
                                     <tr>
-                                        <td className="account-transaction-exerpt-amount">{formatUSD(transaction.amount)}</td>
-                                        <td className="account-transaction-exerpt-note">{transaction.note}</td>
-                                        <td className="account-transaction-exerpt-date">{formatDate(transaction.created_at)}</td>                                               
+                                        <td className="account-transaction-exerpt-amount account-transaction-exerpt-header-item">Amount</td>
+                                        <td className="account-transaction-exerpt-note account-transaction-exerpt-header-item">Note</td>
+                                        <td className="account-transaction-exerpt-date account-transaction-exerpt-header-item">Date</td>                                               
                                     </tr>
-                                </tbody>))
-                            }
+                                </thead>
+                                {accountTransactions.map(transaction => (
+                                    <tbody key={transaction.id} className="account-tractions-exerpt-header">
+                                        <tr>
+                                            <td className="account-transaction-exerpt-amount">{formatUSD(transaction.amount)}</td>
+                                            <td className="account-transaction-exerpt-note">{transaction.note}</td>
+                                            <td className="account-transaction-exerpt-date">{formatDate(transaction.created_at)}</td>                                               
+                                        </tr>
+                                    </tbody>))
+                                }
+                            </table>
                         </Fragment>
                 </div>
                 <div className="account-transaction-button-container">
