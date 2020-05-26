@@ -6,7 +6,7 @@ import Logo from '../../components/Logo/Logo';
 import newIcon from '../../static/icons/new-icon.svg';
 import Button from '../../components/Button/Button';
 import { getAccounts, getTransactions } from '../../redux/selectors';
-import { formatDate } from '../../utilities';
+import { formatDate, formatUSD } from '../../utilities';
 
 
 const Accounts = () => {
@@ -32,8 +32,6 @@ const Accounts = () => {
         });
         setAllAccounts(updatedAccounts);
     };
-
-
 
     const showAllAccounts = allAccounts.map(account => {
         const accountTransactions = getAccountTransactions(account.id);
@@ -66,7 +64,7 @@ const Accounts = () => {
                             {accountTransactions.map(transaction => (
                                 <tbody className="account-tractions-exerpt-header">
                                     <tr>
-                                        <td className="account-transaction-exerpt-amount">{transaction.amount}</td>
+                                        <td className="account-transaction-exerpt-amount">{formatUSD(transaction.amount)}</td>
                                         <td className="account-transaction-exerpt-note">{transaction.note}</td>
                                         <td className="account-transaction-exerpt-date">{formatDate(transaction.created_at)}</td>                                               
                                     </tr>
