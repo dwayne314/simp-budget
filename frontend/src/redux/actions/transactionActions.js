@@ -41,13 +41,34 @@ export const postTransaction = ({amount, note}, accountId) => (dispatch, getStat
     return axios
         .post(`/users/${currentUserId}/accounts/${accountId}/transactions`, {amount, note})
         .then(response => {
-            console.log()
             return {success: true, transaction: response.data.data};
         })
         .catch(err => {
             return {success: false, error: 'This transaction could not be created at this time.'};
         })
 };
+
+export const patchTransaction = (accountAttrs, accountId, transactionId) => (dispatch, getState) => {
+    const currentUserId = getState().currentUserId;
+    return axios
+        .patch(`/users/${currentUserId}/accounts/${accountId}/transactions/${transactionId}`, accountAttrs)
+        .then(response => {
+            return {success: true, transaction: response.data.data};
+        })
+        .catch(err => {
+            return {success: false, error: 'This transaction could not be updated at this time.'};
+        })
+};
+
+export const UPDATE_TRANSACTION = 'UPDATE_TRANSACTION';
+
+export const updateTransaction = (transactionId, transactionAttrs) => ({
+    type: UPDATE_TRANSACTION,
+    payload: {
+        transactionId,
+        transactionAttrs
+    }
+});
 
 export const REMOVE_TRANSACTIONS = 'REMOVE_TRANSACTIONS';
 

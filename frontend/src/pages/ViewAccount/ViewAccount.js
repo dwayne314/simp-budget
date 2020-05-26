@@ -107,10 +107,6 @@ const ViewAccount = (props) => {
         return actionButtons;
     };
 
-    useEffect(() => {
-        console.log(selectedTransactions)
-    })
-
     return (
         <div className="view-account-container">
             <div className="view-account-logo-container">

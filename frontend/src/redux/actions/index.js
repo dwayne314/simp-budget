@@ -4,10 +4,13 @@ import {
     postTransactions,
     postTransaction,
     add_transactions,
+    patchTransaction,
+    updateTransaction,    
     deleteTransactions,
     removeTransactions,  
     SET_TRANSACTIONS,
     ADD_TRANSACTIONS,
+    UPDATE_TRANSACTION,
     REMOVE_TRANSACTIONS
 } from './transactionActions';
 import {
@@ -32,10 +35,13 @@ export {
     postTransactions,
     postTransaction,
     add_transactions,
+    patchTransaction,
+    updateTransaction,
     deleteTransactions,
     removeTransactions,
     SET_TRANSACTIONS,
     ADD_TRANSACTIONS,
+    UPDATE_TRANSACTION,    
     REMOVE_TRANSACTIONS,
     postRegister,
     SET_FLASH_MESSAGES,
