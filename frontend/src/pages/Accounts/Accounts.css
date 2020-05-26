@@ -1,7 +1,8 @@
 .accounts-container {
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
-    
+    max-width: var(--app-max-width);
+    margin: var(--app-margin);
 }
 
 .accounts-logo-container {
@@ -53,7 +54,7 @@
 
 .search-form input {
     text-align: center;    
-    width: 100%;
+    width: 99%;
     height: 40px;
     border: 0px;
     box-sizing: border-box;
@@ -166,7 +167,6 @@ tr > td:first-child {
 
 .account-transaction-button-container .button-container {
     font-size: 16px;
-    max-width: 400px;
     margin: 0px auto;
     border-radius: 5px;
 }

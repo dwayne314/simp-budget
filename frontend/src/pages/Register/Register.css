@@ -2,6 +2,8 @@
     background-color: #ffffff;
     height: 100vh;
     font-family: 'Roboto', sans-serif;
+    max-width: var(--app-max-width);
+    margin: var(--app-margin);    
 }
 
 .register-logo-container {

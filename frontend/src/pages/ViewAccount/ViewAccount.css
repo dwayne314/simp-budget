@@ -1,6 +1,13 @@
 .view-account-container {
     margin-bottom: 94px;
     font-family: 'Roboto', sans-serif;
+    max-width: var(--app-max-width);
+    margin: var(--app-margin); 
+    margin-bottom: 96px;
+}
+
+.view-account-container-one-footer {
+    margin-bottom: 49px;
 }
 
 .view-account-logo-container {
@@ -62,7 +69,7 @@
 
 .search-form input {
     text-align: center;    
-    width: 100%;
+    width: 99%;
     height: 40px;
     border: 0px;
 } 
@@ -109,6 +116,7 @@
 }
 
 .modify-account-transaction-floating-buttons {
+    max-width: var(--app-max-width);
     position: fixed;
     width: 100%;
     bottom: 0;
@@ -122,6 +130,7 @@
     display: block;
     botton: 0px;
     margin: 0px;
+
 }
 
 .selected-transaction {

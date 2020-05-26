@@ -29,18 +29,20 @@ const App = () => {
 
     return (
         <div className='app-container'>
-            <FlashMessage />
-            <Route exact path="/" component={Home}></Route>
-            <Route exact path="/login" component={Login}></Route>
-            <Route exact path="/register" component={Register}></Route>
-            <Route exact path="/accounts" component={Accounts}></Route>
-            <Route exact path="/accounts/create" component={CreateAccount}></Route>
-            <Route exact path="/accounts/:id/view" component={ViewAccount}></Route>
-            <Route exact path="/accounts/:id/edit" component={EditAccount}></Route>
-            <Route exact path="/accounts/:id/delete" component={DeleteAccount}></Route>
-            <Route exact path="/accounts/:id/transactions/create" component={CreateTransaction}></Route>                
-            <Route exact path="/accounts/:id/transactions/:transactionId/edit" component={EditTransaction}></Route>
-            <Route exact path="/accounts/:id/transactions/delete" component={DeleteTransactions}></Route>
+            <div className="app-sub-container">
+                <FlashMessage />
+                <Route exact path="/" component={Home}></Route>
+                <Route exact path="/login" component={Login}></Route>
+                <Route exact path="/register" component={Register}></Route>
+                <Route exact path="/accounts" component={Accounts}></Route>
+                <Route exact path="/accounts/create" component={CreateAccount}></Route>
+                <Route exact path="/accounts/:id/view" component={ViewAccount}></Route>
+                <Route exact path="/accounts/:id/edit" component={EditAccount}></Route>
+                <Route exact path="/accounts/:id/delete" component={DeleteAccount}></Route>
+                <Route exact path="/accounts/:id/transactions/create" component={CreateTransaction}></Route>                
+                <Route exact path="/accounts/:id/transactions/:transactionId/edit" component={EditTransaction}></Route>
+                <Route exact path="/accounts/:id/transactions/delete" component={DeleteTransactions}></Route>
+            </div>
         </div>
     );
 };

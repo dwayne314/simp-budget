@@ -9,8 +9,10 @@ body {
 :root {
     /* Layout */
     --full-height: 100%;
+    --app-margin: 0 auto;
+    --app-max-width: 500px;
 
     /*  Colors */
     --primary-color: #1c5f9d;
-    --secondary-color: #cf8414
+    --secondary-color: #cf8414;
 };

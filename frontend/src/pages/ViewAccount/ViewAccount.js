@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import './ViewAccount.css';
 import Logo from '../../components/Logo/Logo';
@@ -108,7 +108,7 @@ const ViewAccount = (props) => {
     };
 
     return (
-        <div className="view-account-container">
+        <div className={`view-account-container${selectTransactionToggle ? ' view-account-container-one-footer' : ''}`}>
             <div className="view-account-logo-container">
                 <Logo isPrimary={false}/>
             </div>

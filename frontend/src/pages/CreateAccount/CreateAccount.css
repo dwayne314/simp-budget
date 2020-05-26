@@ -2,7 +2,8 @@
     background-color: #ffffff;
     height: 100vh;
     font-family: 'Roboto', sans-serif;
-
+    max-width: var(--app-max-width);
+    margin: var(--app-margin);
 }
 
 .new-account-logo-container {
@@ -16,7 +17,6 @@
     height: 500px;
     margin: auto;
     background-color: #ffffff;
-    max-width: 500px;
 }
 
 
