@@ -52,13 +52,23 @@ export const patchAccount = (accountAttrs, accountId) => (dispatch, getState) =>
     return axios
         .patch(`/users/${currentUserId}/accounts/${accountId}`, accountAttrs)
         .then(response => {
-            dispatch(fetchAccounts());
+            dispatch(updateAccount(accountId, accountAttrs));
             return {success: true};
         })
         .catch(err => {
             return {success: false, error: 'This account could not be updated at this time'};
         })
 };
+
+export const UPDATE_ACCOUNT = 'UPDATE_ACCOUNT';
+
+export const updateAccount = (accountId, accountAttrs) => ({
+    type: UPDATE_ACCOUNT,
+    payload: {
+        accountId,
+        accountAttrs
+    }
+});
 
 export const deleteAccount = (accountId) => (dispatch, getState) => {
     const currentUserId = getState().currentUserId;    

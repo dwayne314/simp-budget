@@ -1,6 +1,7 @@
 import { 
     LOGIN,
     SET_ACCOUNTS,
+    UPDATE_ACCOUNT,
     SET_TRANSACTIONS,
     ADD_TRANSACTIONS,
     UPDATE_TRANSACTION,
@@ -33,6 +34,21 @@ const rootReducer = (state=initialState, action) => {
                 accounts: action.payload.accounts
             };
 
+        case UPDATE_ACCOUNT:
+            const { accountId, accountAttrs} = action.payload;
+            const acctAttrs = Object.keys(accountAttrs);
+                return {
+                    ...state,
+                    accounts: state.accounts.map(acct => {
+                        if (acct.id === Number(accountId)) {
+                            for (let i=0; i < acctAttrs.length; i++) {
+                                acct[acctAttrs[i]] = accountAttrs[acctAttrs[i]];
+                            }
+                        }
+                        return acct;
+                    })
+                };
+
         case SET_TRANSACTIONS:
             return {
                 ...state,
@@ -47,13 +63,13 @@ const rootReducer = (state=initialState, action) => {
         
         case UPDATE_TRANSACTION:
             const { transactionId, transactionAttrs} = action.payload;
-            const updateKeys = Object.keys(transactionAttrs);
+            const tranAttrs = Object.keys(transactionAttrs);
             return {
                 ...state,
                 transactions: state.transactions.map(tran => {
                     if (tran.id === Number(transactionId)) {
-                        for (let i=0; i < updateKeys.length; i++) {
-                            tran[updateKeys[i]] = transactionAttrs[updateKeys[i]];
+                        for (let i=0; i < tranAttrs.length; i++) {
+                            tran[tranAttrs[i]] = transactionAttrs[tranAttrs[i]];
                         }
                     }
                     return tran;

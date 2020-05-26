@@ -4,7 +4,7 @@ import './EditTransaction.css';
 import Logo from '../../components/Logo/Logo';
 import Button from '../../components/Button/Button';
 
-import { setErrors, patchTransaction, updateTransaction } from '../../redux/actions';
+import { setErrors, patchTransaction } from '../../redux/actions';
 import { getErrors, getTransactionById } from '../../redux/selectors';
 import { newTransactiontValidator } from '../../utilities';
 
@@ -37,7 +37,6 @@ const EditTransaction = (props) => {
                 setTransactionErrors(submitAction.error);
             }
             else {
-                dispatch(updateTransaction(transactionId, result))
                 props.history.push(`/accounts/${accountId}/view`);
             }
         }

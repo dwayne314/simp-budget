@@ -48,11 +48,12 @@ export const postTransaction = ({amount, note}, accountId) => (dispatch, getStat
         })
 };
 
-export const patchTransaction = (accountAttrs, accountId, transactionId) => (dispatch, getState) => {
+export const patchTransaction = (transactionAttrs, accountId, transactionId) => (dispatch, getState) => {
     const currentUserId = getState().currentUserId;
     return axios
-        .patch(`/users/${currentUserId}/accounts/${accountId}/transactions/${transactionId}`, accountAttrs)
+        .patch(`/users/${currentUserId}/accounts/${accountId}/transactions/${transactionId}`, transactionAttrs)
         .then(response => {
+            dispatch(updateTransaction(transactionId, transactionAttrs))
             return {success: true, transaction: response.data.data};
         })
         .catch(err => {
