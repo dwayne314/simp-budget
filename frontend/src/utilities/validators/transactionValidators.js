@@ -1,7 +1,8 @@
 import { getErrors, isEmpty } from '../';
+import { formatDate } from '../../utilities';
 
 
-export const newTransactiontValidator = ({amount='', note=''}) => {
+export const newTransactiontValidator = ({amount='', note='', date=''}) => {
     let errors = {};
     let convertedAmount = Number(amount).toFixed(2) * 100;
 
@@ -17,9 +18,13 @@ export const newTransactiontValidator = ({amount='', note=''}) => {
         errors.note = getErrors('required', {fieldName: 'Note'});
     }
 
+    if (!date) {
+        errors.date = getErrors('required', {fieldName: 'Date'})
+    }
+
     return {
         errors: isEmpty(errors) ? null : errors,
-        result: isEmpty(errors) ? {amount:convertedAmount, note} : null,
+        result: isEmpty(errors) ? {amount:convertedAmount, note, date: formatDate(date, 'yyyy-mm-dd')} : null,
         isValid: isEmpty(errors)
     };
 };

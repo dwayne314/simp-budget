@@ -123,11 +123,12 @@ class Accounts(db.Model, SerializerMixin):
 class Transactions(db.Model, SerializerMixin):
     """Represent debits and credits to an account's balance"""
 
-    __serializeable__ = ['account_id', 'amount', 'note', 'created_at']
+    __serializeable__ = ['account_id', 'amount', 'note', 'date', 'created_at']
 
     id = db.Column(db.Integer, primary_key=True)
     account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     amount = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.Date, nullable=False)
     note = db.Column(db.String, nullable=False)
     created_at = db.Column(
         db.DateTime(), default=datetime.utcnow, nullable=False)

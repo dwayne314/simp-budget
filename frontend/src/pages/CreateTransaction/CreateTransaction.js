@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+
 import './CreateTransaction.css';
 import Logo from '../../components/Logo/Logo';
 import Button from '../../components/Button/Button';
@@ -13,25 +16,26 @@ const CreateTransaction = (props) => {
     const dispatch = useDispatch();
     const errors = useSelector(getErrors);
 
-
     const [amount, setAmount] = useState('');
     const [note, setNote] = useState('');
     const [transactionErrors, setTransactionErrors] = useState('');
+    const [date, setDate] = useState(new Date());
 
     const updateAmount = e => setAmount(e.target.value);
     const updateNote = e => setNote(e.target.value);
-
+    const updateDate = date => setDate(date);
     // Adds the transaction to the state and redirects to the account
     const submitForm = async (e) => {
         e.preventDefault();
         setTransactionErrors('');
         dispatch(setErrors({}));
 
-        const transactionAttrs = { amount, note };
+        const transactionAttrs = { amount, note, date };
         const { errors, result, isValid } = newTransactiontValidator(transactionAttrs);
 
         if (isValid) {
             const submitAction = await dispatch(postTransaction(result, accountId));
+
             if (!submitAction.success) {
                 setTransactionErrors(submitAction.error);
             }
@@ -86,6 +90,20 @@ const CreateTransaction = (props) => {
                             {(errors.note) ? <span className="login-error">{`* ${errors.note}`}</span> : ""}
 
                         </div>
+                        <div className="form-item-container">
+                            <div className="form-label">
+                                <label htmlFor="date">Date</label>
+                            </div>
+                            <div className="date-picker-container">
+                                <DatePicker
+                                    selected={date}
+                                    onChange={date => updateDate(date)}
+                                    dateFormat='MMMM d, yyyy'>
+                                </DatePicker>
+                            </div>
+                            {(errors.date) ? <span className="login-error">{`* ${errors.date}`}</span> : ""}
+                        </div>
+
                         <div className="form-item-container form-button-container">
                             <Button onClick={submitForm} cta={"Submit"} isPrimary={false}/>
                         </div>

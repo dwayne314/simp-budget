@@ -164,21 +164,20 @@ class TransationValidator(Validator):
 
     """
 
-    tested_fields = ['amount', 'note']
+    tested_fields = ['amount', 'note', 'date']
 
     def __init__(self, **kwargs):
         super(TransationValidator, self).__init__(**kwargs)
         self.amount = kwargs.get('amount')
         self.note = kwargs.get('note')
+        self.date = kwargs.get('date')
 
     def validate_create_transaction(self):
         """Validates the attributes sent to create a Transaction"""
         if self.amount is None:
             self.errors['amount'] = self.missing_field_error('Amount')
-
         elif isinstance(self.amount, float):
             self.errors['amount'] = 'Amount must be an integer.'
-
         else:
             try:
                 self.amount = int(self.amount)
@@ -187,6 +186,26 @@ class TransationValidator(Validator):
 
             if self.amount == 0:
                 self.errors['amount'] = 'Amount cannot be 0.'
+
+        if self.note is None:
+            self.errors['note'] = self.missing_field_error('Note')
+
+        if self.date is None:
+            self.errors['date'] = self.missing_field_error('Date')
+        else:
+            try:
+                year, month, day = [''.join(date) for date in self.date.split('-')]
+                date_len_test = \
+                    len(year) == 4 and len(month) == 2 and len(day) == 2
+                _, month_int, day_int = \
+                    [int(i) for i in [year, month, day]]
+                value_test = month_int < 13 and day_int < 32
+                print(value_test)
+                if not date_len_test or not value_test:
+                    self.errors['date'] = 'Date must be in yyyy-mm-dd format'
+
+            except ValueError:
+                self.errors['date'] = 'Date must be in yyyy-mm-dd format'
 
         return {
             'isValid': not self.errors,

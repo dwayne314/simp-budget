@@ -18,4 +18,15 @@ export const formatDate = (date, style='md') => {
 
         return `${month}/${day}`;
     }
+    else if (style === 'yyyy-mm-dd') {
+        const year = d.getFullYear();
+        let month = d.getMonth() + 1;
+        let day = d.getDate();
+
+        month = month < 10 ? '0' + month : month;
+        day = day < 10 ? '0' + day : day;
+
+        return `${year}-${month}-${day}`  
+
+    }
 };

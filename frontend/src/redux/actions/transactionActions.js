@@ -36,10 +36,10 @@ export const add_transactions = (transaction) => ({
     }
 });
 
-export const postTransaction = ({amount, note}, accountId) => (dispatch, getState) => {
+export const postTransaction = ({amount, note, date}, accountId) => (dispatch, getState) => {
     const currentUserId = getState().currentUserId;
     return axios
-        .post(`/users/${currentUserId}/accounts/${accountId}/transactions`, {amount, note})
+        .post(`/users/${currentUserId}/accounts/${accountId}/transactions`, {amount, note, date})
         .then(response => {
             return {success: true, transaction: response.data.data};
         })

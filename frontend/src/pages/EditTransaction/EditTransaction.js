@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import DatePicker from 'react-datepicker';
 import './EditTransaction.css';
 import Logo from '../../components/Logo/Logo';
 import Button from '../../components/Button/Button';
-
 import { setErrors, patchTransaction } from '../../redux/actions';
 import { getErrors, getTransactionById } from '../../redux/selectors';
 import { newTransactiontValidator } from '../../utilities';
@@ -17,10 +17,12 @@ const EditTransaction = (props) => {
     const currentTransaction = useSelector(state => getTransactionById(state)(Number(transactionId)));
     const [amount, setAmount] = useState((currentTransaction.amount / 100).toFixed(2));
     const [note, setNote] = useState(currentTransaction.note);
+    const [date, setDate] = useState(new Date(currentTransaction.date));
     const [transactionErrors, setTransactionErrors] = useState('');
 
     const updateAmount = e => setAmount(e.target.value);
     const updateNote = e => setNote(e.target.value);
+    const updateDate = date => setDate(date);
 
     // Adds the transaction to the state and redirects to the account
     const submitForm = async (e) => {
@@ -28,7 +30,7 @@ const EditTransaction = (props) => {
         setTransactionErrors('');
         dispatch(setErrors({}));
 
-        const transactionAttrs = { amount, note };
+        const transactionAttrs = { amount, note, date};
         const { errors, result, isValid } = newTransactiontValidator(transactionAttrs);
 
         if (isValid) {
@@ -84,6 +86,19 @@ const EditTransaction = (props) => {
                             </div>
                             {(errors.note) ? <span className="login-error">{`* ${errors.note}`}</span> : ""}
 
+                        </div>
+                         <div className="form-item-container">
+                            <div className="form-label">
+                                <label htmlFor="date">Date</label>
+                            </div>
+                            <div className="date-picker-container">
+                                <DatePicker
+                                    selected={date}
+                                    onChange={date => updateDate(date)}
+                                    dateFormat='MMMM d, yyyy'>
+                                </DatePicker>
+                            </div>
+                            {(errors.date) ? <span className="login-error">{`* ${errors.date}`}</span> : ""}
                         </div>
                         <div className="form-item-container form-button-container">
                             <Button onClick={submitForm} cta={"Submit"} isPrimary={false}/>
