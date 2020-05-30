@@ -4,7 +4,7 @@ import './ViewAccount.css';
 import Logo from '../../components/Logo/Logo';
 import Button from '../../components/Button/Button';
 import { getAccountById, getTransactionsByAccountId } from '../../redux/selectors';
-import { formatUSD, formatDate } from '../../utilities';
+import { formatUSD, formatDate, getLocalDate } from '../../utilities';
 
 
 const ViewAccount = (props) => {
@@ -42,7 +42,7 @@ const ViewAccount = (props) => {
             <div key={tran.id} onClick={selectTransactionToggle ? () => toggleSelection(tran.id) : null} 
                   className={transactionClasses}>
                 <div className="view-account-transaction-header">
-                    <div className="view-account-transaction-date">{formatDate(tran.created_at)}</div>
+                    <div className="view-account-transaction-date">{formatDate(getLocalDate(tran.date))}</div>
                     <div className="view-account-transaction-amount">{formatUSD(tran.amount)}</div>
                 </div>
                 <div className="view-account-transaction-note">

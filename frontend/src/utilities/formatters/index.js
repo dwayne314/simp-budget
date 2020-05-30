@@ -30,3 +30,11 @@ export const formatDate = (date, style='md') => {
 
     }
 };
+
+// Converts a UTC Date to the client's timezone
+export const getLocalDate = date => {
+    const currentDateTime = new Date(date);
+    const minuteOffset = currentDateTime.getTimezoneOffset();
+    const convertedDateTime = new Date(currentDateTime.getTime() + minuteOffset*60000);
+    return convertedDateTime;
+};

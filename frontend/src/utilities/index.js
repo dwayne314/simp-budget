@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { formatUSD, formatDate } from './formatters'
+import { formatUSD, formatDate, getLocalDate } from './formatters'
 import {
     registrationValidator,
     loginValidator,
@@ -23,9 +23,10 @@ export {
     isEmpty,
     formatUSD,
     formatDate,
+    getLocalDate,
     registrationValidator,
     loginValidator,
     newAccountValidator,
     newTransactiontValidator,
-    getErrors
+    getErrors,
 };

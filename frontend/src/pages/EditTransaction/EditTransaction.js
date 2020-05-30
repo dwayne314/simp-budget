@@ -6,7 +6,7 @@ import Logo from '../../components/Logo/Logo';
 import Button from '../../components/Button/Button';
 import { setErrors, patchTransaction } from '../../redux/actions';
 import { getErrors, getTransactionById } from '../../redux/selectors';
-import { newTransactiontValidator } from '../../utilities';
+import { newTransactiontValidator, getLocalDate } from '../../utilities';
 
 
 const EditTransaction = (props) => {
@@ -17,7 +17,7 @@ const EditTransaction = (props) => {
     const currentTransaction = useSelector(state => getTransactionById(state)(Number(transactionId)));
     const [amount, setAmount] = useState((currentTransaction.amount / 100).toFixed(2));
     const [note, setNote] = useState(currentTransaction.note);
-    const [date, setDate] = useState(new Date(currentTransaction.date));
+    const [date, setDate] = useState(getLocalDate(currentTransaction.date));
     const [transactionErrors, setTransactionErrors] = useState('');
 
     const updateAmount = e => setAmount(e.target.value);
