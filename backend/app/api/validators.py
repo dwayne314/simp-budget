@@ -1,7 +1,33 @@
 """This module contains validation functions used by the api routes"""
 
 import re
+from datetime import datetime
 from app.models import Users
+
+
+def isValidDate(dateString):
+    """Returns whether a date in YYYY-MM-DD format is valid"""
+    is_valid = True
+
+    # Validates the date is formatted correctly
+    try:
+        year, month, day = [''.join(date) for date in dateString.split('-')]
+        date_len_test = \
+            len(year) == 4 and len(month) == 2 and len(day) == 2
+
+        if not date_len_test:
+            is_valid = False
+
+    except ValueError:
+        is_valid = False
+
+    # Validates the date is valid
+    try:
+        datetime(*(int(i) for i in dateString.split('-')))
+    except ValueError:
+        is_valid = False
+
+    return is_valid
 
 
 class Validator():
@@ -24,7 +50,7 @@ class Validator():
                 if key not in self.tested_fields:
                     raise ValueError('Excluded fields must be a member of the '
                                      'tested_fields')
-            
+
         self.attributes = kwargs
         self.errors = {}
 
@@ -193,19 +219,9 @@ class TransationValidator(Validator):
         if self.date is None:
             self.errors['date'] = self.missing_field_error('Date')
         else:
-            try:
-                year, month, day = [''.join(date) for date in self.date.split('-')]
-                date_len_test = \
-                    len(year) == 4 and len(month) == 2 and len(day) == 2
-                _, month_int, day_int = \
-                    [int(i) for i in [year, month, day]]
-                value_test = month_int < 13 and day_int < 32
-                print(value_test)
-                if not date_len_test or not value_test:
-                    self.errors['date'] = 'Date must be in yyyy-mm-dd format'
-
-            except ValueError:
-                self.errors['date'] = 'Date must be in yyyy-mm-dd format'
+            valid_date = isValidDate(self.date)
+            if not valid_date:
+                self.errors['date'] = 'Date must be in yyyy-mm-dd format.'
 
         return {
             'isValid': not self.errors,
@@ -215,7 +231,7 @@ class TransationValidator(Validator):
 
     def validate_patch_transaction(self):
         """Validates the attributes sent to patch a transaction"""
-        if self.amount is None:
+        if self.amount:
 
             if isinstance(self.amount, float):
                 self.errors['amount'] = 'Amount must be an integer.'
@@ -228,6 +244,11 @@ class TransationValidator(Validator):
 
                 if self.amount == 0:
                     self.errors['amount'] = 'Amount cannot be 0.'
+
+        if self.date:
+            valid_date = isValidDate(self.date)
+            if not valid_date:
+                self.errors['date'] = 'Date must be in yyyy-mm-dd format.'
 
         return {
             'isValid': not self.errors,
