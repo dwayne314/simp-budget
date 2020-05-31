@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { postTransactions, pushFlashMessage } from './'
+import { fetchTransactions, pushFlashMessage } from './'
 
 // 
 // Account Actions 
@@ -26,7 +26,7 @@ export const fetchAccounts = () => (dispatch, getState) => {
         // Fetch all transactions for the accounts
         .then(accounts => {
             for (let i=0; i < accounts.length; i++) {
-                dispatch(postTransactions(accounts[i].id));
+                dispatch(fetchTransactions(accounts[i].id));
             }
         })
         .catch(err => {

@@ -14,7 +14,7 @@ export const set_transactions = (accounts) => ({
     }
 });
 
-export const postTransactions = (accountId) => (dispatch, getState) => {
+export const fetchTransactions = (accountId) => (dispatch, getState) => {
 
     const currentUserId = getState().currentUserId;
     axios
@@ -103,7 +103,7 @@ export const deleteTransactions = (transactionIds, accountId) => async (dispatch
     for (let i=0; i < transactionIds.length; i++) {
         const deleteStatus = await deleteTransaction(transactionIds[i]);
         if (deleteStatus.success) {
-            deletedIds.push(deleteStatus.transactionId)
+            deletedIds.push(deleteStatus.transactionId);
         } else {
             errorIds.push(deleteStatus.transactionId);
         }

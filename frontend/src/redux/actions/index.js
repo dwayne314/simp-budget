@@ -9,7 +9,7 @@ import {
     UPDATE_ACCOUNT
 } from './accountActions';
 import {
-    postTransactions,
+    fetchTransactions,
     postTransaction,
     add_transactions,
     patchTransaction,
@@ -42,7 +42,7 @@ export {
     deleteAccount,
     SET_ACCOUNTS,
     UPDATE_ACCOUNT,
-    postTransactions,
+    fetchTransactions,
     postTransaction,
     add_transactions,
     patchTransaction,
