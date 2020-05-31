@@ -5,7 +5,7 @@ from datetime import datetime
 from app.models import Users
 
 
-def isValidDate(dateString):
+def is_valid_date(dateString):
     """Returns whether a date in YYYY-MM-DD format is valid"""
     is_valid = True
 
@@ -219,7 +219,7 @@ class TransationValidator(Validator):
         if self.date is None:
             self.errors['date'] = self.missing_field_error('Date')
         else:
-            valid_date = isValidDate(self.date)
+            valid_date = is_valid_date(self.date)
             if not valid_date:
                 self.errors['date'] = 'Date must be in yyyy-mm-dd format.'
 
@@ -246,7 +246,7 @@ class TransationValidator(Validator):
                     self.errors['amount'] = 'Amount cannot be 0.'
 
         if self.date:
-            valid_date = isValidDate(self.date)
+            valid_date = is_valid_date(self.date)
             if not valid_date:
                 self.errors['date'] = 'Date must be in yyyy-mm-dd format.'
 

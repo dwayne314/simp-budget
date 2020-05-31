@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { postTransactions } from './'
+import { fetchTransactions, pushFlashMessage } from './'
 
 // 
 // Account Actions 
@@ -26,7 +26,7 @@ export const fetchAccounts = () => (dispatch, getState) => {
         // Fetch all transactions for the accounts
         .then(accounts => {
             for (let i=0; i < accounts.length; i++) {
-                dispatch(postTransactions(accounts[i].id));
+                dispatch(fetchTransactions(accounts[i].id));
             }
         })
         .catch(err => {
@@ -40,6 +40,7 @@ export const postAccount = (accountAttrs) => (dispatch, getState) => {
         .post(`/users/${currentUserId}/accounts`, accountAttrs)
         .then(response => {
             dispatch(fetchAccounts());
+            dispatch(pushFlashMessage('Account Created', 'success'))            
             return {success: true};
         })
         .catch(err => {
@@ -53,6 +54,7 @@ export const patchAccount = (accountAttrs, accountId) => (dispatch, getState) =>
         .patch(`/users/${currentUserId}/accounts/${accountId}`, accountAttrs)
         .then(response => {
             dispatch(updateAccount(accountId, accountAttrs));
+            dispatch(pushFlashMessage('Account Edited', 'success'))                        
             return {success: true};
         })
         .catch(err => {
@@ -76,6 +78,7 @@ export const deleteAccount = (accountId) => (dispatch, getState) => {
         .delete(`/users/${currentUserId}/accounts/${accountId}`)
         .then(response => {
             dispatch(fetchAccounts());
+            dispatch(pushFlashMessage('Account Deleted', 'error'))                        
             return {success: true};
         })
         .catch(err => {
