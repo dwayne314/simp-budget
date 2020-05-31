@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { pushFlashMessage } from './';
 
 // 
 // Account Actions 
@@ -41,6 +41,7 @@ export const postTransaction = ({amount, note, date}, accountId) => (dispatch, g
     return axios
         .post(`/users/${currentUserId}/accounts/${accountId}/transactions`, {amount, note, date})
         .then(response => {
+            dispatch(pushFlashMessage('Transaction Created', 'success'));                      
             return {success: true, transaction: response.data.data};
         })
         .catch(err => {
@@ -53,7 +54,8 @@ export const patchTransaction = (transactionAttrs, accountId, transactionId) => 
     return axios
         .patch(`/users/${currentUserId}/accounts/${accountId}/transactions/${transactionId}`, transactionAttrs)
         .then(response => {
-            dispatch(updateTransaction(transactionId, transactionAttrs))
+            dispatch(updateTransaction(transactionId, transactionAttrs));
+            dispatch(pushFlashMessage('Transaction Updated', 'success'));            
             return {success: true, transaction: response.data.data};
         })
         .catch(err => {
@@ -89,6 +91,7 @@ export const deleteTransactions = (transactionIds, accountId) => async (dispatch
         return axios
             .delete(`/users/${currentUserId}/accounts/${accountId}/transactions/${transactionId}`)
             .then(response => {
+                dispatch(pushFlashMessage('Transaction Deleted', 'error'));                            
                 return {success: true, transactionId};
             })
             .catch(err => {

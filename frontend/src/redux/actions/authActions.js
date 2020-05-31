@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { fetchAccounts, setErrors } from './'
 import { applyAuthToken } from '../../utilities';
+import { pushFlashMessage } from './';
 
 // 
 // Login Actions 
@@ -23,7 +24,7 @@ export const postLogin = authParams => (dispatch, getState) => {
             applyAuthToken(response.data.token);
             dispatch(login(response.data.id));
             dispatch(fetchAccounts());
-
+            dispatch(pushFlashMessage('Welcome', 'success'))
             return {success: true};
 
         })
