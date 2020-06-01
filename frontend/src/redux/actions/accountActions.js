@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { fetchTransactions, pushFlashMessage } from './'
+import { currentUserId } from '../selectors';
 
 // 
 // Account Actions 
@@ -16,9 +17,9 @@ export const set_accounts = (accounts) => ({
 
 export const fetchAccounts = () => (dispatch, getState) => {
 
-    const currentUserId = getState().currentUserId;
+    const user_id = currentUserId(getState());
     axios
-        .get(`/users/${currentUserId}/accounts`)
+        .get(`/users/${user_id}/accounts`)
         .then(response => {
             dispatch(set_accounts(response.data.data))
             return getState().accounts
@@ -35,9 +36,9 @@ export const fetchAccounts = () => (dispatch, getState) => {
 };
 
 export const postAccount = (accountAttrs) => (dispatch, getState) => {
-    const currentUserId = getState().currentUserId;    
+    const user_id = currentUserId(getState());
     return axios
-        .post(`/users/${currentUserId}/accounts`, accountAttrs)
+        .post(`/users/${user_id}/accounts`, accountAttrs)
         .then(response => {
             dispatch(fetchAccounts());
             dispatch(pushFlashMessage('Account Created', 'success'))            
@@ -49,9 +50,9 @@ export const postAccount = (accountAttrs) => (dispatch, getState) => {
 };
 
 export const patchAccount = (accountAttrs, accountId) => (dispatch, getState) => {
-    const currentUserId = getState().currentUserId;    
+    const user_id = currentUserId(getState());
     return axios
-        .patch(`/users/${currentUserId}/accounts/${accountId}`, accountAttrs)
+        .patch(`/users/${user_id}/accounts/${accountId}`, accountAttrs)
         .then(response => {
             dispatch(updateAccount(accountId, accountAttrs));
             dispatch(pushFlashMessage('Account Edited', 'success'))                        
@@ -73,9 +74,9 @@ export const updateAccount = (accountId, accountAttrs) => ({
 });
 
 export const deleteAccount = (accountId) => (dispatch, getState) => {
-    const currentUserId = getState().currentUserId;    
+    const user_id = currentUserId(getState());
     return axios
-        .delete(`/users/${currentUserId}/accounts/${accountId}`)
+        .delete(`/users/${user_id}/accounts/${accountId}`)
         .then(response => {
             dispatch(fetchAccounts());
             dispatch(pushFlashMessage('Account Deleted', 'error'))                        
