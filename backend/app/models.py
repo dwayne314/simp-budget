@@ -18,7 +18,7 @@ class Users(db.Model, SerializerMixin):
     """Represents a user."""
 
     __serializeable__ = ['first_name', 'last_name', 'email', 'created_at',
-                         'updated_at']
+                         'updated_at', 'auth_token_expiration']
 
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(128), nullable=False)

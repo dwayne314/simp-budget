@@ -13,7 +13,7 @@ import {
 
 
 const initialState = {
-    currentUserId: null,
+    currentUser: {},
     accounts: [],
     transactions: [],
     flashMessages: [],
@@ -25,7 +25,7 @@ const rootReducer = (state=initialState, action) => {
         case LOGIN:
             return {
                 ...state,
-                currentUserId: action.payload.currentUserId
+                currentUser: action.payload.currentUser
             };
 
         case SET_ACCOUNTS:

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { pushFlashMessage } from './';
+import { currentUserId } from '../selectors';
 
 // 
 // Account Actions 
@@ -16,9 +17,9 @@ export const set_transactions = (accounts) => ({
 
 export const fetchTransactions = (accountId) => (dispatch, getState) => {
 
-    const currentUserId = getState().currentUserId;
+    const user_id = currentUserId(getState());
     axios
-        .get(`/users/${currentUserId}/accounts/${accountId}/transactions`)
+        .get(`/users/${user_id}/accounts/${accountId}/transactions`)
         .then(response => {
             dispatch(add_transactions(response.data.data))
         })
@@ -37,9 +38,9 @@ export const add_transactions = (transaction) => ({
 });
 
 export const postTransaction = ({amount, note, date}, accountId) => (dispatch, getState) => {
-    const currentUserId = getState().currentUserId;
+    const user_id = currentUserId(getState());
     return axios
-        .post(`/users/${currentUserId}/accounts/${accountId}/transactions`, {amount, note, date})
+        .post(`/users/${user_id}/accounts/${accountId}/transactions`, {amount, note, date})
         .then(response => {
             dispatch(pushFlashMessage('Transaction Created', 'success'));                      
             return {success: true, transaction: response.data.data};
@@ -50,9 +51,9 @@ export const postTransaction = ({amount, note, date}, accountId) => (dispatch, g
 };
 
 export const patchTransaction = (transactionAttrs, accountId, transactionId) => (dispatch, getState) => {
-    const currentUserId = getState().currentUserId;
+    const user_id = currentUserId(getState());
     return axios
-        .patch(`/users/${currentUserId}/accounts/${accountId}/transactions/${transactionId}`, transactionAttrs)
+        .patch(`/users/${user_id}/accounts/${accountId}/transactions/${transactionId}`, transactionAttrs)
         .then(response => {
             dispatch(updateTransaction(transactionId, transactionAttrs));
             dispatch(pushFlashMessage('Transaction Updated', 'success'));            
@@ -83,13 +84,13 @@ export const removeTransactions = (transactionIds) => ({
 });
 
 export const deleteTransactions = (transactionIds, accountId) => async (dispatch, getState) => {
-    const currentUserId = getState().currentUserId;
+    const user_id = currentUserId(getState());
     let deletedIds = [];
     let errorIds = [];
 
     const deleteTransaction = (transactionId) => {
         return axios
-            .delete(`/users/${currentUserId}/accounts/${accountId}/transactions/${transactionId}`)
+            .delete(`/users/${user_id}/accounts/${accountId}/transactions/${transactionId}`)
             .then(response => {
                 dispatch(pushFlashMessage('Transaction Deleted', 'error'));                            
                 return {success: true, transactionId};
