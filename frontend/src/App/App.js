@@ -9,6 +9,7 @@ import FlashMessage from '../components/FlashMessage/FlashMessage';
 import {
     Home, 
     Login,
+    Logout,
     Register,
     Accounts,
     CreateAccount,
@@ -51,6 +52,7 @@ const App = () => {
                 <FlashMessage />
                 <Route exact path="/" component={Home}></Route>
                 <Route exact path="/login" component={Login}></Route>
+                <Route exact path="/logout" component={Logout}></Route>
                 <Route exact path="/register" component={Register}></Route>
                 <Route exact path="/accounts" component={Accounts}></Route>
                 <Route exact path="/accounts/create" component={CreateAccount}></Route>
