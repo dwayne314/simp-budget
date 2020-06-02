@@ -47,7 +47,7 @@ class Users(db.Model, SerializerMixin):
 
     def get_token(self, expires_in=3600):
         """Retrieves a user's auth token"""
-        now = datetime.now()
+        now = datetime.utcnow()
         if self.auth_token and \
                 self.auth_token_expiration > now + timedelta(seconds=60):
             return self.auth_token
