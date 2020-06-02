@@ -8,10 +8,10 @@ import { currentUserId } from '../selectors';
 
 export const SET_TRANSACTIONS = 'SET_TRANSACTIONS';
 
-export const set_transactions = (accounts) => ({
+export const set_transactions = (transactions) => ({
     type: SET_TRANSACTIONS,
     payload: {
-        accounts
+        transactions
     }
 });
 

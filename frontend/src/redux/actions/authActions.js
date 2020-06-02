@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { fetchAccounts, setErrors } from './'
-import { applyAuthToken } from '../../utilities';
-import { pushFlashMessage } from './';
+import { fetchAccounts, setErrors, pushFlashMessage, set_transactions } from './'
+import { applyAuthToken, isEmpty } from '../../utilities';
+import { getAuthToken } from '../selectors';
 
 // 
 // Login Actions 
@@ -9,28 +9,65 @@ import { pushFlashMessage } from './';
 
 export const LOGIN = 'LOGIN';
 
-export const login = (currentUser) => ({
-    type: LOGIN,
-    payload: {
-        currentUser: Object.assign(currentUser, {auth_token_expiration: new Date(currentUser.auth_token_expiration)})
-    }
-});
+export const login = (currentUser, authToken) => {
+    const currentUserWithExpiration = isEmpty(currentUser) ? 
+        {} :
+        Object.assign(
+            currentUser, 
+            {
+                authTokenExpiration: new Date(currentUser.auth_token_expiration),
+                authToken: authToken
+            })
+    
+    return {
+        type: LOGIN,
+        payload: {
+            currentUser: currentUserWithExpiration
+        }
+    };
+};
 
-// Requests an auth token from the backend
+// Requests an auth token from the backend using Bear token auth
+export const getToken = () => (dispatch, getState) => {
+
+    // Attaches the current auth token to the request
+    const authToken = getAuthToken(getState());
+    applyAuthToken(authToken);
+    
+    return axios
+        .get('/tokens')
+        .then(response => {
+            dispatch(login(response.data.user, response.data.token));
+            applyAuthToken(authToken);
+            return {success: true};
+        })
+        .catch(err => {
+            // Logs the user out and clears transactions 
+            dispatch(login({}));
+            dispatch(set_transactions([]));
+            return {success: false, error: 'Authentication error: Please login in'};
+        })
+}
+
+// Requests an auth token from the backend using basic auth
 export const postLogin = authParams => (dispatch, getState) => {
-    alert()
     return axios
         .post('/tokens', {}, {auth: authParams})
         .then(response => {
-            applyAuthToken(response.data.token);
-            dispatch(login(response.data.user));
+            dispatch(login(response.data.user, response.data.token));
+            return response
+        })
+        .then(response => {
+            const authToken = getAuthToken(getState())
+            applyAuthToken(authToken);
             dispatch(fetchAccounts());
-            dispatch(pushFlashMessage('Welcome', 'success'))
+            dispatch(pushFlashMessage('Welcome', 'success'));
             return {success: true};
-
         })
         .catch(err => {
+            // Logs the user out and clears transactions             
             dispatch(login({}));
+            dispatch(set_transactions([]));
             return {success: false, error: 'Authentication error: Invalid email/password'};
         })
 };

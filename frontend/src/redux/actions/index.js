@@ -1,4 +1,4 @@
-import { LOGIN, login, postLogin, postRegister } from './authActions';
+import { LOGIN, login, postLogin, getToken, postRegister } from './authActions';
 import {
     fetchAccounts,
     postAccount,
@@ -13,9 +13,10 @@ import {
     postTransaction,
     add_transactions,
     patchTransaction,
-    updateTransaction,    
+    updateTransaction,
     deleteTransactions,
-    removeTransactions,  
+    removeTransactions,
+    set_transactions,
     SET_TRANSACTIONS,
     ADD_TRANSACTIONS,
     UPDATE_TRANSACTION,
@@ -35,6 +36,7 @@ export {
     LOGIN,
     login,
     postLogin,
+    getToken,
     fetchAccounts,
     postAccount,
     patchAccount,
@@ -49,6 +51,7 @@ export {
     updateTransaction,
     deleteTransactions,
     removeTransactions,
+    set_transactions,
     SET_TRANSACTIONS,
     ADD_TRANSACTIONS,
     UPDATE_TRANSACTION,    

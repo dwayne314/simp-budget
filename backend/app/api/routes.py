@@ -20,10 +20,18 @@ def index():
 # Token Routes
 #
 
+@bp.route('/tokens', methods=['GET'])
+@token_auth.login_required
+def get_token():
+    """Returns the auth token for a logged in user with a auth token"""
+    token = g.current_user.get_token()
+    db.session.commit()
+    return jsonify({'token': token, 'user': Users.serialize_one(g.current_user.id)})
+
 @bp.route('/tokens', methods=['POST'])
 @basic_auth.login_required
-def get_token():
-    """Returns the auth token for a logged in user"""
+def post_token():
+    """Returns the auth token for a logged in user through basic auth"""
     token = g.current_user.get_token()
     db.session.commit()
     return jsonify({'token': token, 'user': Users.serialize_one(g.current_user.id)})

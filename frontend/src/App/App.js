@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Route } from 'react-router-dom';
 import { useLocation } from 'react-router';
-import { setErrors } from '../redux/actions';
+import { setErrors, getToken } from '../redux/actions';
+import { getAuthTokenExpiration, getCurrentUser } from '../redux/selectors';
+import { isEmpty } from '../utilities';
 import FlashMessage from '../components/FlashMessage/FlashMessage';
 import {
     Home, 
@@ -23,9 +25,25 @@ import './App.css';
 const App = () => {
     const dispatch = useDispatch();
     const location = useLocation();
+    const authTokenExpiration = useSelector(getAuthTokenExpiration);
+    const currentUser = useSelector(getCurrentUser);
+    const expiresIn5Minutes = authTokenExpiration - (new Date().getTime() + 60000 * 5);
+
     useEffect(() => {
+        // Clear errors on every page update
         dispatch(setErrors({}));
+        
     }, [location.pathname, dispatch]);
+
+    // Fetch a new token if the current one expires in 5 minutes
+    useEffect(() => {
+        if (!isEmpty(currentUser)) {
+            if (!expiresIn5Minutes > 0) {
+                dispatch(getToken());
+            }
+        }
+        
+    }, [location.pathname, dispatch, expiresIn5Minutes, currentUser]);
 
     return (
         <div className='app-container'>
