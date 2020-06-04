@@ -1,25 +1,16 @@
-.home-logo-container {
-
-    margin-top: 15px;
-    margin-bottom: 20px;
-    display: inline-block;
-    
-}
-
-.home-container {
+.home-page-one-container {
     background-color: var(--primary-color);
-    height: 200vh;
-    padding:  0px 30px;
     font-family: 'Roboto', sans-serif;
 }
 
-.home-sub-container {
+.home-page-one {
     height: 100vh;
     width: 100%;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
     max-width: var(--app-max-width);
     margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .home-center-container {
@@ -81,4 +72,9 @@
     border-right: 20px solid transparent;
     border-top: 30px solid #0B4983;
     margin: 20px auto;
+}
+
+.home-page-2-container {
+    background-color: white;
+    height: 100vh;
 }

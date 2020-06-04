@@ -4,14 +4,6 @@
     font-family: 'Roboto', sans-serif;
     max-width: var(--app-max-width);
     margin: var(--app-margin);
-
-}
-
-.login-logo-container {
-    padding-left: 30px;
-    margin-top: 15px;
-    margin-bottom: 20px;
-    display: inline-block;    
 }
 
 .login-form-container {
@@ -27,7 +19,6 @@
 }
 
 .login-form {
-    padding: 0px 30px;
     text-align: left;
 }
 
@@ -36,7 +27,6 @@
 }
 
 .form-item-container {
-    /*margin: 20px 0px;*/
     display: flex;
     flex-direction: column;
     margin: 15px 0px;

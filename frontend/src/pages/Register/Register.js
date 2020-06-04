@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Register.css';
-import Logo from '../../components/Logo/Logo';
 import Button from '../../components/Button/Button';
+import Header from '../../components/Header/Header';
 import { postRegister, setErrors } from '../../redux/actions';
 import { getErrors } from '../../redux/selectors';
 import { registrationValidator } from '../../utilities';
@@ -56,9 +56,7 @@ const Register = (props) => {
     return (
         <div className="register-container">
 
-            <div className="register-logo-container">
-                <Logo isPrimary={false}/>
-            </div>
+            <Header formHeader={true}/>
             <div className="register-form-container">
                 <div className="register-form-header">
                     Register

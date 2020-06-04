@@ -2,9 +2,10 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Accounts.css';
-import Logo from '../../components/Logo/Logo';
 import newIcon from '../../static/icons/new-icon.svg';
+import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
+import SearchForm from '../../components/SearchForm/SearchForm';
 import { getAccounts, getTransactions } from '../../redux/selectors';
 import { formatDate, formatUSD, getLocalDate } from '../../utilities';
 
@@ -13,12 +14,11 @@ const Accounts = () => {
     const accounts = useSelector(getAccounts); 
     const transactions = useSelector(getTransactions);
     const [allAccounts, setAllAccounts] = useState(accounts);
-    const [seachText, setSearchText] = useState('');
+    const [searchText, setSearchText] = useState('');
 
     const updateSearchText = (evt) => setSearchText(evt.target.value);
     const getAccountTransactions = (accountId) => transactions
         .filter(transaction => transaction.account_id === accountId);
-    const submiSearchtForm = (evt) => evt.preventDefault();
 
     const toggleActiveAccount = (accountId) => {
         const updatedAccounts = allAccounts.map(account => {
@@ -80,14 +80,12 @@ const Accounts = () => {
     });
 
     useEffect(() => {
-        setAllAccounts(accounts.filter(account => account.name.toLowerCase().indexOf(seachText.toLowerCase()) !== -1 ));
-    }, [accounts, seachText]);
+        setAllAccounts(accounts.filter(account => account.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1 ));
+    }, [accounts, searchText]);
 
     return (
         <div className="accounts-container">
-            <div className="accounts-logo-container">
-                <Logo isPrimary={false}/>
-            </div>
+            <Header />
             <div className="accounts-header-container">
                 <div className="accounts-header-text">Accounts</div>
                 <div className="new-account-icon">
@@ -96,15 +94,8 @@ const Accounts = () => {
                     </Link>
                 </div>
             </div>
-            <div className="search-form-container">
-                <div>
-                    <div className="search-form">
-                        <form onSubmit={submiSearchtForm}>
-                            <input onChange={updateSearchText} type="text" placeholder="Search" value={seachText}></input>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            <SearchForm onChange={updateSearchText} searchText={searchText} placeholder="Search Accounts"/>
+
             <div className="all-accounts-container">
                 {showAllAccounts}
             </div>

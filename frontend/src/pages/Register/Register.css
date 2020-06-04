@@ -3,21 +3,13 @@
     height: 100vh;
     font-family: 'Roboto', sans-serif;
     max-width: var(--app-max-width);
-    margin: var(--app-margin);    
-}
-
-.register-logo-container {
-    padding-left: 30px;
-    margin-top: 15px;
-    margin-bottom: 20px;
-    display: inline-block;    
+    margin: var(--app-margin);
 }
 
 .register-form-container {
     height: 500px;
     margin: auto;
     background-color: #ffffff;
-    max-width: 500px;
 }
 
 
@@ -27,7 +19,6 @@
 }
 
 .register-form {
-    padding: 0px 30px;
     text-align: left;
 }
 
@@ -36,7 +27,6 @@
 }
 
 .form-item-container {
-    /*margin: 20px 0px;*/
     display: flex;
     flex-direction: column;
     margin: 15px 0px;

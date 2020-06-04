@@ -6,13 +6,6 @@
     margin: var(--app-margin);
 }
 
-.edit-account-logo-container {
-    padding-left: 30px;
-    margin-top: 15px;
-    margin-bottom: 20px;
-    display: inline-block;    
-}
-
 .edit-account-form-container {
     height: 500px;
     margin: auto;
@@ -26,7 +19,6 @@
 }
 
 .edit-account-form {
-    padding: 0px 30px;
     text-align: left;
 }
 
@@ -35,7 +27,6 @@
 }
 
 .form-item-container {
-    /*margin: 20px 0px;*/
     display: flex;
     flex-direction: column;
     margin: 15px 0px;

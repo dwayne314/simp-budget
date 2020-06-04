@@ -1,0 +1,33 @@
+.logo-container {
+    cursor: pointer;
+}
+
+.header-container {
+    display: inline-block;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.login-button-container {
+    margin: auto 0;
+    padding: 10px;
+    border: 2px solid #cf8414;
+    color: #cf8414;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.login-button-container:hover {
+    color: white;
+    background-color: var(--secondary-color);
+}
+
+.home-button-container {
+    font-family: 'Roboto', sans-serif;
+}
+

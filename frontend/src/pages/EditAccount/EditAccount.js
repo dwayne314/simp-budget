@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './EditAccount.css';
-import Logo from '../../components/Logo/Logo';
+import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
 import { setErrors, patchAccount } from '../../redux/actions';
 import { getErrors, getAccountById } from '../../redux/selectors';
@@ -44,9 +44,7 @@ const EditAccount = (props) => {
     return (
         <div className="edit-account-container">
 
-            <div className="edit-account-logo-container">
-                <Logo isPrimary={false}/>
-            </div>
+            <Header formHeader={true}/>
             <div className="edit-account-form-container">
                 <div className="edit-account-form-header">
                     Edit Account

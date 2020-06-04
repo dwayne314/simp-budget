@@ -48,8 +48,8 @@ const App = () => {
 
     return (
         <div className='app-container'>
+            <FlashMessage />
             <div className="app-sub-container">
-                <FlashMessage />
                 <Route exact path="/" component={Home}></Route>
                 <Route exact path="/login" component={Login}></Route>
                 <Route exact path="/logout" component={Logout}></Route>

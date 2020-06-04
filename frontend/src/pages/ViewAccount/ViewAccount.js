@@ -1,8 +1,9 @@
 import React, { useState, Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import './ViewAccount.css';
-import Logo from '../../components/Logo/Logo';
+import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
+import SearchForm from '../../components/SearchForm/SearchForm';
 import { getAccountById, getTransactionsByAccountId } from '../../redux/selectors';
 import { formatUSD, formatDate, getLocalDate } from '../../utilities';
 
@@ -19,7 +20,6 @@ const ViewAccount = (props) => {
         .filter(tran => tran.note.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
 
     const updateSearchText = (evt) => setSearchText(evt.target.value);
-    const submiSearchtForm = (evt) => evt.preventDefault();
     const updateSelectTransactionToggle = () => {
         setSelectedTransactions([]);        
         setSelectTransactionToggle(selectTransactionToggle ? false : true);
@@ -109,9 +109,7 @@ const ViewAccount = (props) => {
 
     return (
         <div className={`view-account-container${selectTransactionToggle ? ' view-account-container-one-footer' : ''}`}>
-            <div className="view-account-logo-container">
-                <Logo isPrimary={false}/>
-            </div>
+            <Header />
             <div className="view-account-header-container">
                 <div className="view-account-header-text">{currentAccount.name}</div>
                 <div className="account-balance">{formatUSD(accountBalance)}</div>
@@ -122,15 +120,8 @@ const ViewAccount = (props) => {
             <div className="modify-account-container">
                 {showActionButtons()}
             </div>
-            <div className="view-account-search-form-container">
-                <div>
-                    <div className="search-form">
-                        <form onSubmit={submiSearchtForm}>
-                            <input onChange={updateSearchText} type="text" placeholder="Search Transactions" value={searchText}></input>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            <SearchForm onChange={updateSearchText} searchText={searchText} placeholder="Search Transactions"/>
+            
             {showAllTransactions}  
             <div className="modify-account-transaction-floating-buttons">
             {!selectTransactionToggle ? 
