@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Login.css';
@@ -49,56 +49,58 @@ const Login = (props) => {
     }, [props.history, currentUser, accounts])
 
     return (
-        <div className="login-container">
+        <Fragment>
+            <Header isPrimary={true} formHeader={true}/>
+            <div className="login-container">
 
-            
-            <div className="login-form-container">
-                <Header formHeader={true}/>
-                <div className="login-form-header">
-                    Login
-                </div>
-                {loginErrors ? 
-                    <div className="login-errors-container">
-                        <div className="login-errors">{`${loginErrors}`}</div>
+                
+                <div className="login-form-container">
+                    <div className="login-form-header">
+                        Login
                     </div>
-                    :
-                    ""
-                }
-                <div className="login-form">
-                    
-                    <form>
-                        <div className="form-item-container">
-                            <div className="form-label">
-                                <label htmlFor="last-name">Email</label>
-                            </div>
-                            <div className="form-input">
-                                <input onChange={updateEmail} type="text" value={email}/>
-                            </div>
-                            {(errors.email) ? <span className="login-error">{`* ${errors.email}`}</span> : ""}
+                    {loginErrors ? 
+                        <div className="login-errors-container">
+                            <div className="login-errors">{`${loginErrors}`}</div>
+                        </div>
+                        :
+                        ""
+                    }
+                    <div className="login-form">
+                        
+                        <form>
+                            <div className="form-item-container">
+                                <div className="form-label">
+                                    <label htmlFor="last-name">Email</label>
+                                </div>
+                                <div className="form-input">
+                                    <input onChange={updateEmail} type="text" value={email}/>
+                                </div>
+                                {(errors.email) ? <span className="login-error">{`* ${errors.email}`}</span> : ""}
 
-                        </div>
-                        <div className="form-item-container">
-                            <div className="form-label">
-                                <label htmlFor="last-name">Password</label>
                             </div>
-                            <div className="form-input">
-                                <input onChange={updatePassword} type="password" value={password}/>
+                            <div className="form-item-container">
+                                <div className="form-label">
+                                    <label htmlFor="last-name">Password</label>
+                                </div>
+                                <div className="form-input">
+                                    <input onChange={updatePassword} type="password" value={password}/>
+                                </div>
+                                {(errors.password) ? <span className="login-error">{`* ${errors.password}`}</span> : ""}                            
                             </div>
-                            {(errors.password) ? <span className="login-error">{`* ${errors.password}`}</span> : ""}                            
+                            <div className="form-item-container form-button-container">
+                                <Button onClick={submitForm} cta={"Login Here"} isPrimary={false}/>
+                            </div>
+                        </form>
+                    </div>
+                    <div className="form-bottom-text-container">
+                        <div className="form-bottom-text">
+                            Don't have an account? <Link to="/register">Register Here</Link>
                         </div>
-                        <div className="form-item-container form-button-container">
-                            <Button onClick={submitForm} cta={"Login Here"} isPrimary={false}/>
-                        </div>
-                    </form>
-                </div>
-                <div className="form-bottom-text-container">
-                    <div className="form-bottom-text">
-                        Don't have an account? <Link to="/register">Register Here</Link>
                     </div>
                 </div>
+                
             </div>
-            
-        </div>
+        </Fragment>
     );
 };
 

@@ -4,6 +4,8 @@
     max-width: var(--app-max-width);
     margin: var(--app-margin); 
     margin-bottom: 96px;
+    box-sizing: border-box;
+    height: 100%;    
 }
 
 .view-account-container-one-footer {

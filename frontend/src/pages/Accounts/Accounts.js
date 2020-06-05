@@ -93,22 +93,25 @@ const Accounts = () => {
     }, [accounts, searchText]);
 
     return (
-        <div className="accounts-container">
-            <Header />
-            <div className="accounts-header-container">
-                <div className="accounts-header-text">Accounts</div>
-                <div className="new-account-icon">
-                    <Link to="/accounts/create">
-                        <img src={newIcon} alt="plus-sign"></img>
-                    </Link>
+        <Fragment>
+            <Header isPrimary={true} />
+
+            <div className="accounts-container">
+                <div className="accounts-header-container">
+                    <div className="accounts-header-text">Accounts</div>
+                    <div className="new-account-icon">
+                        <Link to="/accounts/create">
+                            <img src={newIcon} alt="plus-sign"></img>
+                        </Link>
+                    </div>
+                </div>
+                <SearchForm onChange={updateSearchText} searchText={searchText} placeholder="Search Accounts"/>
+                <Paginator pageCount={pages} currentPage={page} decrementPage={decrementPage} incrementPage={incrementPage} />
+                <div className="all-accounts-container">
+                    {showAllAccounts}
                 </div>
             </div>
-            <SearchForm onChange={updateSearchText} searchText={searchText} placeholder="Search Accounts"/>
-            <Paginator pageCount={pages} currentPage={page} decrementPage={decrementPage} incrementPage={incrementPage} />
-            <div className="all-accounts-container">
-                {showAllAccounts}
-            </div>
-        </div>
+        </Fragment>
     );
 };
 

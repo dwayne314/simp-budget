@@ -114,32 +114,34 @@ const ViewAccount = (props) => {
     };
 
     return (
-        <div className={`view-account-container${selectTransactionToggle ? ' view-account-container-one-footer' : ''}`}>
-            <Header />
-            <div className="view-account-header-container">
-                <div className="view-account-header-text">{currentAccount.name}</div>
-                <div className="account-balance">{formatUSD(accountBalance)}</div>
+        <Fragment>
+            <Header isPrimary={true}/>
+            <div className={`view-account-container${selectTransactionToggle ? ' view-account-container-one-footer' : ''}`}>
+                <div className="view-account-header-container">
+                    <div className="view-account-header-text">{currentAccount.name}</div>
+                    <div className="account-balance">{formatUSD(accountBalance)}</div>
+                </div>
+                <div className="account-description-container">
+                    {currentAccount.description}
+                </div>
+                <div className="modify-account-container">
+                    {showActionButtons()}
+                </div>
+                <SearchForm onChange={updateSearchText} searchText={searchText} placeholder="Search Transactions"/>
+                <Paginator pageCount={pages} currentPage={page} decrementPage={decrementPage} incrementPage={incrementPage} />
+                {showAllTransactions}  
+                <div className="modify-account-transaction-floating-buttons">
+                {!selectTransactionToggle ? 
+                    <Fragment>
+                        <Button isPrimary={false} cta={"New Transaction"} linkPath={`/accounts/${currentAccount.id}/transactions/create`}/>
+                        <Button onClick={updateSelectTransactionToggle} isPrimary={true} cta={"Select Transactions"}/>
+                    </Fragment>
+                    :
+                    <Button onClick={updateSelectTransactionToggle} isPrimary={true} cta={"Stop Selection"}/>
+                }
+                </div>    
             </div>
-            <div className="account-description-container">
-                {currentAccount.description}
-            </div>
-            <div className="modify-account-container">
-                {showActionButtons()}
-            </div>
-            <SearchForm onChange={updateSearchText} searchText={searchText} placeholder="Search Transactions"/>
-            <Paginator pageCount={pages} currentPage={page} decrementPage={decrementPage} incrementPage={incrementPage} />
-            {showAllTransactions}  
-            <div className="modify-account-transaction-floating-buttons">
-            {!selectTransactionToggle ? 
-                <Fragment>
-                    <Button isPrimary={false} cta={"New Transaction"} linkPath={`/accounts/${currentAccount.id}/transactions/create`}/>
-                    <Button onClick={updateSelectTransactionToggle} isPrimary={true} cta={"Select Transactions"}/>
-                </Fragment>
-                :
-                <Button onClick={updateSelectTransactionToggle} isPrimary={true} cta={"Stop Selection"}/>
-            }
-            </div>    
-        </div>
+        </Fragment>
     );
 };
 

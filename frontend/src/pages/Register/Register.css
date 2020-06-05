@@ -4,6 +4,8 @@
     font-family: 'Roboto', sans-serif;
     max-width: var(--app-max-width);
     margin: var(--app-margin);
+    box-sizing: border-box;
+    height: 100%;    
 }
 
 .register-form-container {

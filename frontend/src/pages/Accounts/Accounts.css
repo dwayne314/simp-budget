@@ -5,6 +5,7 @@
     margin: var(--app-margin);
     padding: 20px;
     box-sizing: border-box;    
+    height: 100%;
 }
 
 .accounts-logo-container {
