@@ -11,7 +11,6 @@
 }
 
 .view-account-logo-container {
-    padding: 0 30px;
     margin-top: 15px;
     margin-bottom: 20px;
     display: inline-block;
@@ -25,18 +24,15 @@
 .view-account-header-container {
     display: flex;
     justify-content: space-between;
-    padding: 0 30px;
     font-size: 24px;
     margin-bottom: 10px;
 }
 
 .account-description-container {
-    padding: 0px 30px;
     margin-bottom: 10px;
 }
 
 .modify-account-container {
-    padding: 0 30px;
     display: flex;
     color: white;
 }
@@ -52,30 +48,6 @@
 .button-text {
     font-size: 18px;
     color: white;    
-}
-
-.view-account-search-form-container {
-    box-sizing: border-box;
-    text-align: center;
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-.search-form form {
-    margin: 0px 30px;
-    border: 1px solid #c4c4c4;
-    border-radius: 5px;
-} 
-
-.search-form input {
-    text-align: center;    
-    width: 99%;
-    height: 40px;
-    border: 0px;
-} 
-
-.search-form input::placeholder {
-    text-align: center;
 }
 
 .view-account-transaction-container {
@@ -97,22 +69,20 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-   width: 100%;
-
+    width: 100%;
 }
 
 .view-account-transaction-note{
-   position: relative;
-       display: inline-block;
-
+    position: relative;
+    display: inline-block;
 }
 
 .view-account-transaction-note {
-   white-space: nowrap;
-   overflow: hidden;
-   text-overflow: ellipsis;  
-   width: inherit;
-   align-content: flex-end;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;  
+    width: inherit;
+    align-content: flex-end;
 }
 
 .modify-account-transaction-floating-buttons {
@@ -120,6 +90,8 @@
     position: fixed;
     width: 100%;
     bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
 }
 
 .modify-account-transaction-floating-buttons a {
@@ -130,7 +102,6 @@
     display: block;
     botton: 0px;
     margin: 0px;
-
 }
 
 .selected-transaction {

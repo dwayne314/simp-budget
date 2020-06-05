@@ -1,0 +1,19 @@
+.search-form-container {
+    margin-bottom: 10px;
+}
+
+.search-form form {
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+} 
+
+.search-form input {
+    text-align: center;    
+    width: 99%;
+    height: 40px;
+    border: 0px;
+} 
+
+.search-form input::placeholder {
+    text-align: center;
+}

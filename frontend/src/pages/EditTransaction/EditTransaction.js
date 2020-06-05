@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import './EditTransaction.css';
-import Logo from '../../components/Logo/Logo';
+import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
 import { setErrors, patchTransaction } from '../../redux/actions';
 import { getErrors, getTransactionById } from '../../redux/selectors';
@@ -49,9 +49,7 @@ const EditTransaction = (props) => {
     return (
         <div className="edit-transaction-container">
 
-            <div className="edit-transaction-logo-container">
-                <Logo isPrimary={false}/>
-            </div>
+            <Header formHeader={true}/>
             <div className="edit-transaction-form-container">
                 <div className="edit-transaction-form-header">
                     Edit Transaction

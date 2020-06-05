@@ -3,6 +3,8 @@
     font-family: 'Roboto', sans-serif;
     max-width: var(--app-max-width);
     margin: var(--app-margin);
+    padding: 20px;
+    box-sizing: border-box;    
 }
 
 .accounts-logo-container {
@@ -17,8 +19,6 @@
 }
 
 .accounts-header-container {
-
-    margin: 0px 30px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -47,7 +47,6 @@
 }
 
 .search-form form {
-    margin: 0px 30px;
     border: 1px solid #c4c4c4;
     border-radius: 5px;
 } 
@@ -82,7 +81,8 @@
     justify-content: space-between;
     height: 50px;
     border-bottom: 1px solid #ffffff;
-    padding: 0px 30px;   
+    padding: 0 30px; 
+
 }
 
 .account-container-clicked .account-header-container  {

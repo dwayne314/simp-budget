@@ -1,13 +1,16 @@
 import React, { useState, Fragment } from 'react';
 import { useSelector } from 'react-redux';
-import './ViewAccount.css';
-import Logo from '../../components/Logo/Logo';
+import Paginator from '../../components/Paginator/Paginator';
+import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
+import SearchForm from '../../components/SearchForm/SearchForm';
 import { getAccountById, getTransactionsByAccountId } from '../../redux/selectors';
 import { formatUSD, formatDate, getLocalDate } from '../../utilities';
+import './ViewAccount.css';
 
 
 const ViewAccount = (props) => {
+    const transactionsPerPage = 5;
     const { id:accountId } = props.match.params;
     const currentAccount = useSelector(state => getAccountById(state)(Number(accountId)));
     const transactions = useSelector(state => getTransactionsByAccountId(state)(Number(accountId)));
@@ -15,16 +18,19 @@ const ViewAccount = (props) => {
     const [searchText, setSearchText] = useState('');
     const [selectedTransactions, setSelectedTransactions] = useState([]);
     const [selectTransactionToggle, setSelectTransactionToggle] = useState(false);
+    const [page, setPage] = useState(1);
+
     const filteredTransactions = transactions
         .filter(tran => tran.note.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
+    const pages = Math.ceil(filteredTransactions.length / transactionsPerPage);
 
+    const decrementPage = () => setPage(page > 1 ? page - 1 : page);
+    const incrementPage = () => setPage(page < pages ? page + 1 : page);
     const updateSearchText = (evt) => setSearchText(evt.target.value);
-    const submiSearchtForm = (evt) => evt.preventDefault();
     const updateSelectTransactionToggle = () => {
         setSelectedTransactions([]);        
         setSelectTransactionToggle(selectTransactionToggle ? false : true);
     };
-
     const toggleSelection = transactionId => {
         const transactionIndex = selectedTransactions.indexOf(transactionId);
         if (transactionIndex === -1) {
@@ -50,7 +56,7 @@ const ViewAccount = (props) => {
                 </div>
             </div>
         )
-    });
+    }).slice((page-1) * transactionsPerPage, transactionsPerPage * page);
 
     const showActionButtons = () => {
         let actionButtons;
@@ -109,9 +115,7 @@ const ViewAccount = (props) => {
 
     return (
         <div className={`view-account-container${selectTransactionToggle ? ' view-account-container-one-footer' : ''}`}>
-            <div className="view-account-logo-container">
-                <Logo isPrimary={false}/>
-            </div>
+            <Header />
             <div className="view-account-header-container">
                 <div className="view-account-header-text">{currentAccount.name}</div>
                 <div className="account-balance">{formatUSD(accountBalance)}</div>
@@ -122,15 +126,8 @@ const ViewAccount = (props) => {
             <div className="modify-account-container">
                 {showActionButtons()}
             </div>
-            <div className="view-account-search-form-container">
-                <div>
-                    <div className="search-form">
-                        <form onSubmit={submiSearchtForm}>
-                            <input onChange={updateSearchText} type="text" placeholder="Search Transactions" value={searchText}></input>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            <SearchForm onChange={updateSearchText} searchText={searchText} placeholder="Search Transactions"/>
+            <Paginator pageCount={pages} currentPage={page} decrementPage={decrementPage} incrementPage={incrementPage} />
             {showAllTransactions}  
             <div className="modify-account-transaction-floating-buttons">
             {!selectTransactionToggle ? 

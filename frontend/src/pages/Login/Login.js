@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Login.css';
-import Logo from '../../components/Logo/Logo';
+import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
 import { postLogin, setErrors } from '../../redux/actions';
 import { currentUserId, getAccounts, getErrors } from '../../redux/selectors';
@@ -51,10 +51,9 @@ const Login = (props) => {
     return (
         <div className="login-container">
 
-            <div className="login-logo-container">
-                <Logo isPrimary={false}/>
-            </div>
+            
             <div className="login-form-container">
+                <Header formHeader={true}/>
                 <div className="login-form-header">
                     Login
                 </div>

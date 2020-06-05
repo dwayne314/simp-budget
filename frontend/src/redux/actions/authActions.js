@@ -1,5 +1,12 @@
 import axios from 'axios';
-import { fetchAccounts, setErrors, pushFlashMessage, set_transactions } from './'
+import {
+    fetchAccounts,
+    setErrors,
+    pushFlashMessage,
+    set_accounts,
+    set_transactions,
+    setFlashMessages
+} from './'
 import { applyAuthToken, isEmpty } from '../../utilities';
 import { getAuthToken } from '../selectors';
 
@@ -70,6 +77,18 @@ export const postLogin = authParams => (dispatch, getState) => {
             dispatch(set_transactions([]));
             return {success: false, error: 'Authentication error: Invalid email/password'};
         })
+};
+
+// 
+// Logout Actions
+// 
+
+export const logout = () => dispatch => {
+    dispatch(login({}));
+    dispatch(set_transactions([]));
+    dispatch(set_accounts([]));
+    dispatch(setFlashMessages([]));
+    applyAuthToken();
 };
 
 // 

@@ -1,10 +1,11 @@
-import { LOGIN, login, postLogin, getToken, postRegister } from './authActions';
+import { LOGIN, login, postLogin, getToken, logout, postRegister } from './authActions';
 import {
     fetchAccounts,
     postAccount,
     patchAccount,
     updateAccount,
     deleteAccount,
+    set_accounts,
     SET_ACCOUNTS,
     UPDATE_ACCOUNT
 } from './accountActions';
@@ -37,11 +38,13 @@ export {
     login,
     postLogin,
     getToken,
+    logout,
     fetchAccounts,
     postAccount,
     patchAccount,
     updateAccount,
     deleteAccount,
+    set_accounts,
     SET_ACCOUNTS,
     UPDATE_ACCOUNT,
     fetchTransactions,
