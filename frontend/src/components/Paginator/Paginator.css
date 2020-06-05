@@ -1,0 +1,30 @@
+.paginator-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+}
+
+.paginator-action-containers {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 50px;
+    box-sizing: border-box;
+    color: var(--secondary-color);
+}
+
+.paginator-info {
+    color: #767676;
+}
+
+.paginator-action-containers > div {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.paginator-action-containers > div > span {
+    white-space: nowrap
+}

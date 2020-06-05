@@ -10,7 +10,7 @@ const SearchForm = (props) => {
     };
 
     return (
-            <div className="view-account-search-form-container">
+            <div className="search-form-container">
                 <div>
                     <div className="search-form">
                         <form onSubmit={submiSearchForm}>

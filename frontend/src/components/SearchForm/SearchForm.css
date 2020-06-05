@@ -1,3 +1,7 @@
+.search-form-container {
+    margin-bottom: 10px;
+}
+
 .search-form form {
     border: 1px solid #c4c4c4;
     border-radius: 5px;

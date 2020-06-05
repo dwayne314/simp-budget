@@ -1,25 +1,34 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import './Accounts.css';
 import newIcon from '../../static/icons/new-icon.svg';
+import Paginator from '../../components/Paginator/Paginator';
 import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
 import SearchForm from '../../components/SearchForm/SearchForm';
 import { getAccounts, getTransactions } from '../../redux/selectors';
 import { formatDate, formatUSD, getLocalDate } from '../../utilities';
+import './Accounts.css';
 
 
 const Accounts = () => {
+    const accountsPerPage = 10;
+    const transactionsPerPage = 5;
     const accounts = useSelector(getAccounts); 
     const transactions = useSelector(getTransactions);
     const [allAccounts, setAllAccounts] = useState(accounts);
     const [searchText, setSearchText] = useState('');
+    const [page, setPage] = useState(1);
+    const pages = Math.ceil(allAccounts.length / accountsPerPage);
 
-    const updateSearchText = (evt) => setSearchText(evt.target.value);
+    const decrementPage = () => setPage(page > 1 ? page - 1 : page);
+    const incrementPage = () => setPage(page < pages ? page + 1 : page);
+    const updateSearchText = (evt) => {
+        setPage(1);
+        return setSearchText(evt.target.value);
+    };
     const getAccountTransactions = (accountId) => transactions
         .filter(transaction => transaction.account_id === accountId);
-
     const toggleActiveAccount = (accountId) => {
         const updatedAccounts = allAccounts.map(account => {
             if (account.id === accountId) {
@@ -68,7 +77,7 @@ const Accounts = () => {
                                             <td className="account-transaction-exerpt-note">{transaction.note}</td>
                                             <td className="account-transaction-exerpt-date">{formatDate(getLocalDate(transaction.date))}</td>                                               
                                         </tr>
-                                    </tbody>))
+                                    </tbody>)).slice(0, transactionsPerPage)
                                 }
                             </table>
                         </Fragment>
@@ -77,7 +86,7 @@ const Accounts = () => {
                     <Button isPrimary={false} cta={"View Account"} linkPath={`/accounts/${account.id}/view`}/>
                 </div>
             </div>
-    });
+    }).slice((page-1) * accountsPerPage, accountsPerPage * page);
 
     useEffect(() => {
         setAllAccounts(accounts.filter(account => account.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1 ));
@@ -95,7 +104,7 @@ const Accounts = () => {
                 </div>
             </div>
             <SearchForm onChange={updateSearchText} searchText={searchText} placeholder="Search Accounts"/>
-
+            <Paginator pageCount={pages} currentPage={page} decrementPage={decrementPage} incrementPage={incrementPage} />
             <div className="all-accounts-container">
                 {showAllAccounts}
             </div>

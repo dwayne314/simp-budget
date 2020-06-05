@@ -1,14 +1,16 @@
 import React, { useState, Fragment } from 'react';
 import { useSelector } from 'react-redux';
-import './ViewAccount.css';
+import Paginator from '../../components/Paginator/Paginator';
 import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
 import SearchForm from '../../components/SearchForm/SearchForm';
 import { getAccountById, getTransactionsByAccountId } from '../../redux/selectors';
 import { formatUSD, formatDate, getLocalDate } from '../../utilities';
+import './ViewAccount.css';
 
 
 const ViewAccount = (props) => {
+    const transactionsPerPage = 5;
     const { id:accountId } = props.match.params;
     const currentAccount = useSelector(state => getAccountById(state)(Number(accountId)));
     const transactions = useSelector(state => getTransactionsByAccountId(state)(Number(accountId)));
@@ -16,15 +18,19 @@ const ViewAccount = (props) => {
     const [searchText, setSearchText] = useState('');
     const [selectedTransactions, setSelectedTransactions] = useState([]);
     const [selectTransactionToggle, setSelectTransactionToggle] = useState(false);
+    const [page, setPage] = useState(1);
+
     const filteredTransactions = transactions
         .filter(tran => tran.note.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
+    const pages = Math.ceil(filteredTransactions.length / transactionsPerPage);
 
+    const decrementPage = () => setPage(page > 1 ? page - 1 : page);
+    const incrementPage = () => setPage(page < pages ? page + 1 : page);
     const updateSearchText = (evt) => setSearchText(evt.target.value);
     const updateSelectTransactionToggle = () => {
         setSelectedTransactions([]);        
         setSelectTransactionToggle(selectTransactionToggle ? false : true);
     };
-
     const toggleSelection = transactionId => {
         const transactionIndex = selectedTransactions.indexOf(transactionId);
         if (transactionIndex === -1) {
@@ -50,7 +56,7 @@ const ViewAccount = (props) => {
                 </div>
             </div>
         )
-    });
+    }).slice((page-1) * transactionsPerPage, transactionsPerPage * page);
 
     const showActionButtons = () => {
         let actionButtons;
@@ -121,7 +127,7 @@ const ViewAccount = (props) => {
                 {showActionButtons()}
             </div>
             <SearchForm onChange={updateSearchText} searchText={searchText} placeholder="Search Transactions"/>
-            
+            <Paginator pageCount={pages} currentPage={page} decrementPage={decrementPage} incrementPage={incrementPage} />
             {showAllTransactions}  
             <div className="modify-account-transaction-floating-buttons">
             {!selectTransactionToggle ? 
