@@ -130,7 +130,8 @@ const ViewAccount = (props) => {
                 <SearchForm onChange={updateSearchText} searchText={searchText} placeholder="Search Transactions"/>
                 <Paginator pageCount={pages} currentPage={page} decrementPage={decrementPage} incrementPage={incrementPage} />
                 {showAllTransactions}  
-                <div className="modify-account-transaction-floating-buttons">
+            </div>
+             <div className="modify-account-transaction-floating-buttons">
                 {!selectTransactionToggle ? 
                     <Fragment>
                         <Button isPrimary={false} cta={"New Transaction"} linkPath={`/accounts/${currentAccount.id}/transactions/create`}/>
@@ -139,7 +140,6 @@ const ViewAccount = (props) => {
                     :
                     <Button onClick={updateSelectTransactionToggle} isPrimary={true} cta={"Stop Selection"}/>
                 }
-                </div>    
             </div>
         </Fragment>
     );

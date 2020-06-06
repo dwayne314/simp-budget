@@ -12,7 +12,7 @@ import './Accounts.css';
 
 
 const Accounts = () => {
-    const accountsPerPage = 10;
+    const accountsPerPage = 7;
     const transactionsPerPage = 5;
     const accounts = useSelector(getAccounts); 
     const transactions = useSelector(getTransactions);
