@@ -1,6 +1,6 @@
 """This module contains all of the api routes"""
 
-from flask import current_app, request, abort, jsonify, g
+from flask import current_app, request, abort, jsonify, g, make_response
 from app import db
 from app.api import bp
 from app.models import Users, Accounts, Transactions
@@ -23,18 +23,40 @@ def index():
 @bp.route('/tokens', methods=['GET'])
 @token_auth.login_required
 def get_token():
-    """Returns the auth token for a logged in user with a auth token"""
+    """Retrieves the auth token for a user authenticated through bearer auth
+
+    The auth token is also attached to the response as a cookie with an
+    auth_token key.
+
+    """
+
     token = g.current_user.get_token()
     db.session.commit()
-    return jsonify({'token': token, 'user': Users.serialize_one(g.current_user.id)})
+    resp = make_response(
+        jsonify(
+            {'token': token, 'user': Users.serialize_one(g.current_user.id)}))
+    resp.set_cookie('auth_token', token, httponly=True,
+                    secure=current_app.config['SESSION_COOKIE_SECURE'])
+    return resp
 
 @bp.route('/tokens', methods=['POST'])
 @basic_auth.login_required
 def post_token():
-    """Returns the auth token for a logged in user through basic auth"""
+    """Retrieves the auth token for a user authenticated through bearer auth
+
+    The auth token is also attached to the response as a cookie with an
+    auth_token key.
+
+    """
+
     token = g.current_user.get_token()
     db.session.commit()
-    return jsonify({'token': token, 'user': Users.serialize_one(g.current_user.id)})
+    resp = make_response(
+        jsonify(
+            {'token': token, 'user': Users.serialize_one(g.current_user.id)}))
+    resp.set_cookie('auth_token', token, httponly=True,
+                    secure=current_app.config['SESSION_COOKIE_SECURE'])
+    return resp
 
 @bp.route('/tokens', methods=['DELETE'])
 @token_auth.login_required

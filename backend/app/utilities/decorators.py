@@ -2,7 +2,7 @@
 
 
 from functools import wraps
-from flask import abort, g
+from flask import abort, g, request
 from app.models import Accounts, Transactions
 
 
@@ -118,6 +118,30 @@ def add_child_result(parent_id_field, child_id_field):
                 return abort(404)
 
             kwargs['result'] = result
+            return func(*args, **kwargs)
+        return view_wrapper
+    return wrapper
+
+def extract_auth_token(auth_token):
+    """Extracts the auth token from a cookie and adds to the route
+
+    If an auth_token cookie is fount in the request, it is attached to the view.
+
+    Arguments:
+        auth_token (str): the name of the cookie that contains the auth token
+
+    Returns:
+        func: the original route function with a "token" kwarg referencing the
+            auth token
+
+    """
+
+    def wrapper(func):
+        @wraps(func)
+        def view_wrapper(*args, **kwargs):
+            token = request.cookies.get(auth_token)
+            if token:
+                kwargs['auth_from_cookie'] = token
             return func(*args, **kwargs)
         return view_wrapper
     return wrapper

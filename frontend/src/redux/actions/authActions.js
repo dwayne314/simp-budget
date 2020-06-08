@@ -7,8 +7,7 @@ import {
     set_transactions,
     setFlashMessages
 } from './'
-import { applyAuthToken, isEmpty } from '../../utilities';
-import { getAuthToken } from '../selectors';
+import { isEmpty } from '../../utilities';
 
 // 
 // Login Actions 
@@ -22,8 +21,7 @@ export const login = (currentUser, authToken) => {
         Object.assign(
             currentUser, 
             {
-                authTokenExpiration: new Date(currentUser.auth_token_expiration),
-                authToken: authToken
+                authTokenExpiration: new Date(currentUser.auth_token_expiration)
             })
     
     return {
@@ -36,16 +34,11 @@ export const login = (currentUser, authToken) => {
 
 // Requests an auth token from the backend using Bear token auth
 export const getToken = () => (dispatch, getState) => {
-
-    // Attaches the current auth token to the request
-    const authToken = getAuthToken(getState());
-    applyAuthToken(authToken);
     
     return axios
         .get('/tokens')
         .then(response => {
             dispatch(login(response.data.user, response.data.token));
-            applyAuthToken(authToken);
             return {success: true};
         })
         .catch(err => {
@@ -65,8 +58,6 @@ export const postLogin = authParams => (dispatch, getState) => {
             return response
         })
         .then(response => {
-            const authToken = getAuthToken(getState())
-            applyAuthToken(authToken);
             dispatch(fetchAccounts());
             dispatch(pushFlashMessage('Welcome', 'success'));
             return {success: true};
@@ -88,7 +79,6 @@ export const logout = () => dispatch => {
     dispatch(set_transactions([]));
     dispatch(set_accounts([]));
     dispatch(setFlashMessages([]));
-    applyAuthToken();
 };
 
 // 

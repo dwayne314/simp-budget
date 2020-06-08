@@ -13,6 +13,16 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret-key'
     SQLALCHEMY_DATABASE_URI = 'postgresql://dwayne314:postgres@localhost:5432/simp_budget'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SESSION_COOKIE_SECURE = False
+
+
+class ProdConfig:
+    """The production config class for the application"""
+    APP_NAME = os.environ.get('APP_NAME') or 'api'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret-key'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://dwayne314:postgres@localhost:5432/simp_budget'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SESSION_COOKIE_SECURE = True
 
 
 class TestConfig(Config):

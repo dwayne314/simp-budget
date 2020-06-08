@@ -1,6 +1,7 @@
 from flask import g, abort, request
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
 from app.models import Users
+from app.utilities.decorators import extract_auth_token
 
 
 basic_auth = HTTPBasicAuth()
@@ -22,9 +23,18 @@ def basic_auth_error():
     return abort(401)
 
 @token_auth.verify_token
-def verify_token(token):
-    """Returns True if the token is validated otherwise return False"""
-    g.current_user = Users.check_token(token) if token else None
+@extract_auth_token('auth_token')
+def verify_token(token, auth_from_cookie=None):
+    """Returns True if the token is validated
+
+    The token that will be validated is chosen in the following order:
+        1) A Bearer Token - reetrieved from the authorization header
+        2) A cookie - reetrieved from the auth_token cookie
+
+    """
+
+    token_to_verify = token if token else auth_from_cookie
+    g.current_user = Users.check_token(token_to_verify) if token_to_verify else None
     return g.current_user is not None
 
 @token_auth.error_handler
