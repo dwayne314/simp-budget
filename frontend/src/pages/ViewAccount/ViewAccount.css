@@ -1,9 +1,9 @@
 .view-account-container {
-    margin-bottom: 94px;
     font-family: 'Roboto', sans-serif;
     max-width: var(--app-max-width);
     margin: var(--app-margin); 
-    margin-bottom: 96px;
+    box-sizing: border-box;
+    height: 100%;    
 }
 
 .view-account-container-one-footer {
@@ -87,15 +87,16 @@
 
 .modify-account-transaction-floating-buttons {
     max-width: var(--app-max-width);
-    position: fixed;
+    position: sticky;
     width: 100%;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
+    bottom: 0px;
+    padding: 0px !important;
+    margin: auto;
 }
 
 .modify-account-transaction-floating-buttons a {
     text-decoration: none;
+    width: 100%;
 }
 
 .modify-account-transaction-floating-buttons .button-container {

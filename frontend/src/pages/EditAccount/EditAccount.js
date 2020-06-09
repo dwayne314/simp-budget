@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './EditAccount.css';
 import Header from '../../components/Header/Header';
@@ -42,49 +42,50 @@ const EditAccount = (props) => {
     };
 
     return (
-        <div className="edit-account-container">
-
-            <Header formHeader={true}/>
-            <div className="edit-account-form-container">
-                <div className="edit-account-form-header">
-                    Edit Account
-                </div>
-                {editAccountErrors ? 
-                    <div className="login-errors-container">
-                        <div className="login-errors">{`${editAccountErrors}`}</div>
+        <Fragment>
+            <Header isPrimary={true} formHeader={true}/>                
+            <div className="edit-account-container">
+                <div className="edit-account-form-container">
+                    <div className="edit-account-form-header">
+                        Edit Account
                     </div>
-                    :
-                    ""
-                }                
-                <div className="edit-account-form">
-                    
-                    <form>
-                        <div className="form-item-container">
-                            <div className="form-label">
-                                <label htmlFor="name">Name</label>
-                            </div>
-                            <div className="form-input">
-                                <input onChange={updateName} type="text" id="name" value={name}/>
-                            </div>
-                            {(errors.name) ? <span className="new-account-error">{`* ${errors.name}`}</span> : ""}
+                    {editAccountErrors ? 
+                        <div className="login-errors-container">
+                            <div className="login-errors">{`${editAccountErrors}`}</div>
                         </div>
-                        <div className="form-item-container">
-                            <div className="form-label">
-                                <label htmlFor="description">Description</label>
+                        :
+                        ""
+                    }                
+                    <div className="edit-account-form">
+                        
+                        <form>
+                            <div className="form-item-container">
+                                <div className="form-label">
+                                    <label htmlFor="name">Name</label>
+                                </div>
+                                <div className="form-input">
+                                    <input onChange={updateName} type="text" id="name" value={name}/>
+                                </div>
+                                {(errors.name) ? <span className="new-account-error">{`* ${errors.name}`}</span> : ""}
                             </div>
-                            <div className="form-input">
-                                <input onChange={updateDescription} type="text" id="description" value={description}/>
+                            <div className="form-item-container">
+                                <div className="form-label">
+                                    <label htmlFor="description">Description</label>
+                                </div>
+                                <div className="form-input">
+                                    <input onChange={updateDescription} type="text" id="description" value={description}/>
+                                </div>
+                                {(errors.description) ? <span className="new-account-error">{`* ${errors.description}`}</span> : ""}
                             </div>
-                            {(errors.description) ? <span className="new-account-error">{`* ${errors.description}`}</span> : ""}
-                        </div>
-                        <div className="form-item-container form-button-container">
-                            <Button onClick={submitForm} cta={"Submit"} isPrimary={false}/>
-                        </div>
-                    </form>
+                            <div className="form-item-container form-button-container">
+                                <Button onClick={submitForm} cta={"Submit"} isPrimary={false}/>
+                            </div>
+                        </form>
+                    </div>
                 </div>
+                
             </div>
-            
-        </div>
+        </Fragment>
     );
 };
 

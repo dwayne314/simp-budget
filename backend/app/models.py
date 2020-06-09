@@ -127,7 +127,7 @@ class Transactions(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
-    amount = db.Column(db.Integer, nullable=False)
+    amount = db.Column(db.BigInteger, nullable=False)
     date = db.Column(db.Date, nullable=False)
     note = db.Column(db.String, nullable=False)
     created_at = db.Column(

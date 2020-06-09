@@ -4,13 +4,13 @@
 
 .header-container {
     display: inline-block;
+    background-color: var(--primary-color)
 }
 
 .header-container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-bottom: 20px;
 }
 
 .login-button-container {
