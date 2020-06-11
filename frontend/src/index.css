@@ -2,6 +2,11 @@ body {
     margin: 0px;
 }
 
+input[type="text"],
+input[type="password"] {
+  font-size: 16px;
+}
+
 #root {
     height: 100vh;
 }

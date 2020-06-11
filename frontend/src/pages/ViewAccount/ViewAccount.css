@@ -1,13 +1,22 @@
-.view-account-container {
-    font-family: 'Roboto', sans-serif;
-    max-width: var(--app-max-width);
-    margin: var(--app-margin); 
-    box-sizing: border-box;
-    height: 100%;    
+.view-container-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0px !important;
+    height: 100vh;
 }
 
-.view-account-container-one-footer {
-    margin-bottom: 49px;
+.view-container-container > div {
+    padding: 20px;
+}
+
+.view-account-body-container {
+    font-family: 'Roboto', sans-serif;
+    max-width: var(--app-max-width);
+    box-sizing: border-box;
+    height: 100%;
+    overflow: auto;
+    margin: 0px auto;
+    width: 100%;
 }
 
 .view-account-logo-container {
@@ -101,7 +110,6 @@
 
 .modify-account-transaction-floating-buttons .button-container {
     display: block;
-    botton: 0px;
     margin: 0px;
 }
 
