@@ -17,7 +17,12 @@ input[type="password"] {
     --app-margin: 0 auto;
     --app-max-width: 640px;
 
-    /*  Colors */
+    /* Colors */
     --primary-color: #1c5f9d;
     --secondary-color: #cf8414;
+
+    /* Home Page */
+    --home-page-one-max-width: 600px;
+    --home-page-two-max-width: 500px;
+
 };
