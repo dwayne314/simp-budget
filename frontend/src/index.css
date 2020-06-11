@@ -15,7 +15,7 @@ input[type="password"] {
     /* Layout */
     --full-height: 100%;
     --app-margin: 0 auto;
-    --app-max-width: 500px;
+    --app-max-width: 640px;
 
     /*  Colors */
     --primary-color: #1c5f9d;

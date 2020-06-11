@@ -56,12 +56,14 @@ const Header = (props) => {
 
     return (
             <div className="header-container">
-                <div className="home-button-container">
-                    <Link to="/">
-                        <img src={isPrimary ? PrimaryLogo : SecondaryLogo} alt="we-budget logo"></img>
-                    </Link>
+                <div className="header-sub-container">
+                    <div className="home-button-container">
+                        <Link to="/">
+                            <img src={isPrimary ? PrimaryLogo : SecondaryLogo} alt="we-budget logo"></img>
+                        </Link>
+                    </div>
+                    {btnContent()}
                 </div>
-                {btnContent()}
             </div>
     );
 };

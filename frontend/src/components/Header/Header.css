@@ -4,13 +4,20 @@
 
 .header-container {
     display: inline-block;
-    background-color: var(--primary-color)
+    background-color: var(--primary-color);
+    width: 100%;
+    /*padding: 10px 0px !important;*/
+
+    box-sizing: border-box;
+
 }
 
-.header-container {
+.header-sub-container {
     display: flex;
+    max-width: 600px;
     flex-direction: row;
     justify-content: space-between;
+    margin: 0px auto;
 }
 
 .login-button-container {
