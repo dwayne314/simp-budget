@@ -91,7 +91,7 @@ export const postRegister = userData => dispatch => {
     return axios
         .post('/users', userData)
         .then(response => {
-            dispatch(login(undefined));
+            dispatch(login({}));
             return {success: true};
         })
         .catch(err => {
