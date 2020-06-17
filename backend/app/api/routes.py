@@ -1,11 +1,13 @@
 """This module contains all of the api routes"""
 
-from flask import current_app, request, abort, jsonify, g, make_response
+from flask import current_app, request, abort, jsonify, g, make_response, session
 from app import db
 from app.api import bp
 from app.models import Users, Accounts, Transactions
+from app.utilities.helpers import create_token
 from app.utilities.decorators import (err_if_not_found, roles_required,
-                                      enforce_owner_by_id, add_child_result)
+                                      enforce_owner_by_id, add_child_result,
+                                      csrf_enforced)
 from app.api.validators import (UserValidator, AccountValidator,
                                 TransationValidator)
 from app.api.auth import basic_auth, token_auth
@@ -23,43 +25,63 @@ def index():
 @bp.route('/tokens', methods=['GET'])
 @token_auth.login_required
 def get_token():
-    """Retrieves the auth token for a user authenticated through bearer auth
+    """Retrieves the auth token for a user authenticated with bearer auth
 
     The auth token is also attached to the response as a cookie with an
     auth_token key.
 
     """
 
-    token = g.current_user.get_token()
+    csrf_token = create_token()
+    auth_token = g.current_user.get_token()
     db.session.commit()
+    # Generate CSRF token and attach to another cookie
     resp = make_response(
-        jsonify(
-            {'token': token, 'user': Users.serialize_one(g.current_user.id)}))
-    resp.set_cookie('auth_token', token, httponly=True,
+        jsonify({
+            'token': auth_token,
+            'user': Users.serialize_one(g.current_user.id)
+        }))
+    resp.set_cookie('auth_token', auth_token, httponly=True,
                     secure=current_app.config['SESSION_COOKIE_SECURE'])
+
+    resp.set_cookie('csrf_token', csrf_token, httponly=False,
+                    secure=current_app.config['SESSION_COOKIE_SECURE'])
+
+    # Sets the csrf token for the session
+    session['csrf_token'] = csrf_token
     return resp
 
 @bp.route('/tokens', methods=['POST'])
 @basic_auth.login_required
 def post_token():
-    """Retrieves the auth token for a user authenticated through bearer auth
+    """Retrieves auth and csrf tokens for a user authenticated with basic auth
 
     The auth token is also attached to the response as a cookie with an
     auth_token key.
 
     """
 
-    token = g.current_user.get_token()
+    csrf_token = create_token()
+    auth_token = g.current_user.get_token()
     db.session.commit()
     resp = make_response(
-        jsonify(
-            {'token': token, 'user': Users.serialize_one(g.current_user.id)}))
-    resp.set_cookie('auth_token', token, httponly=True,
+        jsonify({
+            'token': auth_token,
+            'user': Users.serialize_one(g.current_user.id)
+        }))
+    resp.set_cookie('auth_token', auth_token, httponly=True,
                     secure=current_app.config['SESSION_COOKIE_SECURE'])
+
+    resp.set_cookie('csrf_token', csrf_token, httponly=False,
+                    secure=current_app.config['SESSION_COOKIE_SECURE'])
+
+    # Sets the csrf token for the session
+    session['csrf_token'] = csrf_token
     return resp
 
 @bp.route('/tokens', methods=['DELETE'])
 @token_auth.login_required
+@csrf_enforced()
 @roles_required(['admin'])
 def revoke_token():
     """Deletes the current user's token"""
@@ -109,6 +131,7 @@ def get_user(user_id):
 
 @bp.route('/users/<int:user_id>', methods=['PATCH'])
 @token_auth.login_required
+@csrf_enforced()
 @err_if_not_found(Users, 'user_id')
 @enforce_owner_by_id('user_id', ['admin'])
 def patch_user(user_id):
@@ -131,6 +154,7 @@ def patch_user(user_id):
 
 @bp.route('/users/<int:user_id>', methods=['DELETE'])
 @token_auth.login_required
+@csrf_enforced()
 @err_if_not_found(Users, 'user_id')
 @enforce_owner_by_id('user_id', ['admin'])
 def delete_user(user_id):
@@ -158,6 +182,7 @@ def get_accounts(user_id):
 
 @bp.route('/users/<int:user_id>/accounts', methods=['POST'])
 @token_auth.login_required
+@csrf_enforced()
 @enforce_owner_by_id('user_id', ['admin'])
 def post_accounts(user_id):
     """Creates an account"""
@@ -186,6 +211,7 @@ def get_account(user_id, account_id, result):
 
 @bp.route('/users/<int:user_id>/accounts/<int:account_id>', methods=['PATCH'])
 @token_auth.login_required
+@csrf_enforced()
 @enforce_owner_by_id('user_id', ['admin'])
 @add_child_result('user_id', 'account_id')
 def patch_account(user_id, account_id, result):
@@ -207,6 +233,7 @@ def patch_account(user_id, account_id, result):
 
 @bp.route('/users/<int:user_id>/accounts/<int:account_id>', methods=['DELETE'])
 @token_auth.login_required
+@csrf_enforced()
 @enforce_owner_by_id('user_id', ['admin'])
 @add_child_result('user_id', 'account_id')
 def delete_account(user_id, account_id, result):
@@ -238,6 +265,7 @@ def get_transactions(user_id, account_id, result):
 @bp.route('/users/<int:user_id>/accounts/<int:account_id>/transactions',
           methods=['POST'])
 @token_auth.login_required
+@csrf_enforced()
 @enforce_owner_by_id('user_id', ['admin'])
 @add_child_result('user_id', 'account_id')
 def post_transactions(user_id, account_id, result):
@@ -274,6 +302,7 @@ def get_transaction(user_id, account_id, transaction_id, result):
 @bp.route('/users/<int:user_id>/accounts/<int:account_id>/transactions'
           '/<int:transaction_id>', methods=['PATCH'])
 @token_auth.login_required
+@csrf_enforced()
 @enforce_owner_by_id('user_id', ['admin'])
 @add_child_result('account_id', 'transaction_id')
 def patch_transaction(user_id, account_id, transaction_id, result):
@@ -299,6 +328,7 @@ def patch_transaction(user_id, account_id, transaction_id, result):
 @bp.route('users/<int:user_id>/accounts/<int:account_id>/transactions'
           '/<int:transaction_id>', methods=['DELETE'])
 @token_auth.login_required
+@csrf_enforced()
 @enforce_owner_by_id('user_id', ['admin'])
 @add_child_result('account_id', 'transaction_id')
 def delete_transaction(user_id, account_id, transaction_id, result):

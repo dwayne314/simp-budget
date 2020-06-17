@@ -1,4 +1,4 @@
-import { getCurrentUser, currentUserId, getAuthTokenExpiration } from './authSelectors';
+import { getCurrentUser, currentUserId, getAuthTokenExpiration, getCsrfToken } from './authSelectors';
 import { flashMessages, getErrors} from './notificationSelectors';
 import { getAccounts, getAccountById } from './accountSelectors';
 import { getTransactions, getTransactionsByAccountId, getTransactionById } from './transactionSelectors';
@@ -10,6 +10,7 @@ export {
     getCurrentUser,
     currentUserId,
     getAuthTokenExpiration,
+    getCsrfToken,
     currentState,
     flashMessages,
     getErrors,

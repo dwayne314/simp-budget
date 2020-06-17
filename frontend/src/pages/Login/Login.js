@@ -1,10 +1,11 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import './Login.css';
 import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
-import { postLogin, setErrors } from '../../redux/actions';
+import { postLogin, setErrors, setCsrfToken } from '../../redux/actions';
 import { currentUserId, getAccounts, getErrors } from '../../redux/selectors';
 import { loginValidator } from '../../utilities';
 
@@ -29,7 +30,7 @@ const Login = (props) => {
         setLoginErrors('');
         dispatch(setErrors({}));
 
-        const userAttrs = { email, password }
+        const userAttrs = { email, password };
         const { errors, result, isValid } = loginValidator(userAttrs);
 
         if (isValid) {
@@ -43,17 +44,20 @@ const Login = (props) => {
   
     useEffect(() => {
         if (currentUser) {
-            props.history.push(`/accounts`)
+            props.history.push(`/accounts`);
         }
 
-    }, [props.history, currentUser, accounts])
+    }, [props.history, currentUser, accounts]);
+
+    useEffect(() => {
+        const csrfToken = Cookies.get('csrf_token')
+        setCsrfToken(csrfToken)
+    }, [])
 
     return (
         <Fragment>
             <Header isPrimary={true} formHeader={true}/>
             <div className="login-container">
-
-                
                 <div className="login-form-container">
                     <div className="login-form-header">
                         Login
@@ -66,7 +70,6 @@ const Login = (props) => {
                         ""
                     }
                     <div className="login-form">
-                        
                         <form>
                             <div className="form-item-container">
                                 <div className="form-label">

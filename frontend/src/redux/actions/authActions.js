@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import {
     fetchAccounts,
     setErrors,
@@ -38,6 +39,9 @@ export const getToken = () => (dispatch, getState) => {
     return axios
         .get('/tokens')
         .then(response => {
+            // Set CSRF Token
+            const csrfToken = Cookies.get('csrf_token');
+            dispatch(setCsrfToken(csrfToken));
             dispatch(login(response.data.user, response.data.token));
             return {success: true};
         })
@@ -54,6 +58,9 @@ export const postLogin = authParams => (dispatch, getState) => {
     return axios
         .post('/tokens', {}, {auth: authParams})
         .then(response => {
+            // Set CSRF Token
+            const csrfToken = Cookies.get('csrf_token');
+            dispatch(setCsrfToken(csrfToken));
             dispatch(login(response.data.user, response.data.token));
             return response
         })
@@ -99,4 +106,19 @@ export const postRegister = userData => dispatch => {
             dispatch(setErrors(errorMsg));
             return {success: false};
         })
+};
+
+// 
+// CSRF Tokens
+// 
+
+export const CSRF_TOKEN = 'CSRF_TOKEN';
+
+export const setCsrfToken = token => {
+    return {
+        type: CSRF_TOKEN,
+        payload: {
+            csrfToken: token
+        }
+    };
 };

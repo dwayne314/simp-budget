@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { fetchTransactions, pushFlashMessage } from './'
-import { currentUserId } from '../selectors';
+import { currentUserId, getCsrfToken } from '../selectors';
+import { generateCsrfHeader } from '../../utilities';
 
 // 
 // Account Actions 
@@ -38,7 +39,9 @@ export const fetchAccounts = () => (dispatch, getState) => {
 export const postAccount = (accountAttrs) => (dispatch, getState) => {
     const user_id = currentUserId(getState());
     return axios
-        .post(`/users/${user_id}/accounts`, accountAttrs)
+        .post(`/users/${user_id}/accounts`, 
+              accountAttrs,
+              generateCsrfHeader(getCsrfToken(getState())))
         .then(response => {
             dispatch(fetchAccounts());
             dispatch(pushFlashMessage('Account Created', 'success'))            

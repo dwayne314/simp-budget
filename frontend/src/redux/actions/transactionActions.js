@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { pushFlashMessage } from './';
-import { currentUserId } from '../selectors';
+import { currentUserId, getCsrfToken } from '../selectors';
+import { generateCsrfHeader } from '../../utilities';
 
 // 
 // Account Actions 
@@ -40,7 +41,9 @@ export const add_transactions = (transaction) => ({
 export const postTransaction = ({amount, note, date}, accountId) => (dispatch, getState) => {
     const user_id = currentUserId(getState());
     return axios
-        .post(`/users/${user_id}/accounts/${accountId}/transactions`, {amount, note, date})
+        .post(`/users/${user_id}/accounts/${accountId}/transactions`, 
+              {amount, note, date}, 
+              generateCsrfHeader(getCsrfToken(getState())))
         .then(response => {
             dispatch(pushFlashMessage('Transaction Created', 'success'));                      
             return {success: true, transaction: response.data.data};
@@ -53,7 +56,9 @@ export const postTransaction = ({amount, note, date}, accountId) => (dispatch, g
 export const patchTransaction = (transactionAttrs, accountId, transactionId) => (dispatch, getState) => {
     const user_id = currentUserId(getState());
     return axios
-        .patch(`/users/${user_id}/accounts/${accountId}/transactions/${transactionId}`, transactionAttrs)
+        .patch(`/users/${user_id}/accounts/${accountId}/transactions/${transactionId}`,
+               transactionAttrs,
+               generateCsrfHeader(getCsrfToken(getState())))
         .then(response => {
             dispatch(updateTransaction(transactionId, transactionAttrs));
             dispatch(pushFlashMessage('Transaction Updated', 'success'));            
@@ -90,7 +95,8 @@ export const deleteTransactions = (transactionIds, accountId) => async (dispatch
 
     const deleteTransaction = (transactionId) => {
         return axios
-            .delete(`/users/${user_id}/accounts/${accountId}/transactions/${transactionId}`)
+            .delete(`/users/${user_id}/accounts/${accountId}/transactions/${transactionId}`,
+                    generateCsrfHeader(getCsrfToken(getState())))
             .then(response => {
                 dispatch(pushFlashMessage('Transaction Deleted', 'error'));                            
                 return {success: true, transactionId};
