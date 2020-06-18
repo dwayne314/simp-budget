@@ -23,8 +23,6 @@ width: 100%;
 }
 
 .home-page-one > div {
-/*    padding-left: 20px;
-    padding-right: 20px;*/
     max-width: var(--home-page-one-max-width);
 }
 
@@ -92,29 +90,34 @@ width: 100%;
     margin: 20px auto;
 }
 
-.home-page-2-container {
+.home-page-two-container {
     background-color: white;
-    height: 100vh;
 }
 
-.home-page-two {
+.home-page-three-container {
+    background-color: #D5EAFD;
+}
+
+.home-page {
     font-family: 'Roboto', sans-serif;
     display: flex;
     flex-direction: column;    
     justify-content: center;
+    max-width: 1000px;
+    margin: 0px auto;
 }
 
-.home-page-two .home-button {
+.home-page .home-button {
     margin: 0px auto 0px auto;
     width: 100%;
-    max-width: var(--home-page-two-max-width)
+    max-width: var(--home-page-one-max-width);
 }
 
-.home-page-two .home-button .button-container {
+.home-page .home-button .button-container {
     margin-bottom: 0px;
 }
 
-.page-two-header-container {
+.home-page-header-container {
     font-size: 36px;
     align-self: center;
     color: #494545;
@@ -141,8 +144,6 @@ width: 100%;
     justify-content: center;
 }
 
-
-
 .how-it-works-container > .how-it-works  {
     margin: 25px auto;
     max-width: var(--home-page-two-max-width);
@@ -156,6 +157,7 @@ width: 100%;
 .how-it-works-body {
     color: #494545;
 }
+
 
 @media only screen and (min-width: 768px) {
     .how-it-works-container {
