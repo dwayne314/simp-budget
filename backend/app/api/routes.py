@@ -82,11 +82,13 @@ def post_token():
 @bp.route('/tokens', methods=['DELETE'])
 @token_auth.login_required
 @csrf_enforced()
-@roles_required(['admin'])
 def revoke_token():
     """Deletes the current user's token"""
     g.current_user.revoke_token()
     db.session.commit()
+
+    # Clear the session
+    session.clear()
     return {'success': True, 'message': 'Token deleted', 'data': {}}, 200
 
 #

@@ -8,7 +8,8 @@ import {
     set_transactions,
     setFlashMessages
 } from './'
-import { isEmpty } from '../../utilities';
+import { getCsrfToken } from '../selectors';
+import { isEmpty, generateCsrfHeader } from '../../utilities';
 
 // 
 // Login Actions 
@@ -47,8 +48,7 @@ export const getToken = () => (dispatch, getState) => {
         })
         .catch(err => {
             // Logs the user out and clears transactions 
-            dispatch(login({}));
-            dispatch(set_transactions([]));
+            dispatch(logout());
             return {success: false, error: 'Authentication error: Please login in'};
         })
 }
@@ -71,8 +71,7 @@ export const postLogin = authParams => (dispatch, getState) => {
         })
         .catch(err => {
             // Logs the user out and clears transactions             
-            dispatch(login({}));
-            dispatch(set_transactions([]));
+            dispatch(logout());
             return {success: false, error: 'Authentication error: Invalid email/password'};
         })
 };
@@ -81,11 +80,16 @@ export const postLogin = authParams => (dispatch, getState) => {
 // Logout Actions
 // 
 
-export const logout = () => dispatch => {
-    dispatch(login({}));
-    dispatch(set_transactions([]));
-    dispatch(set_accounts([]));
-    dispatch(setFlashMessages([]));
+export const logout = () => (dispatch, getState) => {
+    return axios
+        .delete('/tokens', generateCsrfHeader(getCsrfToken(getState())))
+        .then(response => {
+            dispatch(login({}));
+            dispatch(set_transactions([]));
+            dispatch(set_accounts([]));
+            dispatch(setFlashMessages([]));
+        })
+        .catch(err => console.log('error'))
 };
 
 // 
@@ -98,7 +102,7 @@ export const postRegister = userData => dispatch => {
     return axios
         .post('/users', userData)
         .then(response => {
-            dispatch(login({}));
+            dispatch(logout());
             return {success: true};
         })
         .catch(err => {
