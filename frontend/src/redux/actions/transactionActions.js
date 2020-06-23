@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { pushFlashMessage } from './';
+import { pushFlashMessage, logout } from './';
 import { currentUserId, getCsrfToken } from '../selectors';
-import { generateCsrfHeader } from '../../utilities';
+import { generateCsrfHeader, isAuthError } from '../../utilities';
 
 // 
 // Account Actions 
@@ -49,6 +49,7 @@ export const postTransaction = ({amount, note, date}, accountId) => (dispatch, g
             return {success: true, transaction: response.data.data};
         })
         .catch(err => {
+            if (isAuthError(err)) { dispatch(logout(true)); }            
             return {success: false, error: 'This transaction could not be created at this time.'};
         })
 };
@@ -65,6 +66,7 @@ export const patchTransaction = (transactionAttrs, accountId, transactionId) => 
             return {success: true, transaction: response.data.data};
         })
         .catch(err => {
+            if (isAuthError(err)) { dispatch(logout(true)); }            
             return {success: false, error: 'This transaction could not be updated at this time.'};
         })
 };
@@ -102,7 +104,7 @@ export const deleteTransactions = (transactionIds, accountId) => async (dispatch
                 return {success: true, transactionId};
             })
             .catch(err => {
-                console.log(err)
+                if (isAuthError(err)) { dispatch(logout(true)); }
                 return {success: false, transactionId};
             })
     };

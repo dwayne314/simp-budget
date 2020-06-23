@@ -6,7 +6,7 @@ import {
     newTransactiontValidator
 } from './validators';
 import { getErrors } from './errors';
-import { isEmpty, generateCsrfHeader } from './helpers';
+import { isEmpty, generateCsrfHeader, isAuthError, isProtectedRoute } from './helpers';
 
 
 export {
@@ -19,5 +19,7 @@ export {
     newAccountValidator,
     newTransactiontValidator,
     getErrors,
-    generateCsrfHeader
+    generateCsrfHeader,
+    isAuthError,
+    isProtectedRoute
 };

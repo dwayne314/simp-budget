@@ -80,16 +80,30 @@ export const postLogin = authParams => (dispatch, getState) => {
 // Logout Actions
 // 
 
-export const logout = () => (dispatch, getState) => {
-    return axios
-        .delete('/tokens', generateCsrfHeader(getCsrfToken(getState())))
-        .then(response => {
-            dispatch(login({}));
-            dispatch(set_transactions([]));
-            dispatch(set_accounts([]));
-            dispatch(setFlashMessages([]));
-        })
-        .catch(err => console.log('error'))
+export const logout = (authError) => (dispatch, getState) => {
+    // Reduces the calls to the api if the user's session has already timed out
+    if (authError) {
+        dispatch(set_transactions([]));
+        dispatch(set_accounts([]));
+        dispatch(setFlashMessages([]));
+        dispatch(login({}));
+    }
+    else {
+        return axios
+            .delete('/tokens', generateCsrfHeader(getCsrfToken(getState())))
+            .then(response => {
+                dispatch(login({}));
+                dispatch(set_transactions([]));
+                dispatch(set_accounts([]));
+                dispatch(setFlashMessages([]));
+            })
+            .catch(err => {
+                dispatch(set_transactions([]));
+                dispatch(set_accounts([]));
+                dispatch(setFlashMessages([]));
+                dispatch(login({}));
+            })
+    }
 };
 
 // 

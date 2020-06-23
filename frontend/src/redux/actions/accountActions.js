@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { fetchTransactions, pushFlashMessage } from './'
+import { fetchTransactions, pushFlashMessage, logout } from './'
 import { currentUserId, getCsrfToken } from '../selectors';
-import { generateCsrfHeader } from '../../utilities';
+import { generateCsrfHeader, isAuthError } from '../../utilities';
 
 // 
 // Account Actions 
@@ -48,6 +48,7 @@ export const postAccount = (accountAttrs) => (dispatch, getState) => {
             return {success: true};
         })
         .catch(err => {
+            if (isAuthError(err)) { dispatch(logout(true)); }
             return {success: false, error: 'This account could not be created at this time'};
         })
 };
@@ -62,6 +63,7 @@ export const patchAccount = (accountAttrs, accountId) => (dispatch, getState) =>
             return {success: true};
         })
         .catch(err => {
+            if (isAuthError(err)) { dispatch(logout(true)); }
             return {success: false, error: 'This account could not be updated at this time'};
         })
 };
@@ -86,6 +88,7 @@ export const deleteAccount = (accountId) => (dispatch, getState) => {
             return {success: true};
         })
         .catch(err => {
+            if (isAuthError(err)) { dispatch(logout(true)); }
             return {success: false, error: 'This account could not be deleted at this time'};
         })
 };

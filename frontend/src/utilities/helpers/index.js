@@ -6,8 +6,20 @@ const generateCsrfHeader= (value) => {
 
     return allHeaders;
 };
+
+const isAuthError = (err) => {
+    const authErrorCode = [401, 403];
+    return authErrorCode.includes(err.response.status);
+};
+
+const isProtectedRoute = (route) => {
+    const unprotectedRoutes = ['/', '/login', '/register'];
+    return !unprotectedRoutes.includes(route);
+}
     
 export {
     isEmpty,
-    generateCsrfHeader
+    generateCsrfHeader,
+    isAuthError,
+    isProtectedRoute
 };
