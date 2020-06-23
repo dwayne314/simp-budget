@@ -23,6 +23,10 @@ const Login = (props) => {
 
     const updateEmail = evt => setEmail(evt.target.value);
     const updatePassword = evt => setPassword(evt.target.value);
+    const clearForm = () => {
+        setEmail('');
+        setPassword('');
+    };
 
     // Clear errors and then attempt to login
     const submitForm = async (e) => {
@@ -30,8 +34,11 @@ const Login = (props) => {
         setLoginErrors('');
         dispatch(setErrors({}));
 
+        // Stores the form attributes before clearing the form
         const userAttrs = { email, password };
+        clearForm();
         const { errors, result, isValid } = loginValidator(userAttrs);
+
 
         if (isValid) {
             const submitAction = await dispatch(postLogin(result));
