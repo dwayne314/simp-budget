@@ -15,8 +15,8 @@ const EditAccount = (props) => {
     const dispatch = useDispatch();
 
     const errors = useSelector(getErrors);
-    const [name, setName] = useState(currentAccount.name);
-    const [description, setDescription] = useState(currentAccount.description);
+    const [name, setName] = useState(currentAccount ? currentAccount.name : '');
+    const [description, setDescription] = useState(currentAccount ? currentAccount.description : '');
     const [editAccountErrors, setEditAccountErrors] = useState('');
 
     const updateName = e => setName(e.target.value);

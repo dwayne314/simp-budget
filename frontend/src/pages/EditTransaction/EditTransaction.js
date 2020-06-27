@@ -15,9 +15,9 @@ const EditTransaction = (props) => {
     const errors = useSelector(getErrors);
 
     const currentTransaction = useSelector(state => getTransactionById(state)(Number(transactionId)));
-    const [amount, setAmount] = useState((currentTransaction.amount / 100).toFixed(2));
-    const [note, setNote] = useState(currentTransaction.note);
-    const [date, setDate] = useState(getLocalDate(currentTransaction.date));
+    const [amount, setAmount] = useState(currentTransaction ? (currentTransaction.amount / 100).toFixed(2) : '');
+    const [note, setNote] = useState(currentTransaction ? currentTransaction.note : '');
+    const [date, setDate] = useState(currentTransaction ? getLocalDate(currentTransaction.date) : '');
     const [transactionErrors, setTransactionErrors] = useState('');
 
     const updateAmount = e => setAmount(e.target.value);

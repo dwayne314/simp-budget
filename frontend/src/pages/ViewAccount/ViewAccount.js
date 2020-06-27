@@ -12,7 +12,9 @@ import './ViewAccount.css';
 const ViewAccount = (props) => {
     const transactionsPerPage = 5;
     const { id:accountId } = props.match.params;
-    const currentAccount = useSelector(state => getAccountById(state)(Number(accountId)));
+    // Sets current account to an empty string if one is not available
+    let currentAccount = useSelector(state => getAccountById(state)(Number(accountId))) || '';
+
     const transactions = useSelector(state => getTransactionsByAccountId(state)(Number(accountId)));
     const accountBalance = transactions.reduce((acc, tran) => acc + tran.amount, 0);
     const [searchText, setSearchText] = useState('');
