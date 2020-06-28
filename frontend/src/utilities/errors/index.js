@@ -5,6 +5,9 @@ export const getErrors = (type, data) => {
     else if (type === 'minMax')  {
         return `${data.fieldName} must be between ${data.min} and ${data.max} characters.`
     }
+    else if (type === 'max') {
+        return `${data.fieldName} must be less than ${data.max + 1} characters.`
+    }
     else if (type === 'type') {
         return `${data.fieldName} must be a ${data.typeName} type.`
     }

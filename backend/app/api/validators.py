@@ -158,10 +158,14 @@ class AccountValidator(Validator):
         self.name = kwargs.get('name')
         self.description = kwargs.get('description')
 
+
     def validate_create_account(self):
         """Validates the attributes sent to create an account"""
         if not self.name:
             self.errors['name'] = self.missing_field_error('Name')
+        elif len(self.name) > 25:
+            self.errors['name'] = 'Account name must be less than 26 characters.'
+
 
         return {
             'isValid': not self.errors,
@@ -174,6 +178,8 @@ class AccountValidator(Validator):
         if self.name is not None:
             if not self.name:
                 self.errors['name'] = self.missing_field_error('Name')
+            elif len(self.name) > 25:
+                self.errors['name'] = 'Account name must be less than 26 characters.'
 
         return {
             'isValid': not self.errors,
