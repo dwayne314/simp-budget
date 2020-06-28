@@ -56,7 +56,9 @@ export const postAccount = (accountAttrs) => (dispatch, getState) => {
 export const patchAccount = (accountAttrs, accountId) => (dispatch, getState) => {
     const user_id = currentUserId(getState());
     return axios
-        .patch(`/users/${user_id}/accounts/${accountId}`, accountAttrs)
+        .patch(`/users/${user_id}/accounts/${accountId}`,
+               accountAttrs,
+               generateCsrfHeader(getCsrfToken(getState())))
         .then(response => {
             dispatch(updateAccount(accountId, accountAttrs));
             dispatch(pushFlashMessage('Account Edited', 'success'))                        
@@ -81,7 +83,9 @@ export const updateAccount = (accountId, accountAttrs) => ({
 export const deleteAccount = (accountId) => (dispatch, getState) => {
     const user_id = currentUserId(getState());
     return axios
-        .delete(`/users/${user_id}/accounts/${accountId}`)
+        .delete(`/users/${user_id}/accounts/${accountId}`,
+                generateCsrfHeader(getCsrfToken(getState())))
+
         .then(response => {
             dispatch(fetchAccounts());
             dispatch(pushFlashMessage('Account Deleted', 'error'))                        
