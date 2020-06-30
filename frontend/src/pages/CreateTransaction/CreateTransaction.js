@@ -1,11 +1,9 @@
 import React, { Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-
 import './CreateTransaction.css';
+import Form from '../../components/Form/Form';
 import Header from '../../components/Header/Header';
-import Button from '../../components/Button/Button';
 import { setErrors, postTransaction, add_transactions } from '../../redux/actions';
 import { getErrors } from '../../redux/selectors';
 import { newTransactiontValidator } from '../../utilities';
@@ -48,68 +46,23 @@ const CreateTransaction = (props) => {
             dispatch(setErrors(errors));            
         }
     };
+    
+    const formFields = [
+        {name: "Amount", value: amount, onChange:updateAmount, id: "amount", errors: errors.amount, inputType:"currency"},
+        {name: "Note", value: note, onChange:updateNote, id: "note", errors: errors.note},
+        {name: "Date", value: date, onChange:updateDate, id: "date", errors: errors.date, inputType:"date"}
+    ];
 
     return (
         <Fragment>
             <Header isPrimary={true} formHeader={true}/>
-            <div className="new-transaction-container">
-                <div className="new-transaction-form-container">
-                    <div className="new-transaction-form-header">
-                        New Transaction
-                    </div>
-                    {transactionErrors ? 
-                        <div className="transaction-errors-container">
-                            <div className="transaction-errors">{`${transactionErrors}`}</div>
-                        </div>
-                        :
-                        ""
-                    }                
-                    <div className="new-transaction-form">
-                        
-                        <form>
-                            <div className="form-item-container">
-                                <div className="form-label">
-                                    <label htmlFor="amount">Amount</label>
-                                </div>
-                                <div className="form-input">
-                                    <input className="currency-input" onChange={updateAmount} type="number" id="amount" value={amount}/>
-                                    <span className="currency-indicator">$</span>
-                                </div>
-                                {(errors.amount) ? <span className="login-error">{`* ${errors.amount}`}</span> : ""}
-
-                            </div>
-                            <div className="form-item-container">
-                                <div className="form-label">
-                                    <label htmlFor="note">Note</label>
-                                </div>
-                                <div className="form-input">
-                                    <input onChange={updateNote} type="text" id="note" value={note}/>
-                                </div>
-                                {(errors.note) ? <span className="login-error">{`* ${errors.note}`}</span> : ""}
-
-                            </div>
-                            <div className="form-item-container">
-                                <div className="form-label">
-                                    <label htmlFor="date">Date</label>
-                                </div>
-                                <div className="date-picker-container">
-                                    <DatePicker
-                                        selected={date}
-                                        onChange={date => updateDate(date)}
-                                        dateFormat='MMMM d, yyyy'>
-                                    </DatePicker>
-                                </div>
-                                {(errors.date) ? <span className="login-error">{`* ${errors.date}`}</span> : ""}
-                            </div>
-
-                            <div className="form-item-container form-button-container">
-                                <Button onClick={submitForm} cta={"Submit"} isPrimary={false}/>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                
-            </div>
+            <div className="create-transaction-page-container">
+                <Form formHeader="New Transaction" 
+                      fields={formFields} 
+                      submit={submitForm} 
+                      submitCTA={"Submit"}
+                      formErrors={transactionErrors}/>
+            </div>            
         </Fragment>
     );
 };

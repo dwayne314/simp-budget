@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './CreateAccount.css';
+import Form from '../../components/Form/Form';
 import Header from '../../components/Header/Header';
-import Button from '../../components/Button/Button';
 import { setErrors, postAccount } from '../../redux/actions';
 import { getErrors } from '../../redux/selectors';
 import { newAccountValidator } from '../../utilities';
@@ -39,49 +39,20 @@ const CreateAccount = (props) => {
         }
     }
 
+    const formFields = [
+        {name: "Name", value: name, onChange:updateName, id: "name", errors: errors.name},
+        {name: "Description", value: description, onChange:updateDescription, id: "description", errors: errors.description}
+    ];
+
     return (
         <Fragment>
-            <Header isPrimary={true} formHeader={true}/>        
-            <div className="new-account-container">
-                <div className="new-account-form-container">
-                    <div className="new-account-form-header">
-                        New Account
-                    </div>
-                  {newAccountError ? 
-                        <div className="new-account-errors-container">
-                            <div className="new-account-errors">{`${newAccountError}`}</div>
-                        </div>
-                        :
-                        ""
-                    }                
-                    <div className="new-account-form">
-                        
-                        <form>
-                            <div className="form-item-container">
-                                <div className="form-label">
-                                    <label htmlFor="name">Name</label>
-                                </div>
-                                <div className="form-input">
-                                    <input onChange={updateName} type="text" id="name" value={name}/>
-                                </div>
-                                {(errors.name) ? <span className="new-account-error">{`* ${errors.name}`}</span> : ""}                            
-                            </div>
-                            <div className="form-item-container">
-                                <div className="form-label">
-                                    <label htmlFor="description">Description</label>
-                                </div>
-                                <div className="form-input">
-                                    <input onChange={updateDescription} type="text" id="description" value={description}/>
-                                </div>
-                                {(errors.description) ? <span className="new-account-error">{`* ${errors.description}`}</span> : ""}                                                        
-                            </div>
-                            <div className="form-item-container form-button-container">
-                                <Button onClick={submitForm} cta={"Submit"} isPrimary={false}/>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                
+            <Header isPrimary={true} formHeader={true}/>
+            <div className="new-account-page-container">
+                <Form formHeader="New Account" 
+                      fields={formFields} 
+                      submit={submitForm} 
+                      submitCTA={"Submit"} 
+                      formErrors={newAccountError}/>
             </div>
         </Fragment>
     );
