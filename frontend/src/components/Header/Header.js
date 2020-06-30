@@ -64,7 +64,7 @@ const Header = (props) => {
             <div className="header-container">
                 <div className="header-sub-container">
                     <div className="home-button-container">
-                        <Link to="/">
+                        <Link to={userLoggedIn ? "/accounts" : "/"}>
                             <img src={isPrimary ? PrimaryLogo : SecondaryLogo} alt="we-budget logo"></img>
                         </Link>
                     </div>
