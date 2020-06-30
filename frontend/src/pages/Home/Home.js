@@ -78,7 +78,7 @@ const Home = () => {
              <div href="page"className="home-page-three-container">
                     <div className="home-page">
                         <div className="home-page-header-container">
-                            Why Use WeBudget
+                            Why SimpBudget
                         </div>
                         <div className="how-it-works-container">
                             <div className="how-it-works">
@@ -86,21 +86,21 @@ const Home = () => {
                                     <img src={GrowMoney} alt="money growing on a plany"/>
                                 </div>
                                 <div className="how-it-works-header">Watch Your Money Grow</div>                            
-                                <div className="how-it-works-body">WeBudget helps you save by bringing awareness to the things that are costing you the most.</div>
+                                <div className="how-it-works-body">SimpBudget helps you save by bringing awareness to the things that are costing you the most.</div>
                             </div>
                             <div className="how-it-works">
                                 <div className="how-it-works-icon" alt="a success graph with an exteended flag">
                                     <img src={Goal} alt="a success graph with a flag coming from the highest point"/>
                                 </div>
-                                <div className="how-it-works-header">Improved Goal Setting</div>                            
-                                <div className="how-it-works-body">WeBudget makes it easy to set financial goals and is with you the whole way on your path to acheive them.</div>
+                                <div className="how-it-works-header">Improve Your Goal Setting</div>                            
+                                <div className="how-it-works-body">SimpBudget makes it easy to set financial goals and is with you the whole way on your path to acheive them.</div>
                             </div>
                             <div className="how-it-works">
                                 <div className="how-it-works-icon">
                                     <img src={Relax} alt="a man relaxing around money"/>
                                 </div>
-                                <div className="how-it-works-header">Take Control Of Your Finances</div>                            
-                                <div className="how-it-works-body">With WeBudget, you will finally be able to take control of your financial furture.</div>
+                                <div className="how-it-works-header">Take Financial Control</div>                            
+                                <div className="how-it-works-body">With SimpBudget, you will finally be able to take control of your finances and live the life you always wanted.</div>
                             </div>
                         </div>
                         <div className="home-button">

@@ -6,8 +6,6 @@
     display: inline-block;
     background-color: var(--primary-color);
     width: 100%;
-    /*padding: 10px 0px !important;*/
-
     box-sizing: border-box;
 
 }
@@ -36,5 +34,14 @@
 
 .home-button-container {
     font-family: 'Roboto', sans-serif;
+    margin: auto 0px;
 }
 
+.home-button-container > a {
+    height: 100%;
+    display: block;
+}
+
+.home-button-container img {
+    vertical-align: middle;
+}
