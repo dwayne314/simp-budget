@@ -1,0 +1,34 @@
+FROM python:3.7.7-alpine3.12 as base
+
+# Install dependencies
+RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev                                       
+RUN apk --no-cache add libpq bash
+WORKDIR /opt
+
+# Create a virtual environment and activate it
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH" VIRTUAL_ENV="/opt/venv"
+
+# Copy and install dependencies
+COPY requirements.txt /requirements.txt 
+RUN pip install -r /requirements.txt
+
+
+FROM python:3.7.7-alpine3.12
+# Install final container required dependencies
+RUN apk --no-cache add bash libpq
+
+# Copy deps from the base container
+WORKDIR /opt
+COPY --from=base /opt/venv /opt/venv
+
+# Expose port 5000 and set the venv in the PATH
+EXPOSE 5000
+ENV PATH="/opt/venv/bin:$PATH" VIRTUAL_ENV="/opt/venv"
+
+# Copy app and boot extrypoint
+COPY . /opt  
+RUN chmod +x boot.sh
+COPY boot.sh /tmp/boot.sh
+
+ENTRYPOINT [ "/tmp/boot.sh" ]

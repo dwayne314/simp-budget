@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { fetchTransactions, pushFlashMessage } from './'
-import { currentUserId } from '../selectors';
+import { fetchTransactions, pushFlashMessage, logout } from './'
+import { currentUserId, getCsrfToken } from '../selectors';
+import { generateCsrfHeader, isAuthError } from '../../utilities';
 
 // 
 // Account Actions 
@@ -38,13 +39,16 @@ export const fetchAccounts = () => (dispatch, getState) => {
 export const postAccount = (accountAttrs) => (dispatch, getState) => {
     const user_id = currentUserId(getState());
     return axios
-        .post(`/users/${user_id}/accounts`, accountAttrs)
+        .post(`/users/${user_id}/accounts`, 
+              accountAttrs,
+              generateCsrfHeader(getCsrfToken(getState())))
         .then(response => {
             dispatch(fetchAccounts());
             dispatch(pushFlashMessage('Account Created', 'success'))            
             return {success: true};
         })
         .catch(err => {
+            if (isAuthError(err)) { dispatch(logout(true)); }
             return {success: false, error: 'This account could not be created at this time'};
         })
 };
@@ -52,13 +56,16 @@ export const postAccount = (accountAttrs) => (dispatch, getState) => {
 export const patchAccount = (accountAttrs, accountId) => (dispatch, getState) => {
     const user_id = currentUserId(getState());
     return axios
-        .patch(`/users/${user_id}/accounts/${accountId}`, accountAttrs)
+        .patch(`/users/${user_id}/accounts/${accountId}`,
+               accountAttrs,
+               generateCsrfHeader(getCsrfToken(getState())))
         .then(response => {
             dispatch(updateAccount(accountId, accountAttrs));
             dispatch(pushFlashMessage('Account Edited', 'success'))                        
             return {success: true};
         })
         .catch(err => {
+            if (isAuthError(err)) { dispatch(logout(true)); }
             return {success: false, error: 'This account could not be updated at this time'};
         })
 };
@@ -76,13 +83,16 @@ export const updateAccount = (accountId, accountAttrs) => ({
 export const deleteAccount = (accountId) => (dispatch, getState) => {
     const user_id = currentUserId(getState());
     return axios
-        .delete(`/users/${user_id}/accounts/${accountId}`)
+        .delete(`/users/${user_id}/accounts/${accountId}`,
+                generateCsrfHeader(getCsrfToken(getState())))
+
         .then(response => {
             dispatch(fetchAccounts());
             dispatch(pushFlashMessage('Account Deleted', 'error'))                        
             return {success: true};
         })
         .catch(err => {
+            if (isAuthError(err)) { dispatch(logout(true)); }
             return {success: false, error: 'This account could not be deleted at this time'};
         })
 };

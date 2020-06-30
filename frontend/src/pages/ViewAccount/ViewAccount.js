@@ -12,7 +12,9 @@ import './ViewAccount.css';
 const ViewAccount = (props) => {
     const transactionsPerPage = 5;
     const { id:accountId } = props.match.params;
-    const currentAccount = useSelector(state => getAccountById(state)(Number(accountId)));
+    // Sets current account to an empty string if one is not available
+    let currentAccount = useSelector(state => getAccountById(state)(Number(accountId))) || '';
+
     const transactions = useSelector(state => getTransactionsByAccountId(state)(Number(accountId)));
     const accountBalance = transactions.reduce((acc, tran) => acc + tran.amount, 0);
     const [searchText, setSearchText] = useState('');
@@ -114,9 +116,9 @@ const ViewAccount = (props) => {
     };
 
     return (
-        <Fragment>
+        <div className="view-container-container">
             <Header isPrimary={true}/>
-            <div className={`view-account-container${selectTransactionToggle ? ' view-account-container-one-footer' : ''}`}>
+            <div className="view-account-body-container">
                 <div className="view-account-header-container">
                     <div className="view-account-header-text">{currentAccount.name}</div>
                     <div className="account-balance">{formatUSD(accountBalance)}</div>
@@ -131,7 +133,7 @@ const ViewAccount = (props) => {
                 <Paginator pageCount={pages} currentPage={page} decrementPage={decrementPage} incrementPage={incrementPage} />
                 {showAllTransactions}  
             </div>
-             <div className="modify-account-transaction-floating-buttons">
+            <div className="modify-account-transaction-floating-buttons">
                 {!selectTransactionToggle ? 
                     <Fragment>
                         <Button isPrimary={false} cta={"New Transaction"} linkPath={`/accounts/${currentAccount.id}/transactions/create`}/>
@@ -141,7 +143,7 @@ const ViewAccount = (props) => {
                     <Button onClick={updateSelectTransactionToggle} isPrimary={true} cta={"Stop Selection"}/>
                 }
             </div>
-        </Fragment>
+        </div>
     );
 };
 

@@ -1,4 +1,12 @@
-import { LOGIN, login, postLogin, getToken, logout, postRegister } from './authActions';
+import {
+    LOGIN,
+    login,
+    postLogin,
+    getToken,
+    logout,
+    postRegister,
+    setCsrfToken,
+    CSRF_TOKEN } from './authActions';
 import {
     fetchAccounts,
     postAccount,
@@ -39,6 +47,9 @@ export {
     postLogin,
     getToken,
     logout,
+    postRegister,    
+    setCsrfToken,
+    CSRF_TOKEN,
     fetchAccounts,
     postAccount,
     patchAccount,
@@ -59,7 +70,6 @@ export {
     ADD_TRANSACTIONS,
     UPDATE_TRANSACTION,    
     REMOVE_TRANSACTIONS,
-    postRegister,
     SET_FLASH_MESSAGES,
     setFlashMessages,
     PUSH_FLASH_MESSAGE,

@@ -40,36 +40,14 @@
     left: 50%;
 }
 
-.search-form-container {
-    box-sizing: border-box;
-    text-align: center;
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-.search-form form {
-    border: 1px solid #c4c4c4;
-    border-radius: 5px;
-} 
-
-.search-form input {
-    text-align: center;    
-    width: 99%;
-    height: 40px;
-    border: 0px;
-    box-sizing: border-box;
-} 
-
-.search-form input::placeholder {
-    text-align: center;
-}
-
 .all-accounts-container {
     display: flex;
     flex-direction: column;
 }
 .account-container {
     color: var(--primary-color);
+    cursor: pointer;
+    
 }
 
 .account-container-clicked {
@@ -100,7 +78,6 @@
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     border-bottom: 9px solid #1c5f9d;
-    cursor: pointer;
 }
 
 .account-triangle-clicked {
@@ -109,7 +86,6 @@
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     border-top: 9px solid #ffffff;
-    cursor: pointer;
 }
 
 .account-tractions-exerpt-container > table{

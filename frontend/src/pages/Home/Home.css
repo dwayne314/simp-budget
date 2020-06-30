@@ -1,10 +1,19 @@
+:home {
+    --max-width: 600px;
+}
+
 .home-page-one-container {
     background-color: var(--primary-color);
     font-family: 'Roboto', sans-serif;
 }
 
+.home-page-one-container .home-logo-container{
+margin: 0px auto;
+width: 100%;
+}
+
 .home-page-one {
-    height: 100vh;
+    height: calc(100vh - 40px);
     width: 100%;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
@@ -13,9 +22,15 @@
     box-sizing: border-box;
 }
 
+.home-page-one > div {
+    max-width: var(--home-page-one-max-width);
+}
+
 .home-center-container {
     display: flex;
     flex-direction: column;
+    margin: 0px auto;
+    width: 100%;
 }
 
 
@@ -43,8 +58,9 @@
     margin-bottom: 20px;
 }
 
-.home-button {
+.home-page-one .home-button {
     color: white;
+    max-width: var(--home-page-one-max-width);
 }
 
 .home-button a {
@@ -58,7 +74,7 @@
     text-align: center;
     align-self: flex-end;
     cursor: pointer;
-
+    margin: 0px auto;
 }
 
 .home-triangle-container {
@@ -74,7 +90,87 @@
     margin: 20px auto;
 }
 
-.home-page-2-container {
+.home-page-two-container {
     background-color: white;
-    height: 100vh;
+}
+
+.home-page-three-container {
+    background-color: #D5EAFD;
+}
+
+.home-page {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;    
+    justify-content: center;
+    max-width: 1000px;
+    margin: 0px auto;
+}
+
+.home-page .home-button {
+    margin: 0px auto 0px auto;
+    width: 100%;
+    max-width: var(--home-page-one-max-width);
+}
+
+.home-page .home-button .button-container {
+    margin-bottom: 0px;
+}
+
+.home-page-header-container {
+    font-size: 36px;
+    align-self: center;
+    color: #494545;
+    margin-bottom: 10px;
+}
+
+.how-it-works-icon {
+    text-align: center;
+}
+
+.how-it-works-icon > img {
+    height: 70px;
+    width: 70px;
+}
+
+.how-it-works-header {
+    text-align: center;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.how-it-works-container {
+    flex-direction: column;
+    justify-content: center;
+}
+
+.how-it-works-container > .how-it-works  {
+    margin: 25px auto;
+    max-width: var(--home-page-two-max-width);
+    text-align: center;
+}
+
+.how-it-works > div {
+    margin: 10px 0px;
+}
+
+.how-it-works-body {
+    color: #494545;
+}
+
+
+@media only screen and (min-width: 768px) {
+    .how-it-works-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        flex: 1 1 1em;
+    }
+
+    .how-it-works-container > .how-it-works  {
+        margin: 20px 15px;
+        max-width: 200px;
+    }
+
 }

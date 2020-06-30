@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route } from 'react-router-dom';
-import { useLocation } from 'react-router';
+import { withRouter } from 'react-router';
 import { setErrors, getToken } from '../redux/actions';
 import { getAuthTokenExpiration, getCurrentUser } from '../redux/selectors';
-import { isEmpty } from '../utilities';
+import { isEmpty, isProtectedRoute } from '../utilities';
 import FlashMessage from '../components/FlashMessage/FlashMessage';
 import {
     Home, 
@@ -23,9 +23,8 @@ import {
 import './App.css';
 
 
-const App = () => {
+const App = (props) => {
     const dispatch = useDispatch();
-    const location = useLocation();
     const authTokenExpiration = useSelector(getAuthTokenExpiration);
     const currentUser = useSelector(getCurrentUser);
     const expiresIn5Minutes = authTokenExpiration - (new Date().getTime() + 60000 * 5);
@@ -34,7 +33,7 @@ const App = () => {
         // Clear errors on every page update
         dispatch(setErrors({}));
         
-    }, [location.pathname, dispatch]);
+    }, [props.location.pathname, dispatch]);
 
     // Fetch a new token if the current one expires in 5 minutes
     useEffect(() => {
@@ -44,7 +43,14 @@ const App = () => {
             }
         }
         
-    }, [location.pathname, dispatch, expiresIn5Minutes, currentUser]);
+    }, [props.location.pathname, dispatch, expiresIn5Minutes, currentUser]);
+
+    // Redirect to login if the user is not logged in and accessing a protected route
+    useEffect(() => {
+        if (isProtectedRoute(props.location.pathname) && isEmpty(currentUser)) {
+            props.history.push('/login');
+        }
+    }, [props.location.pathname, props.history, currentUser]);
 
     return (
         <div className='app-container'>
@@ -67,4 +73,4 @@ const App = () => {
     );
 };
 
-export default App;
+export default withRouter(App);

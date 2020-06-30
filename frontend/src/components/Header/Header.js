@@ -11,12 +11,18 @@ import './Header.css';
 
 const Header = (props) => {
     const { isPrimary, formHeader=false } = props;
-    const userLoggedIn = isEmpty(useSelector(getCurrentUser));
-
+    const userLoggedIn = !isEmpty(useSelector(getCurrentUser));
 
     const redirect = (redirectTo) => {
         if (redirectTo === 'goBack') {
-            props.history.goBack();
+            if (userLoggedIn) {
+                props.history.goBack();    
+            }
+            // GoBack will always go home if the user is not logged in
+            else {
+                props.history.push('/')
+            }
+            
         }
         else if (redirectTo === 'login') {
             props.history.push('/login');
@@ -35,7 +41,7 @@ const Header = (props) => {
                 </div>
             )
         }
-        else if (userLoggedIn) {
+        else if (!userLoggedIn) {
             headerNavBtn = (
                 <div onClick={() => redirect('login')} className="login-button-container">
                     <div className="">Login</div>
@@ -56,12 +62,14 @@ const Header = (props) => {
 
     return (
             <div className="header-container">
-                <div className="home-button-container">
-                    <Link to="/">
-                        <img src={isPrimary ? PrimaryLogo : SecondaryLogo} alt="we-budget logo"></img>
-                    </Link>
+                <div className="header-sub-container">
+                    <div className="home-button-container">
+                        <Link to={userLoggedIn ? "/accounts" : "/"}>
+                            <img src={isPrimary ? PrimaryLogo : SecondaryLogo} alt="we-budget logo"></img>
+                        </Link>
+                    </div>
+                    {btnContent()}
                 </div>
-                {btnContent()}
             </div>
     );
 };

@@ -93,7 +93,7 @@ class Accounts(db.Model, SerializerMixin):
     __serializeable__ = ['name', 'description', 'created_at', 'updated_at']
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False, index=True)
+    name = db.Column(db.String(25), nullable=False, index=True)
     description = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     created_at = db.Column(

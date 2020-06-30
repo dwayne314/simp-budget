@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import {
     fetchAccounts,
     setErrors,
@@ -7,7 +8,8 @@ import {
     set_transactions,
     setFlashMessages
 } from './'
-import { isEmpty } from '../../utilities';
+import { getCsrfToken } from '../selectors';
+import { isEmpty, generateCsrfHeader } from '../../utilities';
 
 // 
 // Login Actions 
@@ -38,13 +40,15 @@ export const getToken = () => (dispatch, getState) => {
     return axios
         .get('/tokens')
         .then(response => {
+            // Set CSRF Token
+            const csrfToken = Cookies.get('csrf_token');
+            dispatch(setCsrfToken(csrfToken));
             dispatch(login(response.data.user, response.data.token));
             return {success: true};
         })
         .catch(err => {
             // Logs the user out and clears transactions 
-            dispatch(login({}));
-            dispatch(set_transactions([]));
+            dispatch(logout());
             return {success: false, error: 'Authentication error: Please login in'};
         })
 }
@@ -54,6 +58,9 @@ export const postLogin = authParams => (dispatch, getState) => {
     return axios
         .post('/tokens', {}, {auth: authParams})
         .then(response => {
+            // Set CSRF Token
+            const csrfToken = Cookies.get('csrf_token');
+            dispatch(setCsrfToken(csrfToken));
             dispatch(login(response.data.user, response.data.token));
             return response
         })
@@ -64,8 +71,7 @@ export const postLogin = authParams => (dispatch, getState) => {
         })
         .catch(err => {
             // Logs the user out and clears transactions             
-            dispatch(login({}));
-            dispatch(set_transactions([]));
+            dispatch(logout());
             return {success: false, error: 'Authentication error: Invalid email/password'};
         })
 };
@@ -74,11 +80,30 @@ export const postLogin = authParams => (dispatch, getState) => {
 // Logout Actions
 // 
 
-export const logout = () => dispatch => {
-    dispatch(login({}));
-    dispatch(set_transactions([]));
-    dispatch(set_accounts([]));
-    dispatch(setFlashMessages([]));
+export const logout = (authError) => (dispatch, getState) => {
+    // Reduces the calls to the api if the user's session has already timed out
+    if (authError) {
+        dispatch(set_transactions([]));
+        dispatch(set_accounts([]));
+        dispatch(setFlashMessages([]));
+        dispatch(login({}));
+    }
+    else {
+        return axios
+            .delete('/tokens', generateCsrfHeader(getCsrfToken(getState())))
+            .then(response => {
+                dispatch(login({}));
+                dispatch(set_transactions([]));
+                dispatch(set_accounts([]));
+                dispatch(setFlashMessages([]));
+            })
+            .catch(err => {
+                dispatch(set_transactions([]));
+                dispatch(set_accounts([]));
+                dispatch(setFlashMessages([]));
+                dispatch(login({}));
+            })
+    }
 };
 
 // 
@@ -91,7 +116,7 @@ export const postRegister = userData => dispatch => {
     return axios
         .post('/users', userData)
         .then(response => {
-            dispatch(login(undefined));
+            dispatch(logout());
             return {success: true};
         })
         .catch(err => {
@@ -99,4 +124,19 @@ export const postRegister = userData => dispatch => {
             dispatch(setErrors(errorMsg));
             return {success: false};
         })
+};
+
+// 
+// CSRF Tokens
+// 
+
+export const CSRF_TOKEN = 'CSRF_TOKEN';
+
+export const setCsrfToken = token => {
+    return {
+        type: CSRF_TOKEN,
+        payload: {
+            csrfToken: token
+        }
+    };
 };

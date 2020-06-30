@@ -2,7 +2,7 @@
 
 
 from functools import wraps
-from flask import abort, g, request
+from flask import abort, g, request, session
 from app.models import Accounts, Transactions
 
 
@@ -142,6 +142,32 @@ def extract_auth_token(auth_token):
             token = request.cookies.get(auth_token)
             if token:
                 kwargs['auth_from_cookie'] = token
+            return func(*args, **kwargs)
+        return view_wrapper
+    return wrapper
+
+def csrf_enforced():
+    """Returns an error if the specified token is not found in the header
+
+    The X-CSRFToken header is not found and confirmed to equal the csrf_token
+    stored in the user's session, a 403 errors is thrown.
+
+    Arguments:
+        token: The token to compare with the header
+
+    Returns:
+        func: the original route function with a "token" kwarg referencing the
+            auth token if the token is sent in the header otherwise throws a
+            403 error.
+
+    """
+
+    def wrapper(func):
+        @wraps(func)
+        def view_wrapper(*args, **kwargs):
+            token = request.headers.get('X-CSRFToken')
+            if session['csrf_token'] != token:
+                return abort(403)
             return func(*args, **kwargs)
         return view_wrapper
     return wrapper

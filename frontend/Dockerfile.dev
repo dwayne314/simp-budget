@@ -1,0 +1,21 @@
+# pull official base image
+FROM node:13.12.0-alpine as builder
+
+# set working directory
+WORKDIR /app
+
+# install app dependencies
+COPY ./package*.json /app/
+RUN npm install --silent
+RUN npm install react-scripts@3.4.0 -g --silent
+
+# copy thje relevant app files
+COPY public src /app/
+
+FROM builder
+
+# Expose the frontend port
+EXPOSE 5000
+
+# Run the start script
+CMD ["npm", "start"]

@@ -47,17 +47,17 @@ const Accounts = () => {
 
         return !account.selected ?
             <div key={`account ${account.id}`} className="account-container">
-                <div className="account-header-container">
+                <div className="account-header-container" onClick={() => toggleActiveAccount(account.id)}>
                     <div className="account-name">{account.name}</div>
-                    <div className="account-triangle" onClick={() => toggleActiveAccount(account.id)}></div>
+                    <div className="account-triangle"></div>
                 </div>
 
             </div>
             :
             <div key={account.id} className={"account-container account-container-clicked"}>
-                <div className="account-header-container">
+                <div className="account-header-container" onClick={() => toggleActiveAccount(account.id)}>
                     <div className="account-name">{account.name}</div>
-                     <div className="account-triangle-clicked" onClick={() => toggleActiveAccount(account.id)}></div>
+                     <div className="account-triangle-clicked"></div>
                 </div>
                 <div className="account-tractions-exerpt-container">
                     {/* If availableaccount transactions vs no */}

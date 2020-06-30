@@ -4,13 +4,18 @@
 
 .header-container {
     display: inline-block;
-    background-color: var(--primary-color)
+    background-color: var(--primary-color);
+    width: 100%;
+    box-sizing: border-box;
+
 }
 
-.header-container {
+.header-sub-container {
     display: flex;
+    max-width: 600px;
     flex-direction: row;
     justify-content: space-between;
+    margin: 0px auto;
 }
 
 .login-button-container {
@@ -29,5 +34,14 @@
 
 .home-button-container {
     font-family: 'Roboto', sans-serif;
+    margin: auto 0px;
 }
 
+.home-button-container > a {
+    height: 100%;
+    display: block;
+}
+
+.home-button-container img {
+    vertical-align: middle;
+}

@@ -1,8 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import './Register.css';
-import Button from '../../components/Button/Button';
+import Form from '../../components/Form/Form';
 import Header from '../../components/Header/Header';
 import { postRegister, setErrors } from '../../redux/actions';
 import { getErrors } from '../../redux/selectors';
@@ -45,7 +44,7 @@ const Register = (props) => {
         else {
             dispatch(setErrors(errors));
         }
-    };    
+    }; 
 
     useEffect(() => {
         if (!errors.length && isSubmitted) {
@@ -53,65 +52,22 @@ const Register = (props) => {
         }    
     }, [isSubmitted, errors.length, props.history]);
 
+    const formFields = [
+        {name: "First Name", value: firstName, onChange:updateFirstName, id: "firstName", errors: errors.first_name},
+        {name: "Last Name", value: lastName, onChange:updateLastName, id: "lastName", errors: errors.last_name},
+        {name: "Email", value: email, onChange:updateEmail, id: "email", errors: errors.email},        
+        {name: "Password", value: password, onChange:updatePassword, id: "password", errors: errors.password, inputType:'password'}
+    ];
+
     return (
         <Fragment>
             <Header isPrimary={true} formHeader={true}/>
-            <div className="register-container">
-                <div className="register-form-container">
-                    <div className="register-form-header">
-                        Register
-                    </div>
-                    <div className="register-form">
-                        
-                        <form>
-                            <div className="form-item-container">
-                                <div className="form-label">
-                                    <label htmlFor="first-name">First Name</label>
-                                </div>
-                                <div className="form-input">
-                                    <input onChange={updateFirstName} type="text" value={firstName}/>
-                                </div>
-                                {(errors.first_name) ? <span className="login-error">{`* ${errors.first_name}`}</span> : ""}
-                            </div>
-                            <div className="form-item-container">
-                                <div className="form-label">
-                                    <label htmlFor="last-name">Last Name</label>
-                                </div>
-                                <div className="form-input">
-                                    <input onChange={updateLastName} type="text" value={lastName}/>
-                                </div>
-                                {(errors.last_name) ? <span className="login-error">{`* ${errors.last_name}`}</span> : ""}
-                            </div>
-                            <div className="form-item-container">
-                                <div className="form-label">
-                                    <label htmlFor="last-name">Email</label>
-                                </div>
-                                <div className="form-input">
-                                    <input onChange={updateEmail} type="text" value={email}/>
-                                </div>
-                                {(errors.email) ? <span className="login-error">{`* ${errors.email}`}</span> : ""}
-                            </div>
-                            <div className="form-item-container">
-                                <div className="form-label">
-                                    <label htmlFor="last-name">Password</label>
-                                </div>
-                                <div className="form-input">
-                                    <input onChange={updatePassword} type="password" value={password}/>
-                                </div>
-                                {(errors.password) ? <span className="login-error">{`* ${errors.password}`}</span> : ""}
-                            </div>
-                            <div className="form-item-container form-button-container">
-                                <Button onClick={submitForm} cta={"Register Here"} isPrimary={false}/>
-                            </div>
-                        </form>
-                    </div>
-                    <div className="form-bottom-text-container">
-                        <div className="form-bottom-text">
-                            Already have an account? <Link to="/login">Login Here</Link>
-                        </div>
-                    </div>
-                </div>
-                
+            <div className="register-page-container">
+                <Form formHeader="Register" 
+                      fields={formFields} 
+                      submit={submitForm} 
+                      submitCTA={"Register Here"}
+                      bottomText={{introText: "Already have an account? ", linkText: "Login Here", linkTo:"/login"}}/>
             </div>
         </Fragment>
     );

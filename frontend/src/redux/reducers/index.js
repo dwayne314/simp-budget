@@ -1,5 +1,6 @@
 import { 
     LOGIN,
+    CSRF_TOKEN,
     SET_ACCOUNTS,
     UPDATE_ACCOUNT,
     SET_TRANSACTIONS,
@@ -14,6 +15,7 @@ import {
 
 const initialState = {
     currentUser: {},
+    csrfToken: '',
     accounts: [],
     transactions: [],
     flashMessages: [],
@@ -26,6 +28,12 @@ const rootReducer = (state=initialState, action) => {
             return {
                 ...state,
                 currentUser: action.payload.currentUser
+            };
+
+        case CSRF_TOKEN:
+            return {
+                ...state,
+                csrfToken: action.payload.csrfToken
             };
 
         case SET_ACCOUNTS:

@@ -2,6 +2,14 @@ body {
     margin: 0px;
 }
 
+input[type="text"],
+input[type="password"] {
+  font-size: 16px;
+}
+input:focus{
+  outline: 2px solid orange;
+}
+
 #root {
     height: 100vh;
 }
@@ -10,9 +18,14 @@ body {
     /* Layout */
     --full-height: 100%;
     --app-margin: 0 auto;
-    --app-max-width: 500px;
+    --app-max-width: 640px;
 
-    /*  Colors */
+    /* Colors */
     --primary-color: #1c5f9d;
     --secondary-color: #cf8414;
+
+    /* Home Page */
+    --home-page-one-max-width: 600px;
+    --home-page-two-max-width: 500px;
+
 };

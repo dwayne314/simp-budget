@@ -6,9 +6,8 @@ import {
     newTransactiontValidator
 } from './validators';
 import { getErrors } from './errors';
+import { isEmpty, generateCsrfHeader, isAuthError, isProtectedRoute } from './helpers';
 
-
-const isEmpty = (obj) => Object.keys(obj).length === 0;
 
 export {
     isEmpty,
@@ -20,4 +19,7 @@ export {
     newAccountValidator,
     newTransactiontValidator,
     getErrors,
+    generateCsrfHeader,
+    isAuthError,
+    isProtectedRoute
 };
