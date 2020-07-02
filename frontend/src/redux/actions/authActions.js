@@ -38,7 +38,7 @@ export const login = (currentUser, authToken) => {
 export const getToken = () => (dispatch, getState) => {
     
     return axios
-        .get('/tokens')
+        .get('/api/tokens')
         .then(response => {
             // Set CSRF Token
             const csrfToken = Cookies.get('csrf_token');
@@ -56,7 +56,7 @@ export const getToken = () => (dispatch, getState) => {
 // Requests an auth token from the backend using basic auth
 export const postLogin = authParams => (dispatch, getState) => {
     return axios
-        .post('/tokens', {}, {auth: authParams})
+        .post('/api/tokens', {}, {auth: authParams})
         .then(response => {
             // Set CSRF Token
             const csrfToken = Cookies.get('csrf_token');
@@ -90,7 +90,7 @@ export const logout = (authError) => (dispatch, getState) => {
     }
     else {
         return axios
-            .delete('/tokens', generateCsrfHeader(getCsrfToken(getState())))
+            .delete('/api/tokens', generateCsrfHeader(getCsrfToken(getState())))
             .then(response => {
                 dispatch(login({}));
                 dispatch(set_transactions([]));
@@ -114,7 +114,7 @@ export const REGISTER = 'REGISTER';
 
 export const postRegister = userData => dispatch => {
     return axios
-        .post('/users', userData)
+        .post('/api/users', userData)
         .then(response => {
             dispatch(logout());
             return {success: true};

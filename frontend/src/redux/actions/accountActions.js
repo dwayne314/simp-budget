@@ -20,7 +20,7 @@ export const fetchAccounts = () => (dispatch, getState) => {
 
     const user_id = currentUserId(getState());
     axios
-        .get(`/users/${user_id}/accounts`)
+        .get(`/api/users/${user_id}/accounts`)
         .then(response => {
             dispatch(set_accounts(response.data.data))
             return getState().accounts
@@ -39,7 +39,7 @@ export const fetchAccounts = () => (dispatch, getState) => {
 export const postAccount = (accountAttrs) => (dispatch, getState) => {
     const user_id = currentUserId(getState());
     return axios
-        .post(`/users/${user_id}/accounts`, 
+        .post(`/api/users/${user_id}/accounts`, 
               accountAttrs,
               generateCsrfHeader(getCsrfToken(getState())))
         .then(response => {
@@ -56,7 +56,7 @@ export const postAccount = (accountAttrs) => (dispatch, getState) => {
 export const patchAccount = (accountAttrs, accountId) => (dispatch, getState) => {
     const user_id = currentUserId(getState());
     return axios
-        .patch(`/users/${user_id}/accounts/${accountId}`,
+        .patch(`/api/users/${user_id}/accounts/${accountId}`,
                accountAttrs,
                generateCsrfHeader(getCsrfToken(getState())))
         .then(response => {
@@ -83,7 +83,7 @@ export const updateAccount = (accountId, accountAttrs) => ({
 export const deleteAccount = (accountId) => (dispatch, getState) => {
     const user_id = currentUserId(getState());
     return axios
-        .delete(`/users/${user_id}/accounts/${accountId}`,
+        .delete(`/api/users/${user_id}/accounts/${accountId}`,
                 generateCsrfHeader(getCsrfToken(getState())))
 
         .then(response => {

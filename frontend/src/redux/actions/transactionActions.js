@@ -20,7 +20,7 @@ export const fetchTransactions = (accountId) => (dispatch, getState) => {
 
     const user_id = currentUserId(getState());
     axios
-        .get(`/users/${user_id}/accounts/${accountId}/transactions`)
+        .get(`/api/users/${user_id}/accounts/${accountId}/transactions`)
         .then(response => {
             dispatch(add_transactions(response.data.data))
         })
@@ -41,7 +41,7 @@ export const add_transactions = (transaction) => ({
 export const postTransaction = ({amount, note, date}, accountId) => (dispatch, getState) => {
     const user_id = currentUserId(getState());
     return axios
-        .post(`/users/${user_id}/accounts/${accountId}/transactions`, 
+        .post(`/api/users/${user_id}/accounts/${accountId}/transactions`, 
               {amount, note, date}, 
               generateCsrfHeader(getCsrfToken(getState())))
         .then(response => {
@@ -57,7 +57,7 @@ export const postTransaction = ({amount, note, date}, accountId) => (dispatch, g
 export const patchTransaction = (transactionAttrs, accountId, transactionId) => (dispatch, getState) => {
     const user_id = currentUserId(getState());
     return axios
-        .patch(`/users/${user_id}/accounts/${accountId}/transactions/${transactionId}`,
+        .patch(`/api/users/${user_id}/accounts/${accountId}/transactions/${transactionId}`,
                transactionAttrs,
                generateCsrfHeader(getCsrfToken(getState())))
         .then(response => {
@@ -97,7 +97,7 @@ export const deleteTransactions = (transactionIds, accountId) => async (dispatch
 
     const deleteTransaction = (transactionId) => {
         return axios
-            .delete(`/users/${user_id}/accounts/${accountId}/transactions/${transactionId}`,
+            .delete(`/api/users/${user_id}/accounts/${accountId}/transactions/${transactionId}`,
                     generateCsrfHeader(getCsrfToken(getState())))
             .then(response => {
                 dispatch(pushFlashMessage('Transaction Deleted', 'error'));                            
