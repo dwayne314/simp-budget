@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
 import TrackSpendingIcon from '../../static/icons/track-spending.svg';
 import GenerateReportIcon from '../../static/icons/report.svg';

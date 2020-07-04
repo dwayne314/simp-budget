@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import './Login.css';
 import Form from '../../components/Form/Form';
-import Header from '../../components/Header/Header';
 import { postLogin, setErrors, setCsrfToken } from '../../redux/actions';
 import { currentUserId, getAccounts, getErrors } from '../../redux/selectors';
 import { loginValidator } from '../../utilities';

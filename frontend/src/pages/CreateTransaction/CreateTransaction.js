@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import "react-datepicker/dist/react-datepicker.css";
 import './CreateTransaction.css';
@@ -42,7 +42,7 @@ const CreateTransaction = (props) => {
             }
         }
         else {
-            dispatch(setErrors(errors));            
+            dispatch(setErrors(errors));
         }
     };
     
@@ -53,15 +53,13 @@ const CreateTransaction = (props) => {
     ];
 
     return (
-        <Fragment>
-            <div className="create-transaction-page-container">
-                <Form formHeader="New Transaction" 
-                      fields={formFields} 
-                      submit={submitForm} 
-                      submitCTA={"Submit"}
-                      formErrors={transactionErrors}/>
-            </div>            
-        </Fragment>
+        <div className="create-transaction-page-container">
+            <Form formHeader="New Transaction" 
+                  fields={formFields} 
+                  submit={submitForm} 
+                  submitCTA={"Submit"}
+                  formErrors={transactionErrors}/>
+        </div>            
     );
 };
 

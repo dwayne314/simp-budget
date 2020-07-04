@@ -26,11 +26,10 @@ const CreateAccount = (props) => {
         if (isValid) {
             const submitAction = await dispatch(postAccount(result));
             if (submitAction.success) {
-                console.log(`Account ${result.name} created.`)
                 props.history.push('/accounts');
             }
             else {
-                setNewAccountError(submitAction.error)
+                setNewAccountError(submitAction.error);
             }
         }
         else {

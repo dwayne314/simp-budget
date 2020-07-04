@@ -8,8 +8,8 @@ import './Form.css';
 const Form = (props) => {
 
     const { formHeader, fields, bottomText='', formErrors='', submit, submitCTA } = props;
-    const formFields = fields.map(field => (
-         <div className="form-item-container">
+    const formFields = fields.map((field, index) => (
+         <div key={`form-field-${index}`} className="form-item-container">
             <div className="form-label">
                 <label htmlFor={field.id}>{field.name}</label>
             </div>

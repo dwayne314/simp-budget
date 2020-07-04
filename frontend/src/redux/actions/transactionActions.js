@@ -45,11 +45,12 @@ export const postTransaction = ({amount, note, date}, accountId) => (dispatch, g
               {amount, note, date}, 
               generateCsrfHeader(getCsrfToken(getState())))
         .then(response => {
-            dispatch(pushFlashMessage('Transaction Created', 'success'));                      
+            dispatch(pushFlashMessage('Transaction created', 'success'));
             return {success: true, transaction: response.data.data};
         })
         .catch(err => {
-            if (isAuthError(err)) { dispatch(logout(true)); }            
+            if (isAuthError(err)) { dispatch(logout(true)); }
+            dispatch(pushFlashMessage(`This transaction could not be created`, 'error'));
             return {success: false, error: 'This transaction could not be created at this time.'};
         })
 };
@@ -62,11 +63,12 @@ export const patchTransaction = (transactionAttrs, accountId, transactionId) => 
                generateCsrfHeader(getCsrfToken(getState())))
         .then(response => {
             dispatch(updateTransaction(transactionId, transactionAttrs));
-            dispatch(pushFlashMessage('Transaction Updated', 'success'));            
+            dispatch(pushFlashMessage('Transaction edited', 'success'));
             return {success: true, transaction: response.data.data};
         })
         .catch(err => {
-            if (isAuthError(err)) { dispatch(logout(true)); }            
+            if (isAuthError(err)) { dispatch(logout(true)); }
+            dispatch(pushFlashMessage(`This transaction could not be edited`, 'error'));
             return {success: false, error: 'This transaction could not be updated at this time.'};
         })
 };
@@ -94,18 +96,18 @@ export const deleteTransactions = (transactionIds, accountId) => async (dispatch
     const user_id = currentUserId(getState());
     let deletedIds = [];
     let errorIds = [];
+    let authError = false;
 
     const deleteTransaction = (transactionId) => {
         return axios
             .delete(`/api/users/${user_id}/accounts/${accountId}/transactions/${transactionId}`,
                     generateCsrfHeader(getCsrfToken(getState())))
             .then(response => {
-                dispatch(pushFlashMessage('Transaction Deleted', 'error'));                            
+                dispatch(pushFlashMessage('Transaction deleted', 'success'));
                 return {success: true, transactionId};
             })
             .catch(err => {
-                if (isAuthError(err)) { dispatch(logout(true)); }
-                return {success: false, transactionId};
+                return {success: false, transactionId, authError:isAuthError(err)};
             })
     };
 
@@ -114,18 +116,28 @@ export const deleteTransactions = (transactionIds, accountId) => async (dispatch
         if (deleteStatus.success) {
             deletedIds.push(deleteStatus.transactionId);
         } else {
+            if (deleteStatus.authError) {
+                authError = true;
+            }
             errorIds.push(deleteStatus.transactionId);
         }
     }
 
-    // Remove transactions from redux
-    dispatch(removeTransactions(deletedIds))
+    if (!authError) {
+        // Remove transactions from redux
+        dispatch(removeTransactions(deletedIds))
 
-    if (errorIds.length && !deletedIds.length) {
-        return {success: false, error: 'These transactions could not be deleted at this time.'};
-    } else if (errorIds.length && deletedIds.length) {
-        return {success: false, error: 'Not all transactions could be deleted at this time.'};
-    } else {
-        return {success: true};
+        if (errorIds.length && !deletedIds.length) {
+            return {success: false, error: 'These transactions could not be deleted at this time.'};
+        } else if (errorIds.length && deletedIds.length) {
+            return {success: false, error: 'Not all transactions could be deleted at this time.'};
+        } else {
+            return {success: true};
+        }    
     }
+    else {
+        dispatch(logout(true));
+        dispatch(pushFlashMessage(`This transaction could not be deleted`, 'error'));
+    }
+    
 };

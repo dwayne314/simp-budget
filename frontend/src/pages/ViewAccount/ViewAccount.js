@@ -2,7 +2,6 @@ import React, { useState, Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import Paginator from '../../components/Paginator/Paginator';
-import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
 import SearchForm from '../../components/SearchForm/SearchForm';
 import { getAccountById, getTransactionsByAccountId } from '../../redux/selectors';

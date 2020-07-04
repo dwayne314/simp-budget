@@ -29,7 +29,6 @@ const EditAccount = (props) => {
         if (isValid) {
             const submitAction = await dispatch(patchAccount(result, accountId));
             if (submitAction.success) {
-                console.log(`Account ${result.name} edited.`)
                 props.history.push(`/accounts/${accountId}/view`);
             }
             else {
