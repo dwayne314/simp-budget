@@ -2,7 +2,6 @@ import React, { Fragment, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './CreateAccount.css';
 import Form from '../../components/Form/Form';
-import Header from '../../components/Header/Header';
 import { setErrors, postAccount } from '../../redux/actions';
 import { getErrors } from '../../redux/selectors';
 import { newAccountValidator } from '../../utilities';
@@ -46,7 +45,6 @@ const CreateAccount = (props) => {
 
     return (
         <Fragment>
-            <Header isPrimary={true} formHeader={true}/>
             <div className="new-account-page-container">
                 <Form formHeader="New Account" 
                       fields={formFields} 

@@ -67,7 +67,6 @@ const Login = (props) => {
 
     return (
         <Fragment>
-            <Header isPrimary={true} formHeader={true}/>
             <div className="login-page-container">
                 <Form formHeader="Login" 
                       fields={formFields} 

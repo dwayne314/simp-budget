@@ -15,9 +15,7 @@ const Home = () => {
         <Fragment>
             <div className="home-page-one-container">
                 <div className="home-page-one">
-                    <div className="home-logo-container">
-                        <Header isPrimary={true} />
-                    </div>
+                    <div className="spacer-item"></div>
                     <div className="home-center-container">
                         <div className="home-text-container">
                             <div className="home-text-header">

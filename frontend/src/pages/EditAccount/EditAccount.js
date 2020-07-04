@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './EditAccount.css';
-import Header from '../../components/Header/Header';
 import Form from '../../components/Form/Form';
 import { setErrors, patchAccount } from '../../redux/actions';
 import { getErrors, getAccountById } from '../../redux/selectors';
@@ -48,7 +47,6 @@ const EditAccount = (props) => {
 
     return (
         <Fragment>
-            <Header isPrimary={true} formHeader={true}/>
             <div className="edit-account-page-container">
                 <Form formHeader="Edit Account" 
                       fields={formFields} 

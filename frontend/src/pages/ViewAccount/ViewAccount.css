@@ -1,11 +1,11 @@
-.view-container-container {
+.view-account-container {
     display: flex;
     flex-direction: column;
     padding: 0px !important;
-    height: 100vh;
+    height: calc(100vh - var(--header-height));
 }
 
-.view-container-container > div {
+.view-account-container > div {
     padding: 20px;
 }
 

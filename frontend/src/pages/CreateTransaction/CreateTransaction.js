@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import "react-datepicker/dist/react-datepicker.css";
 import './CreateTransaction.css';
 import Form from '../../components/Form/Form';
-import Header from '../../components/Header/Header';
 import { setErrors, postTransaction, add_transactions } from '../../redux/actions';
 import { getErrors } from '../../redux/selectors';
 import { newTransactiontValidator } from '../../utilities';
@@ -55,7 +54,6 @@ const CreateTransaction = (props) => {
 
     return (
         <Fragment>
-            <Header isPrimary={true} formHeader={true}/>
             <div className="create-transaction-page-container">
                 <Form formHeader="New Transaction" 
                       fields={formFields} 

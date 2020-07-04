@@ -2,7 +2,6 @@ import React, { Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './EditTransaction.css';
 import Form from '../../components/Form/Form';
-import Header from '../../components/Header/Header';
 import { setErrors, patchTransaction } from '../../redux/actions';
 import { getErrors, getTransactionById } from '../../redux/selectors';
 import { newTransactiontValidator, getLocalDate } from '../../utilities';
@@ -54,7 +53,6 @@ const EditTransaction = (props) => {
 
     return (
         <Fragment>
-            <Header isPrimary={true} formHeader={true}/>
             <div className="edit-transaction-container">
                 <Form formHeader="Edit Transaction" 
                       fields={formFields} 

@@ -116,8 +116,7 @@ const ViewAccount = (props) => {
     };
 
     return (
-        <div className="view-container-container">
-            <Header isPrimary={true}/>
+        <div className="view-account-container">
             <div className="view-account-body-container">
                 <div className="view-account-header-container">
                     <div className="view-account-header-text">{currentAccount.name}</div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
@@ -6,6 +6,7 @@ import { setErrors, getToken } from '../redux/actions';
 import { getAuthTokenExpiration, getCurrentUser } from '../redux/selectors';
 import { isEmpty, isProtectedRoute } from '../utilities';
 import FlashMessage from '../components/FlashMessage/FlashMessage';
+import Header from '../components/Header/Header';
 import {
     Home, 
     Login,
@@ -24,6 +25,7 @@ import './App.css';
 
 
 const App = (props) => {
+    const [formHeader, setFormHeader] = useState(false);
     const dispatch = useDispatch();
     const authTokenExpiration = useSelector(getAuthTokenExpiration);
     const currentUser = useSelector(getCurrentUser);
@@ -52,9 +54,25 @@ const App = (props) => {
         }
     }, [props.location.pathname, props.history, currentUser]);
 
+    // Use the form header if the page is a form 
+    useEffect(() => {
+        const formRoutes = ['/create', '/edit', '/login', '/register'];
+        const route = props.location.pathname;
+        const routeAction = route.slice(route.lastIndexOf('/'), route.length);
+        const isformRoute = formRoutes.indexOf(routeAction) !== -1;
+
+        if (isformRoute) {
+            setFormHeader(true);
+        }
+        else {
+            setFormHeader(false);
+        }
+    }, [props.location.pathname])
+
     return (
         <div className='app-container'>
             <FlashMessage />
+            <Header isPrimary={true} formHeader={formHeader}/>
             <div className="app-sub-container">
                 <Route exact path="/" component={Home}></Route>
                 <Route exact path="/login" component={Login}></Route>

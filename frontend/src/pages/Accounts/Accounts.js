@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import newIcon from '../../static/icons/new-icon.svg';
 import Paginator from '../../components/Paginator/Paginator';
-import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
 import SearchForm from '../../components/SearchForm/SearchForm';
 import { getAccounts, getTransactions } from '../../redux/selectors';
@@ -94,8 +93,6 @@ const Accounts = () => {
 
     return (
         <Fragment>
-            <Header isPrimary={true} />
-
             <div className="accounts-container">
                 <div className="accounts-header-container">
                     <div className="accounts-header-text">Accounts</div>
