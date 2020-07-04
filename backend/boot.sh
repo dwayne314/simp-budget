@@ -11,4 +11,4 @@ while true; do
 done
 
 # start the application
-python3 "wsgi.py"
+exec gunicorn -b 0.0.0.0:5000 -w 3 wsgi:app --access-logfile - --error-logfile -
