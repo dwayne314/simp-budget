@@ -1,16 +1,17 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import './EditAccount.css';
+import PageNotFound from '../PageNotFound/PageNotFound';
 import Form from '../../components/Form/Form';
 import { setErrors, patchAccount } from '../../redux/actions';
 import { getErrors, getAccountById } from '../../redux/selectors';
-import { newAccountValidator } from '../../utilities';
+import { newAccountValidator, isEmpty } from '../../utilities';
+import './EditAccount.css';
 
 
 const EditAccount = (props) => {
     const { id:accountId } = props.match.params;
-    const currentAccount = useSelector(state => getAccountById(state)(Number(accountId)));
-
+    const currentAccount = useSelector(state => getAccountById(state)(Number(accountId))) || '';
+    const accountExists = !isEmpty(currentAccount);
     const dispatch = useDispatch();
 
     const errors = useSelector(getErrors);
@@ -46,15 +47,15 @@ const EditAccount = (props) => {
     ];
 
     return (
-        <Fragment>
-            <div className="edit-account-page-container">
-                <Form formHeader="Edit Account" 
-                      fields={formFields} 
-                      submit={submitForm} 
-                      submitCTA={"Submit"} 
-                      formErrors={editAccountErrors}/>
-            </div>
-        </Fragment>
+        (!accountExists) ? <PageNotFound />
+        :
+        <div className="edit-account-page-container">
+            <Form formHeader="Edit Account" 
+                  fields={formFields} 
+                  submit={submitForm} 
+                  submitCTA={"Submit"} 
+                  formErrors={editAccountErrors}/>
+        </div>
     );
 };
 

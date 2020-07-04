@@ -1,11 +1,12 @@
 import React, { useState, Fragment } from 'react';
 import { useSelector } from 'react-redux';
+import PageNotFound from '../PageNotFound/PageNotFound';
 import Paginator from '../../components/Paginator/Paginator';
 import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
 import SearchForm from '../../components/SearchForm/SearchForm';
 import { getAccountById, getTransactionsByAccountId } from '../../redux/selectors';
-import { formatUSD, formatDate, getLocalDate } from '../../utilities';
+import { formatUSD, formatDate, getLocalDate, isEmpty } from '../../utilities';
 import './ViewAccount.css';
 
 
@@ -14,7 +15,7 @@ const ViewAccount = (props) => {
     const { id:accountId } = props.match.params;
     // Sets current account to an empty string if one is not available
     let currentAccount = useSelector(state => getAccountById(state)(Number(accountId))) || '';
-
+    const accountExists = !isEmpty(currentAccount);
     const transactions = useSelector(state => getTransactionsByAccountId(state)(Number(accountId)));
     const accountBalance = transactions.reduce((acc, tran) => acc + tran.amount, 0);
     const [searchText, setSearchText] = useState('');
@@ -116,6 +117,8 @@ const ViewAccount = (props) => {
     };
 
     return (
+        (!accountExists) ? <PageNotFound />
+        :
         <div className="view-account-container">
             <div className="view-account-body-container">
                 <div className="view-account-header-container">

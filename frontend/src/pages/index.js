@@ -10,6 +10,7 @@ import DeleteAccount from './DeleteAccount/DeleteAccount';
 import CreateTransaction from './CreateTransaction/CreateTransaction';
 import EditTransaction from './EditTransaction/EditTransaction';
 import DeleteTransactions from './DeleteTransactions/DeleteTransactions';
+import PageNotFound from './PageNotFound/PageNotFound';
 
 
 export {
@@ -24,5 +25,6 @@ export {
     DeleteAccount,
     CreateTransaction,
     EditTransaction,
-    DeleteTransactions
+    DeleteTransactions,
+    PageNotFound
 }

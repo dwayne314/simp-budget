@@ -1,0 +1,35 @@
+.error-page-container {
+    max-width: var(--app-max-width);
+    margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
+}
+
+.error-code {
+    font-size: 120px;
+    color: #c4c4c4;
+    text-align: center;
+}
+
+.error-code-header {
+    font-size: 30px;
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #494545;
+}
+
+.error-message {
+    font-size: 18px;
+    /* Centers between the error header and error button */
+    margin-bottom: 40px;
+    color: #494545;
+}
+
+.error-page-button-container {
+    box-sizing: border-box;
+}
+
+.error-page-button-container a {
+    text-decoration: none;
+    color: inherit;
+}

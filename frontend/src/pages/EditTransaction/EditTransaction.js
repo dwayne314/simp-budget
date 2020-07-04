@@ -1,10 +1,11 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import './EditTransaction.css';
+import PageNotFound from '../PageNotFound/PageNotFound';
 import Form from '../../components/Form/Form';
 import { setErrors, patchTransaction } from '../../redux/actions';
 import { getErrors, getTransactionById } from '../../redux/selectors';
 import { newTransactiontValidator, getLocalDate } from '../../utilities';
+import './EditTransaction.css';
 
 
 const EditTransaction = (props) => {
@@ -13,6 +14,7 @@ const EditTransaction = (props) => {
     const errors = useSelector(getErrors);
 
     const currentTransaction = useSelector(state => getTransactionById(state)(Number(transactionId)));
+    const accountTransactionExists = currentTransaction && Number(currentTransaction.account_id) === Number(accountId);
     const [amount, setAmount] = useState(currentTransaction ? (currentTransaction.amount / 100).toFixed(2) : '');
     const [note, setNote] = useState(currentTransaction ? currentTransaction.note : '');
     const [date, setDate] = useState(currentTransaction ? getLocalDate(currentTransaction.date) : '');
@@ -52,15 +54,16 @@ const EditTransaction = (props) => {
     ];
 
     return (
-        <Fragment>
-            <div className="edit-transaction-container">
-                <Form formHeader="Edit Transaction" 
-                      fields={formFields} 
-                      submit={submitForm} 
-                      submitCTA={"Submit"}
-                      formErrors={transactionErrors}/>
-            </div>            
-        </Fragment>
+        (!accountTransactionExists) ?
+        <PageNotFound />
+        :
+        <div className="edit-transaction-container">
+            <Form formHeader="Edit Transaction" 
+                  fields={formFields} 
+                  submit={submitForm} 
+                  submitCTA={"Submit"}
+                  formErrors={transactionErrors}/>
+        </div>            
     );
 };
 

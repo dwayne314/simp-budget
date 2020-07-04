@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { setErrors, getToken } from '../redux/actions';
 import { getAuthTokenExpiration, getCurrentUser } from '../redux/selectors';
@@ -19,7 +19,8 @@ import {
     DeleteAccount,
     CreateTransaction,
     EditTransaction,
-    DeleteTransactions
+    DeleteTransactions,
+    PageNotFound
 } from '../pages';
 import './App.css';
 
@@ -56,6 +57,7 @@ const App = (props) => {
 
     // Use the form header if the page is a form 
     useEffect(() => {
+        // Update to the opposite so arror pages can get goBack
         const formRoutes = ['/create', '/edit', '/login', '/register'];
         const route = props.location.pathname;
         const routeAction = route.slice(route.lastIndexOf('/'), route.length);
@@ -74,18 +76,21 @@ const App = (props) => {
             <FlashMessage />
             <Header isPrimary={true} formHeader={formHeader}/>
             <div className="app-sub-container">
-                <Route exact path="/" component={Home}></Route>
-                <Route exact path="/login" component={Login}></Route>
-                <Route exact path="/logout" component={Logout}></Route>
-                <Route exact path="/register" component={Register}></Route>
-                <Route exact path="/accounts" component={Accounts}></Route>
-                <Route exact path="/accounts/create" component={CreateAccount}></Route>
-                <Route exact path="/accounts/:id/view" component={ViewAccount}></Route>
-                <Route exact path="/accounts/:id/edit" component={EditAccount}></Route>
-                <Route exact path="/accounts/:id/delete" component={DeleteAccount}></Route>
-                <Route exact path="/accounts/:id/transactions/create" component={CreateTransaction}></Route>                
-                <Route exact path="/accounts/:id/transactions/:transactionId/edit" component={EditTransaction}></Route>
-                <Route exact path="/accounts/:id/transactions/delete" component={DeleteTransactions}></Route>
+                <Switch>
+                    <Route exact path="/" component={Home}></Route>
+                    <Route exact path="/login" component={Login}></Route>
+                    <Route exact path="/logout" component={Logout}></Route>
+                    <Route exact path="/register" component={Register}></Route>
+                    <Route exact path="/accounts" component={Accounts}></Route>
+                    <Route exact path="/accounts/create" component={CreateAccount}></Route>
+                    <Route exact path="/accounts/:id/view" component={ViewAccount}></Route>
+                    <Route exact path="/accounts/:id/edit" component={EditAccount}></Route>
+                    <Route exact path="/accounts/:id/delete" component={DeleteAccount}></Route>
+                    <Route exact path="/accounts/:id/transactions/create" component={CreateTransaction}></Route>                
+                    <Route exact path="/accounts/:id/transactions/:transactionId/edit" component={EditTransaction}></Route>
+                    <Route exact path="/accounts/:id/transactions/delete" component={DeleteTransactions}></Route>
+                    <Route path="*" component={PageNotFound} />
+                </Switch>
             </div>
         </div>
     );
