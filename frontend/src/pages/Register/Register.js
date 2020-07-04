@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './Register.css';
 import Form from '../../components/Form/Form';
-import Header from '../../components/Header/Header';
 import { postRegister, setErrors } from '../../redux/actions';
 import { getErrors } from '../../redux/selectors';
 import { registrationValidator } from '../../utilities';
@@ -61,7 +60,6 @@ const Register = (props) => {
 
     return (
         <Fragment>
-            <Header isPrimary={true} formHeader={true}/>
             <div className="register-page-container">
                 <Form formHeader="Register" 
                       fields={formFields} 
