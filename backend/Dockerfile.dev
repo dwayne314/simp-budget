@@ -31,4 +31,6 @@ COPY . /opt
 RUN chmod +x boot.sh
 COPY boot.sh /tmp/boot.sh
 
-ENTRYPOINT [ "/tmp/boot.sh" ]
+# Perform a db upgrade and start the flask dev server
+CMD ["flask", "db", "upgrade"]
+CMD ["python", "wsgi.py"]
