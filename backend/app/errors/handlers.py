@@ -17,7 +17,7 @@ def authentication_error(error):
 @bp.app_errorhandler(403)
 def authorization_error(error):
     db.session.rollback()
-    return {'success': False, 'error': 'Authorizatiion error'}, 403
+    return {'success': False, 'error': 'Authorization error'}, 403
 
 @bp.app_errorhandler(404)
 def internal_error(error):
