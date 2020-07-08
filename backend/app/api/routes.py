@@ -3,13 +3,14 @@
 from flask import current_app, request, abort, jsonify, g, make_response, session
 from app import db
 from app.api import bp
-from app.models import Users, Accounts, Transactions
+from app.models import Users, Accounts, Transactions, RecurringTransactions
 from app.utilities.helpers import create_token
 from app.utilities.decorators import (err_if_not_found, roles_required,
                                       enforce_owner_by_id, add_child_result,
                                       csrf_enforced)
 from app.api.validators import (UserValidator, AccountValidator,
-                                TransationValidator)
+                                TransactionValidator,
+                                RecurringTransactionValidator)
 from app.api.auth import basic_auth, token_auth
 
 
@@ -272,7 +273,7 @@ def get_transactions(user_id, account_id, result):
 @add_child_result('user_id', 'account_id')
 def post_transactions(user_id, account_id, result):
     """Creates a transaction for an account"""
-    validator = TransationValidator(**request.get_json())
+    validator = TransactionValidator(**request.get_json())
     validate_results = validator.validate_create_transaction()
 
     if validate_results['isValid']:
@@ -311,7 +312,7 @@ def patch_transaction(user_id, account_id, transaction_id, result):
     """Patches a transaction from an account by id"""
     account = Accounts.query.get_or_404(account_id)
     if user_id == account.user_id:
-        validator = TransationValidator(**request.get_json())
+        validator = TransactionValidator(**request.get_json())
         validate_results = validator.validate_patch_transaction()
 
         if validate_results['isValid']:
@@ -334,8 +335,113 @@ def patch_transaction(user_id, account_id, transaction_id, result):
 @enforce_owner_by_id('user_id', ['admin'])
 @add_child_result('account_id', 'transaction_id')
 def delete_transaction(user_id, account_id, transaction_id, result):
-    """Api router for a single account transaction resource"""
+    """Deletes a transaction by id"""
     db.session.delete(result)
     db.session.commit()
     message = f'Transaction deleted'
+    return {'success': True, 'message': message, 'data': {}}, 200
+
+#
+# Recurring Transaction Routes
+#
+
+@bp.route('/users/<int:user_id>/accounts/<int:account_id>/'
+          'recurring_transactions', methods=['GET'])
+@token_auth.login_required
+@enforce_owner_by_id('user_id', ['admin'])
+@err_if_not_found(Accounts, 'account_id')
+@add_child_result('user_id', 'account_id')
+def get_recurring_transactions(user_id, account_id, result):
+    """Gets all transactions for an account"""
+    transactions = [RecurringTransactions.serialize_one(tran.id) for tran
+                    in result.recurring_transactions.all()]
+    message = 'Data found' if transactions else 'Data not found'
+    return {'success': True,
+            'message': message,
+            'data': transactions}, 200
+
+@bp.route('/users/<int:user_id>/accounts/<int:account_id>/'
+          'recurring_transactions', methods=['POST'])
+@token_auth.login_required
+# @csrf_enforced()
+# @enforce_owner_by_id('user_id', ['admin'])
+@add_child_result('user_id', 'account_id')
+def post_recurring_transactions(user_id, account_id, result):
+    """Creates a transaction for an account"""
+    validator = RecurringTransactionValidator(**request.get_json())
+    validate_results = validator.validate_create_recurring_transaction()
+
+    if validate_results['isValid']:
+        validate_results['result']['account_id'] = result.id
+        new_recurring_transaction = RecurringTransactions(
+            **validate_results['result'])
+        db.session.add(new_recurring_transaction)
+        db.session.commit()
+        serialized_transaction = RecurringTransactions.serialize_one(
+            new_recurring_transaction.id)
+        print(RecurringTransactions.__table__.columns)
+        return {'success': True,
+                'message': 'Recurring transaction created',
+                'data': serialized_transaction}, 201
+    return abort(400, validate_results["errors"])
+
+@bp.route('/users/<int:user_id>/accounts/<int:account_id>/' \
+          'recurring_transactions/<int:recurring_transaction_id>',
+          methods=['GET'])
+@token_auth.login_required
+@enforce_owner_by_id('user_id', ['admin'])
+@add_child_result('account_id', 'recurring_transaction_id')
+def get_recurring_transaction(user_id, account_id, recurring_transaction_id, 
+                              result):
+    """Gets a transaction from an account by id"""
+    account = Accounts.query.get_or_404(account_id)
+    if user_id == account.user_id:
+        print(result)
+        serialized_transaction = result.serialize_one(result.id)
+        return {'success': True,
+                'message': 'Recurring transaction found',
+                'data': serialized_transaction}, 200
+    return abort(404)
+
+@bp.route('/users/<int:user_id>/accounts/<int:account_id>/' \
+          'recurring_transactions/<int:recurring_transaction_id>',
+          methods=['PATCH'])
+@token_auth.login_required
+@csrf_enforced()
+@enforce_owner_by_id('user_id', ['admin'])
+@add_child_result('account_id', 'recurring_transaction_id')
+def patch_recurring_transaction(user_id, account_id, recurring_transaction_id,
+                                result):
+    """Patches a transaction from an account by id"""
+    account = Accounts.query.get_or_404(account_id)
+    if user_id == account.user_id:
+        validator = RecurringTransactionValidator(**request.get_json())
+        validate_results = validator.validate_patch_recurring_transaction()
+
+        if validate_results['isValid']:
+            for key, val in validate_results['result'].items():
+                setattr(result, key, val)
+            db.session.commit()
+            serialized_transaction = RecurringTransactions.serialize_one(
+                recurring_transaction_id)
+            return {'success': True,
+                    'message': 'Recurring transaction updated',
+                    'data': serialized_transaction}, 200
+
+        return abort(400, validate_results["errors"])
+    return abort(404)
+
+@bp.route('users/<int:user_id>/accounts/<int:account_id>/' \
+          'recurring_transactions/<int:recurring_transaction_id>',
+          methods=['DELETE'])
+@token_auth.login_required
+@csrf_enforced()
+@enforce_owner_by_id('user_id', ['admin'])
+@add_child_result('account_id', 'recurring_transaction_id')
+def delete_recurring_transaction(user_id, account_id, recurring_transaction_id,
+                                 result):
+    """Deletes a recurring transaction by id"""
+    db.session.delete(result)
+    db.session.commit()
+    message = f'Recurring transaction deleted'
     return {'success': True, 'message': message, 'data': {}}, 200

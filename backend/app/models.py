@@ -4,6 +4,7 @@ import base64
 import os
 from datetime import datetime, timedelta
 from sqlalchemy import event
+from sqlalchemy.schema import CheckConstraint
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 from app.utilities.mixins import SerializerMixin
@@ -13,6 +14,10 @@ ROLES = {
     'default': 'general',
     'admin': 'admin'
 }
+
+special_day_enums = ('first', 'last')
+transaction_type_enums = ('daily', 'weekly', 'monthly')
+
 
 class Users(db.Model, SerializerMixin):
     """Represents a user."""
@@ -106,6 +111,10 @@ class Accounts(db.Model, SerializerMixin):
         'Transactions', backref='account', lazy='dynamic',
         cascade='all, delete')
 
+    recurring_transactions = db.relationship(
+        'RecurringTransactions', backref='account', lazy='dynamic',
+        cascade='all, delete')
+
     @property
     def current_balance(self):
         """The current balance of an account in cents"""
@@ -132,3 +141,63 @@ class Transactions(db.Model, SerializerMixin):
     note = db.Column(db.String, nullable=False)
     created_at = db.Column(
         db.DateTime(), default=datetime.utcnow, nullable=False)
+
+
+class RecurringTransactions(db.Model, SerializerMixin):
+    """Represents all transactions that happen periodically"""
+
+    __serializeable__ = ['account_id', 'amount', 'note', 'transaction_type',
+                         'frequency', 'scheduled_day', 'special_day',
+                         'created_at']
+    __table_args__ = (
+        CheckConstraint(
+            'NOT(scheduled_day IS NULL AND special_day IS NULL)'),
+        CheckConstraint(
+            'NOT(scheduled_day IS NOT NULL AND special_day IS NOT NULL)'),
+    )
+    id = db.Column(db.Integer, primary_key=True)
+    account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
+    amount = db.Column(db.BigInteger, nullable=False)
+    note = db.Column(db.String, nullable=False)
+    transaction_type = db.Column(db.Enum(*transaction_type_enums, name='transaction_types'), nullable=False)
+    frequency = db.Column(db.Integer, nullable=False)
+    scheduled_day = db.Column(db.Integer, nullable=True)
+    special_day = db.Column(db.Enum(*special_day_enums, name='special_day_types'), nullable=True)
+    created_at = db.Column(
+        db.DateTime(), default=datetime.utcnow, nullable=False)
+    updated_at = db.Column(
+        db.DateTime(), default=datetime.utcnow, nullable=False)
+
+    @staticmethod
+    def null_special_day(target, value, old_value, initiator):
+        """Nulls the special date if it's a duplicate day
+
+        A record cannot have both a special day and a scheduled day.  If a
+        scheduled day is updated from null the scheduled_day field will
+        be set to null to not conflict with the constraint.
+        """
+
+        if old_value is None:
+            target.special_day = None
+
+    @staticmethod
+    def null_scheduled_day(target, value, old_value, initiator):
+        """Nulls the scheduled date if it's a duplicate day
+
+        A record cannot have both a special day and a scheduled day.  If a
+        scheduled day is updated from null the scheduled_day field will
+        be set to null to not conflict with the constraint.
+        """
+
+        if old_value is None:
+            target.scheduled_day = None
+
+
+    @classmethod
+    def __declare_last__(cls):
+        """Runs before set events are committed"""
+
+        event.listen(RecurringTransactions.scheduled_day, 'set',
+                     cls.null_special_day)
+        event.listen(RecurringTransactions.special_day, 'set',
+                     cls.null_scheduled_day)

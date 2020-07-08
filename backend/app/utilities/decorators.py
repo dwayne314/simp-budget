@@ -3,7 +3,7 @@
 
 from functools import wraps
 from flask import abort, g, request, session
-from app.models import Accounts, Transactions
+from app.models import Accounts, Transactions, RecurringTransactions
 
 
 def err_if_not_found(model, id_field):
@@ -104,6 +104,12 @@ def add_child_result(parent_id_field, child_id_field):
             if parent_id_field == 'account_id' and \
                     child_id_field == 'transaction_id':
                 result = Transactions.query \
+                    .filter_by(id=child_id) \
+                    .filter_by(account_id=parent_id).first()
+
+            elif parent_id_field == 'account_id' and \
+                    child_id_field == 'recurring_transaction_id':
+                result = RecurringTransactions.query \
                     .filter_by(id=child_id) \
                     .filter_by(account_id=parent_id).first()
 
