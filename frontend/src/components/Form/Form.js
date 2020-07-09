@@ -1,6 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import Button from '../Button/Button'; 
+import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
 import { Link } from 'react-router-dom';
 import './Form.css';
 
@@ -33,6 +34,14 @@ const Form = (props) => {
                                 <span className="currency-indicator">$</span>
                             </div>
                     );
+                }
+                else if (field.inputType === 'toggle') {
+                    return (
+                        <div className="form-toggle-input">
+                            <ToggleSwitch id={field.id} isToggled={field.value} 
+                handleToggle={field.onChange}/>
+                        </div>
+                    )
                 }
                 else {
                     return (
