@@ -3,7 +3,8 @@ import {
     registrationValidator,
     loginValidator,
     newAccountValidator,
-    newTransactiontValidator
+    newTransactiontValidator,
+    newRecurringTransactionValidator
 } from './validators';
 import { getErrors } from './errors';
 import { isEmpty, generateCsrfHeader, isAuthError, isProtectedRoute } from './helpers';
@@ -18,6 +19,7 @@ export {
     loginValidator,
     newAccountValidator,
     newTransactiontValidator,
+    newRecurringTransactionValidator,
     getErrors,
     generateCsrfHeader,
     isAuthError,

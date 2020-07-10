@@ -2,6 +2,8 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import Button from '../Button/Button'; 
 import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
+import DropdownList from 'react-widgets/lib/DropdownList';
+import 'react-widgets/dist/css/react-widgets.css';
 import { Link } from 'react-router-dom';
 import './Form.css';
 
@@ -40,6 +42,17 @@ const Form = (props) => {
                         <div className="form-toggle-input">
                             <ToggleSwitch id={field.id} isToggled={field.value} 
                 handleToggle={field.onChange}/>
+                        </div>
+                    )
+                }
+                else if (field.inputType === 'dropdown') {
+                    return (
+                        <div className="form-input">
+                            <DropdownList 
+                                data={field.data}
+                                value={field.value}
+                                onChange={field.onChange}
+                            />
                         </div>
                     )
                 }
