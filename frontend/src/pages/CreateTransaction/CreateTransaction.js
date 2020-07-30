@@ -43,6 +43,9 @@ const CreateTransaction = (props) => {
     const updateSpecialDayIndex = value => setSpecialDayIndex(value);
     const updateScheduledDayIndex = value => setScheduledDayIndex(value);
 
+    // Clear field functions
+    const clearScheduledDay = () => updateScheduledDayIndex('');
+    const clearSpecialDay = () => updateSpecialDayIndex('');
 
     // Recurring Transaction Options
     const allSpecialDayIndexOptions = ['first day of the month', 'last day of the month'];
@@ -133,8 +136,8 @@ const CreateTransaction = (props) => {
             {name: "Note", value: note, onChange:updateNote, id: "note", errors: errors.note},
             {name: "Transaction Type", value:transactionType, data: transactionTypeOptions, onChange:updateTransactionType, id: "transaction-type", errors: errors.transaction_type, inputType: "dropdown"},
             {name: "Frequency", value: frequencyIndex, data: frequencyIndexOptions, onChange:updateFrequencyIndex, id: "frequency", errors: errors.frequency, inputType: "dropdown", isHidden:hiddenFrequency},
-            {name: "Scheduled Day", value: scheduledDayIndex, data: scheduledDayIndexOptions, onChange:updateScheduledDayIndex, id: "scheduled-day", errors: errors.scheduled_day, inputType: "dropdown", isHidden:hiddenScheduledDayIndex},
-            {name: "Special Day", value: specialDayIndex, data: specialDayIndexOptions, onChange:updateSpecialDayIndex, id: "special-day", errors: errors.special_day, inputType: "dropdown", isHidden:hiddenSpecialDay},
+            {name: "Scheduled Day", value: scheduledDayIndex, data: scheduledDayIndexOptions, onChange:updateScheduledDayIndex, id: "scheduled-day", errors: errors.scheduled_day, inputType: "dropdown", isHidden:hiddenScheduledDayIndex, clearBtn:true, onClear:clearScheduledDay},
+            {name: "Special Day", value: specialDayIndex, data: specialDayIndexOptions, onChange:updateSpecialDayIndex, id: "special-day", errors: errors.special_day, inputType: "dropdown", isHidden:hiddenSpecialDay, clearBtn:true, onClear:clearSpecialDay},
         ]
         :
         [

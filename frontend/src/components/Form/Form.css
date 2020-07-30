@@ -46,6 +46,17 @@
     font-size: 22px;
 }
 
+.form-label > .clear-field-btn {
+    float: right;
+    font-size: 16px;
+    background-color: #cc3434;
+    color: white;
+    padding: 5px;
+    cursor: pointer;
+    font-weight: 700;
+    border-radius: 3px;
+}
+
 .form-button-container {
     color: white;
 }
@@ -101,4 +112,3 @@
     padding: 12px;
     box-sizing : border-box;
 }
-

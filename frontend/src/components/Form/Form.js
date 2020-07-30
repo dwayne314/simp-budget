@@ -17,6 +17,15 @@ const Form = (props) => {
              <div key={`form-field-${index}`} className="form-item-container">
                 <div className="form-label">
                     <label htmlFor={field.id}>{field.name}</label>
+                    {(() => {
+                        if (field.onClear && field.value) {
+                            return (
+                                <span className='clear-field-btn'onClick={field.onClear}>
+                                    Clear
+                                </span>
+                            );
+                        }
+                    })()}
                 </div>
                 {(() => {
 
@@ -34,7 +43,13 @@ const Form = (props) => {
                     else if (field.inputType === 'currency') {
                         return (
                                 <div className="form-input">
-                                    <input id={field.id} className="currency-input" onChange={field.onChange} type="number" value={field.value}/>
+                                    <input 
+                                        id={field.id}
+                                        className="currency-input"
+                                        onChange={field.onChange}
+                                        type="number"
+                                        value={field.value}
+                                    />
                                     <span className="currency-indicator">$</span>
                                 </div>
                         );
