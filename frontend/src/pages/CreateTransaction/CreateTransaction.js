@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import "react-datepicker/dist/react-datepicker.css";
 import './CreateTransaction.css';
 import Form from '../../components/Form/Form';
-import ToggleSwitch from '../../components/ToggleSwitch/ToggleSwitch';
 import { setErrors, postTransaction, add_transactions, postRecurringTransaction } from '../../redux/actions';
 import { getErrors } from '../../redux/selectors';
 import { newTransactiontValidator, newRecurringTransactionValidator } from '../../utilities';
@@ -12,6 +11,7 @@ import { newTransactiontValidator, newRecurringTransactionValidator } from '../.
 const CreateTransaction = (props) => {
     // Recurring Transaction Options
     const monthlyScheduledDayOptions = Array.from(Array(31), (_, i) => i + 1);
+    // monthlyScheduledDayOptions.unshift('')
     // const weeklyScheduledDayOptions = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     // Convert to weeks
     const weeklyScheduledDayOptions = [1,2,3,4,5,6,7]
@@ -21,12 +21,6 @@ const CreateTransaction = (props) => {
     const { id: accountId } = props.match.params;
     const dispatch = useDispatch();
     const errors = useSelector(getErrors);
-
-    // Recurring Transaction State Objects
-    const [transactionTypeOptions, setTransactionTypeOptions] = useState(['daily', 'weekly', 'monthly']);
-    const [frequencyOptions, setFrequencyOptions] = useState(allFrequencyOptions)
-    const [specialDayOptions, setSpecialDayOptions] = useState(allSpecialDayOptions)
-    const [scheduledDayOptions, setScheduledDayOptions] = useState(weeklyScheduledDayOptions.concat(monthlyScheduledDayOptions))
 
     const [amount, setAmount] = useState('');
     const [note, setNote] = useState('');
@@ -44,6 +38,27 @@ const CreateTransaction = (props) => {
     const updateFrequency = value => setFrequency(value);
     const updateSpecialDay = value => setSpecialDay(value);
     const updateScheduledDay = value => setScheduledDay(value);
+
+
+    // Recurring Transaction Options
+    const [transactionTypeOptions, setTransactionTypeOptions] = useState(['daily', 'weekly', 'monthly']);
+    const [frequencyOptions, setFrequencyOptions] = useState(allFrequencyOptions)
+    const [specialDayOptions, setSpecialDayOptions] = useState([])
+    const [scheduledDayOptions, setScheduledDayOptions] = useState(weeklyScheduledDayOptions.concat(monthlyScheduledDayOptions))
+
+    // Hidden Fields
+    const hiddenFrequency = (
+        (transactionType === undefined) ||
+        (transactionType === 'daily')
+        );
+    const hiddenScheduledDay = (
+        (transactionType === undefined) ||
+        (transactionType === 'daily') ||
+        (transactionType === 'monthly' && specialDay !== ''));
+    const hiddenSpecialDay = (
+        (transactionType === undefined) ||
+        (transactionType !== 'monthly') || 
+        (transactionType === 'monthly' && scheduledDay !== ''));
 
     // Adds the transaction to the state and redirects to the account
     const submitForm = async (e) => {
@@ -84,9 +99,9 @@ const CreateTransaction = (props) => {
             {name: "Amount", value: amount, onChange:updateAmount, id: "amount", errors: errors.amount, inputType: "currency"},
             {name: "Note", value: note, onChange:updateNote, id: "note", errors: errors.note},
             {name: "Transaction Type", value:transactionType, data: transactionTypeOptions, onChange:updateTransactionType, id: "transaction-type", errors: errors.transaction_type, inputType: "dropdown"},
-            {name: "Frequency", value: frequency, data: frequencyOptions, onChange:updateFrequency, id: "frequency", errors: errors.frequency, inputType: "dropdown"},
-            {name: "Scheduled Day", value: scheduledDay, data: scheduledDayOptions, onChange:updateScheduledDay, id: "scheduled-day", errors: errors.scheduled_day, inputType: "dropdown"},
-            {name: "Special Day", value: specialDay, data: specialDayOptions, onChange:updateSpecialDay, id: "special-day", errors: errors.special_day, inputType: "dropdown"},
+            {name: "Frequency", value: frequency, data: frequencyOptions, onChange:updateFrequency, id: "frequency", errors: errors.frequency, inputType: "dropdown", isHidden:hiddenFrequency},
+            {name: "Scheduled Day", value: scheduledDay, data: scheduledDayOptions, onChange:updateScheduledDay, id: "scheduled-day", errors: errors.scheduled_day, inputType: "dropdown", isHidden:hiddenScheduledDay},
+            {name: "Special Day", value: specialDay, data: specialDayOptions, onChange:updateSpecialDay, id: "special-day", errors: errors.special_day, inputType: "dropdown", isHidden:hiddenSpecialDay},
         ]
         :
         [

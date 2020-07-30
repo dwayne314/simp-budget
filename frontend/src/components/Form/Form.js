@@ -11,65 +11,73 @@ import './Form.css';
 const Form = (props) => {
 
     const { formHeader, fields, bottomText='', formErrors='', submit, submitCTA } = props;
-    const formFields = fields.map((field, index) => (
-         <div key={`form-field-${index}`} className="form-item-container">
-            <div className="form-label">
-                <label htmlFor={field.id}>{field.name}</label>
-            </div>
-            {(() => {
+    const formFields = fields.map((field, index) => {
+        if (!field.isHidden) {
+            return (
+             <div key={`form-field-${index}`} className="form-item-container">
+                <div className="form-label">
+                    <label htmlFor={field.id}>{field.name}</label>
+                </div>
+                {(() => {
 
-                if (field.inputType === 'date') { 
-                    return (
-                        <div className="date-picker-container">
-                            <DatePicker
-                                selected={field.value}
-                                onChange={date => field.onChange(date)}
-                                dateFormat='MMMM d, yyyy'>
-                            </DatePicker>
-                        </div>
-                    );
-                }
-                else if (field.inputType === 'currency') {
-                    return (
-                            <div className="form-input">
-                                <input id={field.id} className="currency-input" onChange={field.onChange} type="number" value={field.value}/>
-                                <span className="currency-indicator">$</span>
+                    if (field.inputType === 'date') { 
+                        return (
+                            <div className="date-picker-container">
+                                <DatePicker
+                                    selected={field.value}
+                                    onChange={date => field.onChange(date)}
+                                    dateFormat='MMMM d, yyyy'>
+                                </DatePicker>
                             </div>
-                    );
+                        );
+                    }
+                    else if (field.inputType === 'currency') {
+                        return (
+                                <div className="form-input">
+                                    <input id={field.id} className="currency-input" onChange={field.onChange} type="number" value={field.value}/>
+                                    <span className="currency-indicator">$</span>
+                                </div>
+                        );
+                    }
+                    else if (field.inputType === 'toggle') {
+                        return (
+                            <div className="form-toggle-input">
+                                <ToggleSwitch 
+                                    id={field.id}
+                                    isToggled={field.value} 
+                                    handleToggle={field.onChange}/>
+                            </div>
+                        )
+                    }
+                    else if (field.inputType === 'dropdown') {
+                        return (
+                            <div className="form-input">
+                                <DropdownList 
+                                    data={field.data}
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                />
+                            </div>
+                        )
+                    }
+                    else {
+                        return (
+                            <div className="form-input">
+                                <input id={field.id} onChange={field.onChange} type={(field.inputType ? field.inputType : "text")} value={field.value}/>
+                            </div>
+                        );
+                    }
+                })()}
+                {(field.errors) ? 
+                    <span className="form-errors">{`* ${field.errors}`}</span> : 
+                    ""
                 }
-                else if (field.inputType === 'toggle') {
-                    return (
-                        <div className="form-toggle-input">
-                            <ToggleSwitch id={field.id} isToggled={field.value} 
-                handleToggle={field.onChange}/>
-                        </div>
-                    )
-                }
-                else if (field.inputType === 'dropdown') {
-                    return (
-                        <div className="form-input">
-                            <DropdownList 
-                                data={field.data}
-                                value={field.value}
-                                onChange={field.onChange}
-                            />
-                        </div>
-                    )
-                }
-                else {
-                    return (
-                        <div className="form-input">
-                            <input id={field.id} onChange={field.onChange} type={(field.inputType ? field.inputType : "text")} value={field.value}/>
-                        </div>
-                    );
-                }
-            })()}
-            {(field.errors) ? 
-                <span className="form-errors">{`* ${field.errors}`}</span> : 
-                ""
-            }
-        </div>
-    ));
+            </div>
+        )}
+        else {
+            return '';
+        }
+    });
 
     const footerText = (!bottomText) ? "" : (
         <div className="form-bottom-text-container">
