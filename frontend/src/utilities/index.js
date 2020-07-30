@@ -1,4 +1,13 @@
-import { formatUSD, formatDate, getLocalDate } from './formatters';
+import {
+    formatUSD,
+    formatDate,
+    getLocalDate,
+    getWeekDayFromIndex,
+    getMonthDayFromIndex,
+    getWeeklyFrequencyFromIndex,
+    getMonthlyFrequencyFromIndex,
+    getSpecialDayFromIndex
+} from './formatters';
 import {
     registrationValidator,
     loginValidator,
@@ -15,6 +24,11 @@ export {
     formatUSD,
     formatDate,
     getLocalDate,
+    getWeekDayFromIndex,
+    getMonthDayFromIndex,
+    getWeeklyFrequencyFromIndex,
+    getMonthlyFrequencyFromIndex,
+    getSpecialDayFromIndex,
     registrationValidator,
     loginValidator,
     newAccountValidator,

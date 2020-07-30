@@ -3,21 +3,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import "react-datepicker/dist/react-datepicker.css";
 import './CreateTransaction.css';
 import Form from '../../components/Form/Form';
-import { setErrors, postTransaction, add_transactions, postRecurringTransaction } from '../../redux/actions';
+import {
+    setErrors,
+    postTransaction,
+    add_transactions,
+    postRecurringTransaction
+} from '../../redux/actions';
 import { getErrors } from '../../redux/selectors';
-import { newTransactiontValidator, newRecurringTransactionValidator } from '../../utilities';
+import {
+    newTransactiontValidator,
+    newRecurringTransactionValidator,
+    getWeekDayFromIndex,
+    getMonthDayFromIndex,
+    getWeeklyFrequencyFromIndex,
+    getMonthlyFrequencyFromIndex,
+    getSpecialDayFromIndex
+} from '../../utilities';
 
 
 const CreateTransaction = (props) => {
-    // Recurring Transaction Options
-    const monthlyScheduledDayOptions = Array.from(Array(31), (_, i) => i + 1);
-    // monthlyScheduledDayOptions.unshift('')
-    // const weeklyScheduledDayOptions = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    // Convert to weeks
-    const weeklyScheduledDayOptions = [1,2,3,4,5,6,7]
-    const allFrequencyOptions = [1, 2, 3, 4];
-    const allSpecialDayOptions = ['first', 'last'];
-
     const { id: accountId } = props.match.params;
     const dispatch = useDispatch();
     const errors = useSelector(getErrors);
@@ -26,39 +30,52 @@ const CreateTransaction = (props) => {
     const [note, setNote] = useState('');
     const [date, setDate] = useState(new Date());
     const [transactionType, setTransactionType] = useState();
-    const [frequency, setFrequency] = useState();
-    const [scheduledDay, setScheduledDay] = useState();
-    const [specialDay, setSpecialDay] = useState();
+    const [frequencyIndex, setFrequencyIndex] = useState();
+    const [scheduledDayIndex, setScheduledDayIndex] = useState();
+    const [specialDayIndex, setSpecialDayIndex] = useState();
     const [transactionErrors, setTransactionErrors] = useState('');
     const [isRecurringTransaction, setRecurringTransaction] = useState(false);
     const updateAmount = e => setAmount(e.target.value);
     const updateNote = e => setNote(e.target.value);
     const updateDate = date => setDate(date);
     const updateTransactionType = value => setTransactionType(value);
-    const updateFrequency = value => setFrequency(value);
-    const updateSpecialDay = value => setSpecialDay(value);
-    const updateScheduledDay = value => setScheduledDay(value);
+    const updateFrequencyIndex = value => setFrequencyIndex(value);
+    const updateSpecialDayIndex = value => setSpecialDayIndex(value);
+    const updateScheduledDayIndex = value => setScheduledDayIndex(value);
 
 
     // Recurring Transaction Options
+    const allSpecialDayIndexOptions = ['first day of the month', 'last day of the month'];
+    const monthlyScheduledDayIndexOptions = [
+        '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th',
+        '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th',
+        '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th',
+        '29th', '30th', '31st'
+    ];
+    const weeklyScheduledDayIndexOptions = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const weeklyFrequencyIndexOptions = ['every 1 week', 'every 2 weeks', 'every 3 weeks', 'every 4 weeks'];
+    const monthlyFrequencyIndexOptions = ['every 1 month', 'every 2 months', 'every 3 months', 'every 4 months'];
+
     const [transactionTypeOptions, setTransactionTypeOptions] = useState(['daily', 'weekly', 'monthly']);
-    const [frequencyOptions, setFrequencyOptions] = useState(allFrequencyOptions)
-    const [specialDayOptions, setSpecialDayOptions] = useState([])
-    const [scheduledDayOptions, setScheduledDayOptions] = useState(weeklyScheduledDayOptions.concat(monthlyScheduledDayOptions))
+    const [frequencyIndexOptions, setFrequencyIndexOptions] = useState([]);
+    const [specialDayIndexOptions, setSpecialDayIndexOptions] = useState([]);
+    const [scheduledDayIndexOptions, setScheduledDayIndexOptions] = useState([]);
 
     // Hidden Fields
     const hiddenFrequency = (
         (transactionType === undefined) ||
         (transactionType === 'daily')
         );
-    const hiddenScheduledDay = (
+    const hiddenScheduledDayIndex = (
         (transactionType === undefined) ||
         (transactionType === 'daily') ||
-        (transactionType === 'monthly' && specialDay !== ''));
+        (transactionType === 'monthly' && specialDayIndex !== '')
+        );
     const hiddenSpecialDay = (
         (transactionType === undefined) ||
         (transactionType !== 'monthly') || 
-        (transactionType === 'monthly' && scheduledDay !== ''));
+        (transactionType === 'monthly' && scheduledDayIndex !== '')
+        );
 
     // Adds the transaction to the state and redirects to the account
     const submitForm = async (e) => {
@@ -66,6 +83,22 @@ const CreateTransaction = (props) => {
         setTransactionErrors('');
         dispatch(setErrors({}));
 
+        // Create the scheduled day, frequency, and special day from their indexes
+        let scheduledDay;
+        let frequency;
+        let specialDay;
+
+        if (transactionType === 'weekly') {
+            scheduledDay = getWeekDayFromIndex(scheduledDayIndex);
+            frequency = getWeeklyFrequencyFromIndex(frequencyIndex);
+        } else if (transactionType === 'monthly') {
+            scheduledDay = getMonthDayFromIndex(scheduledDayIndex);
+            frequency = getMonthlyFrequencyFromIndex(frequencyIndex);
+            specialDay = getSpecialDayFromIndex(specialDayIndex);
+        } else {
+            scheduledDay = scheduledDayIndex;
+            frequency = frequencyIndex;
+        };
         const transactionAttrs = !isRecurringTransaction ? { amount, note, date } : { amount, note, transactionType, frequency, scheduledDay, specialDay}
         const { errors, result, isValid } = !isRecurringTransaction ? newTransactiontValidator(transactionAttrs) : newRecurringTransactionValidator(transactionAttrs);
         
@@ -99,9 +132,9 @@ const CreateTransaction = (props) => {
             {name: "Amount", value: amount, onChange:updateAmount, id: "amount", errors: errors.amount, inputType: "currency"},
             {name: "Note", value: note, onChange:updateNote, id: "note", errors: errors.note},
             {name: "Transaction Type", value:transactionType, data: transactionTypeOptions, onChange:updateTransactionType, id: "transaction-type", errors: errors.transaction_type, inputType: "dropdown"},
-            {name: "Frequency", value: frequency, data: frequencyOptions, onChange:updateFrequency, id: "frequency", errors: errors.frequency, inputType: "dropdown", isHidden:hiddenFrequency},
-            {name: "Scheduled Day", value: scheduledDay, data: scheduledDayOptions, onChange:updateScheduledDay, id: "scheduled-day", errors: errors.scheduled_day, inputType: "dropdown", isHidden:hiddenScheduledDay},
-            {name: "Special Day", value: specialDay, data: specialDayOptions, onChange:updateSpecialDay, id: "special-day", errors: errors.special_day, inputType: "dropdown", isHidden:hiddenSpecialDay},
+            {name: "Frequency", value: frequencyIndex, data: frequencyIndexOptions, onChange:updateFrequencyIndex, id: "frequency", errors: errors.frequency, inputType: "dropdown", isHidden:hiddenFrequency},
+            {name: "Scheduled Day", value: scheduledDayIndex, data: scheduledDayIndexOptions, onChange:updateScheduledDayIndex, id: "scheduled-day", errors: errors.scheduled_day, inputType: "dropdown", isHidden:hiddenScheduledDayIndex},
+            {name: "Special Day", value: specialDayIndex, data: specialDayIndexOptions, onChange:updateSpecialDayIndex, id: "special-day", errors: errors.special_day, inputType: "dropdown", isHidden:hiddenSpecialDay},
         ]
         :
         [
@@ -112,28 +145,28 @@ const CreateTransaction = (props) => {
         ];
 
     useEffect(() => {
-        setFrequency('');
-        setScheduledDay('');
-        setSpecialDay('');
+        setFrequencyIndex('');
+        setScheduledDayIndex('');
+        setSpecialDayIndex('');
 
         if (transactionType === 'daily') {
-            setFrequencyOptions([1]);
-            setScheduledDayOptions([1]);
-            setSpecialDayOptions([]);
-            setFrequency(1);
-            setScheduledDay(1);
+            setFrequencyIndexOptions([1]);
+            setScheduledDayIndexOptions([1]);
+            setSpecialDayIndexOptions([]);
+            setFrequencyIndex(1);
+            setScheduledDayIndex(1);
         }
         else if (transactionType === 'weekly') {
-            setFrequencyOptions(allFrequencyOptions);
-            setScheduledDayOptions(weeklyScheduledDayOptions);
-            setSpecialDayOptions([]);
+            setFrequencyIndexOptions(weeklyFrequencyIndexOptions);
+            setScheduledDayIndexOptions(weeklyScheduledDayIndexOptions);
+            setSpecialDayIndexOptions([]);
         }
         else if (transactionType === 'monthly') {
-            setFrequencyOptions(allFrequencyOptions);
-            setScheduledDayOptions(monthlyScheduledDayOptions);
-            setSpecialDayOptions(allSpecialDayOptions);
+            setFrequencyIndexOptions(monthlyFrequencyIndexOptions);
+            setScheduledDayIndexOptions(monthlyScheduledDayIndexOptions);
+            setSpecialDayIndexOptions(allSpecialDayIndexOptions);
         }
-    }, [transactionType])
+    }, [transactionType]);
 
     return (
         <div className="create-transaction-page-container">
