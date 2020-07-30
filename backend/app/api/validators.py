@@ -295,9 +295,9 @@ class RecurringTransactionValidator(Validator):
 
         if self.amount is None and required:
             self.errors['amount'] = self.missing_field_error('Amount')
-        elif self.amount and isinstance(self.amount, float):
+        elif self.amount is not None and isinstance(self.amount, float):
             self.errors['amount'] = 'Amount must be an integer.'
-        elif self.amount:
+        elif self.amount is not None:
             try:
                 self.amount = int(self.amount)
             except ValueError:
@@ -325,12 +325,11 @@ class RecurringTransactionValidator(Validator):
         """
 
         valid_types = ['daily', 'weekly', 'monthly']
-        # print(self.transaction_type)
-        # print('8'*80)
+
         if self.transaction_type is None and required:
             self.errors['transaction_type'] = self.missing_field_error(
                 'Transaction type')
-        elif self.transaction_type:
+        elif self.transaction_type is not None:
             if self.transaction_type not in valid_types:
                 self.errors['transaction_type'] = 'A recurring transaction ' \
                     "type must be either 'daily', 'weekly', or 'monthly'."
@@ -387,7 +386,7 @@ class RecurringTransactionValidator(Validator):
 
         required_field_error = self.special_day is None and required
         valid_special_day_error = all(
-            [self.special_day, self.special_day not in valid_special_days])
+            [self.special_day is not None, self.special_day not in valid_special_days])
 
         if required_field_error:
             self.errors['special_day'] = \
