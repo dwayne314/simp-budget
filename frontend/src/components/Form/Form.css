@@ -23,8 +23,9 @@
     margin: 15px 0px;
 }
 
-.form-item-container:first-child {
-    margin: 0px;
+.form-item-vertical {
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .form-item-container > div {
@@ -42,6 +43,9 @@
     box-sizing : border-box;    
 }
 
+.form-toggle-input {
+    margin: auto 0px;
+}
 .form-label {
     font-size: 22px;
 }

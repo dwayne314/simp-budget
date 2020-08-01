@@ -1,3 +1,14 @@
+.toggle-switch-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+
+.toggle-switch-container input {
+  display: none;
+}
+
 .toggle-switch-checkbox {
   height: 0;
   width: 0;
@@ -5,7 +16,7 @@
 }
 
 .toggle-switch-label {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
@@ -15,6 +26,7 @@
   border-radius: 50px;
   position: relative;
   transition: background-color .2s;
+  float: right;
 }
 
 .toggle-switch-label .toggle-switch-button {

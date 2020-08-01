@@ -131,7 +131,7 @@ const CreateTransaction = (props) => {
     
     const formFields = isRecurringTransaction ? 
         [
-            {name: "Toggle Transaction Type", id: "toggle-input", value: isRecurringTransaction, onChange: () => setRecurringTransaction(!isRecurringTransaction), inputType: "toggle"},
+            {name: "Recurring Transaction", id: "toggle-input", value: isRecurringTransaction, onChange: () => setRecurringTransaction(!isRecurringTransaction), inputType: "toggle", horizontalAlign:true},
             {name: "Amount", value: amount, onChange:updateAmount, id: "amount", errors: errors.amount, inputType: "currency"},
             {name: "Note", value: note, onChange:updateNote, id: "note", errors: errors.note},
             {name: "Transaction Type", value:transactionType, data: transactionTypeOptions, onChange:updateTransactionType, id: "transaction-type", errors: errors.transaction_type, inputType: "dropdown"},
@@ -141,7 +141,7 @@ const CreateTransaction = (props) => {
         ]
         :
         [
-            {name: "Toggle Transaction Type", id: "toggle-input", value: isRecurringTransaction, onChange: () => setRecurringTransaction(!isRecurringTransaction), inputType: "toggle"},
+            {name: "Recurring Transaction", id: "toggle-input", value: isRecurringTransaction, onChange: () => setRecurringTransaction(!isRecurringTransaction), inputType: "toggle", horizontalAlign:true},
             {name: "Amount", value: amount, onChange:updateAmount, id: "amount", errors: errors.amount, inputType:"currency"},
             {name: "Note", value: note, onChange:updateNote, id: "note", errors: errors.note},
             {name: "Date", value: date, onChange:updateDate, id: "date", errors: errors.date, inputType:"date"}
@@ -173,7 +173,7 @@ const CreateTransaction = (props) => {
 
     return (
         <div className="create-transaction-page-container">
-            <Form formHeader={isRecurringTransaction ? 'New Recurring Transaction' : 'New Transaction'} 
+            <Form formHeader='New Transaction' 
                   fields={formFields} 
                   submit={submitForm} 
                   submitCTA={"Submit"}

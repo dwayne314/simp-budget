@@ -14,7 +14,7 @@ const Form = (props) => {
     const formFields = fields.map((field, index) => {
         if (!field.isHidden) {
             return (
-             <div key={`form-field-${index}`} className="form-item-container">
+             <div key={`form-field-${index}`} className={`form-item-container${field.horizontalAlign ? ' form-item-vertical' : ''}`}>
                 <div className="form-label">
                     <label htmlFor={field.id}>{field.name}</label>
                     {(() => {
