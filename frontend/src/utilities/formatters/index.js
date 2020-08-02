@@ -27,7 +27,27 @@ export const formatDate = (date, style='md') => {
         day = day < 10 ? '0' + day : day;
 
         return `${year}-${month}-${day}`  
+    }
+};
 
+export const formatDateUTC = (date, style='md') => {
+    const d = new Date(date);
+
+    if (style === 'md') {
+        const month = d.getUTCMonth() + 1;
+        const day = d.getUTCDate();
+
+        return `${month}/${day}`;
+    }
+    else if (style === 'yyyy-mm-dd') {
+        const year = d.getUTCFullYear();
+        let month = d.getUTCMonth() + 1;
+        let day = d.getUTCDate();
+
+        month = month < 10 ? '0' + month : month;
+        day = day < 10 ? '0' + day : day;
+
+        return `${year}-${month}-${day}`
     }
 };
 

@@ -1,0 +1,6 @@
+.icon-container {
+    cursor: pointer;
+}
+.un-clickable {
+    cursor: default;
+}

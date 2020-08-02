@@ -1,6 +1,7 @@
 import {
     formatUSD,
     formatDate,
+    formatDateUTC,
     getLocalDate,
     getWeekDayFromIndex,
     getMonthDayFromIndex,
@@ -23,6 +24,7 @@ export {
     isEmpty,
     formatUSD,
     formatDate,
+    formatDateUTC,
     getLocalDate,
     getWeekDayFromIndex,
     getMonthDayFromIndex,
