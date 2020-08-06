@@ -1,12 +1,10 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import newIcon from '../../static/icons/new-icon.svg';
 import Paginator from '../../components/Paginator/Paginator';
 import Icon from '../../components/Icon/Icon';
 import SearchForm from '../../components/SearchForm/SearchForm';
 import { getAccounts, getTransactions } from '../../redux/selectors';
-import { formatDate, formatUSD, getLocalDate, getTransactionsByAccountId } from '../../utilities';
+import { formatUSD } from '../../utilities';
 
 import addIcon from '../../static/icons/plus-button.svg';
 import searchIcon from '../../static/icons/magnifying-glass.svg';
@@ -49,7 +47,7 @@ const Accounts = (props) => {
 
 
     const showAllAccounts = allAccounts.map((account, index) => {
-        return <div className="view-accounts-container" onClick={() => viewAccount(account)}>
+        return <div key={account.id} className="view-accounts-container" onClick={() => viewAccount(account)}>
                     <div className="view-accounts-account-name">{account.name}</div>
                     <div className="view-accounts-account-balance">{accountBalanceById[account.id]}</div>
                 </div>

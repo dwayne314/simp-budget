@@ -7,6 +7,7 @@ import {
     getMonthDayFromIndex,
     getWeeklyFrequencyFromIndex,
     getMonthlyFrequencyFromIndex,
+    mapOrdinalIndicators,
     getSpecialDayFromIndex
 } from './formatters';
 import {
@@ -30,6 +31,7 @@ export {
     getMonthDayFromIndex,
     getWeeklyFrequencyFromIndex,
     getMonthlyFrequencyFromIndex,
+    mapOrdinalIndicators,
     getSpecialDayFromIndex,
     registrationValidator,
     loginValidator,

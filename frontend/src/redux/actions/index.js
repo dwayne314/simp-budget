@@ -32,7 +32,17 @@ import {
     REMOVE_TRANSACTIONS
 } from './transactionActions';
 import {
-    postRecurringTransaction
+    postRecurringTransaction,
+    setRecurringTransactions,
+    fetchRecurringTransactions,
+    addRecurringTransactions,
+    patchRecurringTransaction,
+    updateRecurringTransaction,
+    deleteRecurringTransactions,
+    SET_RECURRING_TRANSACTIONS,
+    ADD_RECURRING_TRANSACTIONS,
+    UPDATE_RECURRING_TRANSACTION,
+    REMOVE_RECURRING_TRANSACTIONS
 } from './recurringTransactionActions';
 import {
     setFlashMessages,
@@ -75,6 +85,16 @@ export {
     REMOVE_TRANSACTIONS,
     SET_FLASH_MESSAGES,
     postRecurringTransaction,
+    fetchRecurringTransactions,
+    setRecurringTransactions,
+    addRecurringTransactions,
+    patchRecurringTransaction,
+    updateRecurringTransaction,
+    deleteRecurringTransactions,
+    ADD_RECURRING_TRANSACTIONS,
+    SET_RECURRING_TRANSACTIONS,
+    UPDATE_RECURRING_TRANSACTION,
+    REMOVE_RECURRING_TRANSACTIONS,
     setFlashMessages,
     PUSH_FLASH_MESSAGE,
     pushFlashMessage,

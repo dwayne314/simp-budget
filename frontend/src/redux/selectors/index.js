@@ -2,7 +2,11 @@ import { getCurrentUser, currentUserId, getAuthTokenExpiration, getCsrfToken } f
 import { flashMessages, getErrors} from './notificationSelectors';
 import { getAccounts, getAccountById } from './accountSelectors';
 import { getTransactions, getTransactionsByAccountId, getTransactionById } from './transactionSelectors';
-
+import { 
+    getRecurringTransactions,
+    getRecurringTransactionsByAccountId,
+    getRecurringTransactionById
+} from './recurringTransactionSelectors';
 
 const currentState = state => state
 
@@ -18,5 +22,8 @@ export {
     getAccountById,
     getTransactions,
     getTransactionsByAccountId,
-    getTransactionById
+    getTransactionById,
+    getRecurringTransactions,
+    getRecurringTransactionsByAccountId,
+    getRecurringTransactionById
 };

@@ -124,6 +124,11 @@
     margin-bottom: 5px;
 }
 
+.view-account-transaction-body {
+    display: flex;
+    flex-direction: row;
+}
+
 .modify-account-transaction-floating-buttons {
     max-width: var(--app-max-width);
     position: sticky;

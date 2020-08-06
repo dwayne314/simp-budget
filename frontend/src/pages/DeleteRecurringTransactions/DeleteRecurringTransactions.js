@@ -1,20 +1,20 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteTransactions } from '../../redux/actions';
+import { deleteRecurringTransactions } from '../../redux/actions';
 
 
-const DeleteTransactions = (props) => {
+const DeleteRecurringTransactions = (props) => {
     const { id: accountId } = props.match.params;
     const { data={data: {transactions: ''}} } = props.location;
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (data.transactions) {
-            const execDeleteTransactions = async () => {
-                await dispatch(deleteTransactions(data.transactions, accountId));
+            const execDeleteRecurringTransactions = async () => {
+                await dispatch(deleteRecurringTransactions(data.transactions, accountId));
                 props.history.push(`/accounts/${accountId}/view`);
             }
-            execDeleteTransactions();
+            execDeleteRecurringTransactions();
         } else {
             props.history.push(`/accounts/${accountId}/view`);
         }
@@ -22,4 +22,4 @@ const DeleteTransactions = (props) => {
     return null;
 }
 
-export default DeleteTransactions;
+export default DeleteRecurringTransactions;

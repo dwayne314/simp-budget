@@ -9,7 +9,11 @@ import {
     REMOVE_TRANSACTIONS,
     SET_FLASH_MESSAGES,
     PUSH_FLASH_MESSAGE,
-    SET_ERRORS
+    SET_ERRORS,
+    ADD_RECURRING_TRANSACTIONS,
+    SET_RECURRING_TRANSACTIONS,
+    UPDATE_RECURRING_TRANSACTION,
+    REMOVE_RECURRING_TRANSACTIONS
 } from '../actions'
 
 
@@ -18,6 +22,7 @@ const initialState = {
     csrfToken: '',
     accounts: [],
     transactions: [],
+    recurringTransactions: [],
     flashMessages: [],
     errors: {}
 };
@@ -89,6 +94,40 @@ const rootReducer = (state=initialState, action) => {
             return {
                 ...state,
                 transactions: state.transactions.filter(tran => transactionIds.indexOf(tran.id) === -1)
+            }
+
+        case SET_RECURRING_TRANSACTIONS:
+            return {
+                ...state,
+                recurringTransactions: action.payload.recurringTransactions
+            }
+
+        case ADD_RECURRING_TRANSACTIONS:
+            return {
+                ...state,
+                recurringTransactions: [...state.recurringTransactions, ...action.payload.recurringTransaction]
+            }
+
+        case UPDATE_RECURRING_TRANSACTION:
+            const { recurringTransactionId, recurringTransactionAttrs} = action.payload;
+                const recurringTranAttrs = Object.keys(recurringTransactionAttrs);
+                return {
+                    ...state,
+                    recurringTransactions: state.recurringTransactions.map(tran => {
+                        if (tran.id === Number(recurringTransactionId)) {
+                            for (let i=0; i < recurringTranAttrs.length; i++) {
+                                tran[recurringTranAttrs[i]] = recurringTransactionAttrs[recurringTranAttrs[i]];
+                            }
+                        }
+                        return tran;
+                    })
+                };
+
+        case REMOVE_RECURRING_TRANSACTIONS:
+            const { recurringTransactionIds } = action.payload
+            return {
+                ...state,
+                recurringTransactions: state.recurringTransactions.filter(tran => recurringTransactionIds.indexOf(tran.id) === -1)
             }
 
         case SET_FLASH_MESSAGES:

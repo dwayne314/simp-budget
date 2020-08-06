@@ -20,6 +20,8 @@ import {
     CreateTransaction,
     EditTransaction,
     DeleteTransactions,
+    EditRecurringTransaction,
+    DeleteRecurringTransactions,
     PageNotFound
 } from '../pages';
 import './App.css';
@@ -89,6 +91,8 @@ const App = (props) => {
                     <Route exact path="/accounts/:id/transactions/create" component={CreateTransaction}></Route>                
                     <Route exact path="/accounts/:id/transactions/:transactionId/edit" component={EditTransaction}></Route>
                     <Route exact path="/accounts/:id/transactions/delete" component={DeleteTransactions}></Route>
+                    <Route exact path="/accounts/:id/recurringTransactions/:recurringTransactionId/edit" component={EditRecurringTransaction}></Route>
+                    <Route exact path="/accounts/:id/recurringTransactions/delete" component={DeleteRecurringTransactions}></Route>
                     <Route path="*" component={PageNotFound} />
                 </Switch>
             </div>

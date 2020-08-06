@@ -6,6 +6,7 @@ import {
     pushFlashMessage,
     set_accounts,
     set_transactions,
+    setRecurringTransactions,
     setFlashMessages
 } from './'
 import { getCsrfToken } from '../selectors';
@@ -84,6 +85,7 @@ export const logout = (authError) => (dispatch, getState) => {
     // Reduces the calls to the api if the user's session has already timed out
     if (authError) {
         dispatch(set_transactions([]));
+        dispatch(setRecurringTransactions([]));
         dispatch(set_accounts([]));
         dispatch(setFlashMessages([]));
         dispatch(login({}));
@@ -94,11 +96,13 @@ export const logout = (authError) => (dispatch, getState) => {
             .then(response => {
                 dispatch(login({}));
                 dispatch(set_transactions([]));
+                dispatch(setRecurringTransactions([]));
                 dispatch(set_accounts([]));
                 dispatch(setFlashMessages([]));
             })
             .catch(err => {
                 dispatch(set_transactions([]));
+                dispatch(setRecurringTransactions([]));
                 dispatch(set_accounts([]));
                 dispatch(setFlashMessages([]));
                 dispatch(login({}));

@@ -10,6 +10,8 @@ import DeleteAccount from './DeleteAccount/DeleteAccount';
 import CreateTransaction from './CreateTransaction/CreateTransaction';
 import EditTransaction from './EditTransaction/EditTransaction';
 import DeleteTransactions from './DeleteTransactions/DeleteTransactions';
+import EditRecurringTransaction from './EditRecurringTransaction/EditRecurringTransaction';
+import DeleteRecurringTransactions from './DeleteRecurringTransactions/DeleteRecurringTransactions';
 import PageNotFound from './PageNotFound/PageNotFound';
 
 
@@ -26,5 +28,7 @@ export {
     CreateTransaction,
     EditTransaction,
     DeleteTransactions,
+    EditRecurringTransaction,
+    DeleteRecurringTransactions,
     PageNotFound
 }

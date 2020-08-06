@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { fetchTransactions, pushFlashMessage, logout } from './'
+import { fetchTransactions, fetchRecurringTransactions, pushFlashMessage, logout } from './'
 import { currentUserId, getCsrfToken } from '../selectors';
 import { generateCsrfHeader, isAuthError } from '../../utilities';
 
@@ -29,6 +29,7 @@ export const fetchAccounts = () => (dispatch, getState) => {
         .then(accounts => {
             for (let i=0; i < accounts.length; i++) {
                 dispatch(fetchTransactions(accounts[i].id));
+                dispatch(fetchRecurringTransactions(accounts[i].id));
             }
         })
         .catch(err => {
