@@ -1,0 +1,20 @@
+FROM alpine:3.7
+
+# Install postgres dependencies
+RUN apk add postgresql postgresql-contrib
+WORKDIR /opt
+
+# Copy the directory script
+COPY . /opt
+
+# Move the scripts and crontabs to their specified folders
+COPY boot.sh /tmp/boot.sh
+COPY /crontabs/daily /etc/crontabs/daily-jobs
+
+# Make scripts and crontabs executable
+RUN chmod +x /tmp/boot.sh
+RUN chmod +x scripts/create_recurring_transactions.sh 
+RUN chmod +x /etc/crontabs/daily-jobs
+
+# Execute the boot script
+ENTRYPOINT ["/tmp/boot.sh"]

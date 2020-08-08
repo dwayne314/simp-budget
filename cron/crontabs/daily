@@ -1,0 +1,2 @@
+# 4:01 AM UTC Time - 12:01 Eastern Daylight Savings Time
+1 4 * * * sh /opt/scripts/create_recurring_transactions.sh
