@@ -255,7 +255,7 @@ const ViewAccount = (props) => {
                     </div>
                 </div>       
                 {searchForm} 
-                <Paginator pageCount={pages} currentPage={page} decrementPage={decrementPage} incrementPage={incrementPage} />
+                <Paginator pageCount={pages === 0 ? 1 : pages} currentPage={page} decrementPage={decrementPage} incrementPage={incrementPage} />
                 {!isRecurringTransactions ? showAllTransactions : showAllRecurringTransactions}  
             </div>
             <div className="modify-account-transaction-floating-buttons">
