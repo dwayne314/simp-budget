@@ -11,6 +11,8 @@ import './Form.css';
 const Form = (props) => {
 
     const { formHeader, fields, bottomText='', formErrors='', submit, submitCTA } = props;
+    const textFieldFormTypes = ['text', 'password']
+
     const formFields = fields.map((field, index) => {
         if (!field.isHidden) {
             return (
@@ -76,9 +78,10 @@ const Form = (props) => {
                         )
                     }
                     else {
+                        const fieldType = field.inputType ? field.inputType : 'text'
                         return (
-                            <div className="form-input">
-                                <input id={field.id} onChange={field.onChange} type={(field.inputType ? field.inputType : "text")} value={field.value}/>
+                            <div className={`form-input${textFieldFormTypes.indexOf(fieldType) !== -1 ? ' text-input' : ''}`}>
+                                <input id={field.id} onChange={field.onChange} type={fieldType} value={field.value}/>
                             </div>
                         );
                     }

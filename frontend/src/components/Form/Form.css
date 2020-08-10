@@ -43,6 +43,10 @@
     box-sizing : border-box;    
 }
 
+.text-input > input {
+    padding-left: 10px;
+}
+
 .form-toggle-input {
     margin: auto 0px;
 }
@@ -108,11 +112,12 @@
 .currency-indicator {
     position: absolute;
     left: 0;
-    top: 3px;
+    top: 3.5px;
     color: #787878;
+    font-size: 14px
 }
 
 .currency-input {
-    padding: 12px;
+    padding: 10px;
     box-sizing : border-box;
 }
