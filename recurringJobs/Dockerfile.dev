@@ -5,11 +5,12 @@ RUN apk add postgresql postgresql-contrib
 WORKDIR /opt
 
 # Copy the directory script
-COPY . /opt
+COPY ./cron /opt
 
 # Move the scripts and crontabs to their specified folders
 COPY boot.sh /tmp/boot.sh
-COPY /crontabs/daily /etc/crontabs/daily-jobs
+COPY /sql /opt
+COPY ./cron/crontabs/daily /etc/crontabs/daily-jobs
 
 # Make scripts and crontabs executable
 RUN chmod +x /tmp/boot.sh
