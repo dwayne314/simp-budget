@@ -6,7 +6,7 @@ input[type="text"],
 input[type="password"] {
   font-size: 16px;
 }
-input:focus{
+input:focus {
   outline: 2px solid orange;
 }
 
@@ -19,7 +19,8 @@ input:focus{
     --full-height: 100%;
     --app-margin: 0 auto;
     --app-max-width: 640px;
-    --header-height: 83px;
+    --header-height: 54px;
+   
     /* Colors */
     --primary-color: #1c5f9d;
     --secondary-color: #cf8414;
