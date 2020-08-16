@@ -15,7 +15,9 @@ import {
     deleteAccount,
     set_accounts,
     SET_ACCOUNTS,
-    UPDATE_ACCOUNT
+    UPDATE_ACCOUNT,
+    ADD_ACCOUNT,
+    REMOVE_ACCOUNT
 } from './accountActions';
 import {
     fetchTransactions,
@@ -71,6 +73,8 @@ export {
     set_accounts,
     SET_ACCOUNTS,
     UPDATE_ACCOUNT,
+    ADD_ACCOUNT,
+    REMOVE_ACCOUNT,
     fetchTransactions,
     postTransaction,
     add_transactions,

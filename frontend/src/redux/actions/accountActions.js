@@ -37,6 +37,15 @@ export const fetchAccounts = () => (dispatch, getState) => {
         })
 };
 
+export const ADD_ACCOUNT = 'ADD_ACCOUNT';
+
+export const addAccount = account => ({
+    type: ADD_ACCOUNT,
+    payload: {
+        account
+    }
+});
+
 export const postAccount = (accountAttrs) => (dispatch, getState) => {
     const user_id = currentUserId(getState());
     return axios
@@ -44,7 +53,7 @@ export const postAccount = (accountAttrs) => (dispatch, getState) => {
               accountAttrs,
               generateCsrfHeader(getCsrfToken(getState())))
         .then(response => {
-            dispatch(fetchAccounts());
+            dispatch(addAccount(response.data.data))
             dispatch(pushFlashMessage(`Account ${accountAttrs.name} created`, 'success'));
             return {success: true};
         })
@@ -83,17 +92,28 @@ export const updateAccount = (accountId, accountAttrs) => ({
     }
 });
 
+export const REMOVE_ACCOUNT = 'REMOVE_ACCOUNT';
+
+export const removeAccount = accountId => ({
+    type: REMOVE_ACCOUNT,
+    payload: {
+        accountId
+    }
+});
+
+
 export const deleteAccount = (accountId, accountName) => (dispatch, getState) => {
     const user_id = currentUserId(getState());
     return axios
         .delete(`/api/users/${user_id}/accounts/${accountId}`,
                 generateCsrfHeader(getCsrfToken(getState())))
         .then(response => {
-            dispatch(fetchAccounts());
+            dispatch(removeAccount(accountId))
             dispatch(pushFlashMessage(`Account ${accountName} deleted`, 'success'));
             return {success: true};
         })
         .catch(err => {
+            console.log(err)
             dispatch(pushFlashMessage(`Account could not be deleted`, 'error'));
             if (isAuthError(err)) { dispatch(logout(true)); }
             return {success: false, error: 'This account could not be deleted at this time'};

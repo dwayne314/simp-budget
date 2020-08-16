@@ -3,6 +3,8 @@ import {
     CSRF_TOKEN,
     SET_ACCOUNTS,
     UPDATE_ACCOUNT,
+    ADD_ACCOUNT,
+    REMOVE_ACCOUNT,
     SET_TRANSACTIONS,
     ADD_TRANSACTIONS,
     UPDATE_TRANSACTION,
@@ -46,6 +48,19 @@ const rootReducer = (state=initialState, action) => {
                 ...state,
                 accounts: action.payload.accounts
             };
+
+        case ADD_ACCOUNT:
+            return {
+                ...state,
+                accounts: [...state.accounts, action.payload.account]
+            }
+
+        case REMOVE_ACCOUNT:
+            return {
+                ...state,
+                accounts: state.accounts.filter(account => account.id !== Number(action.payload.accountId))
+            }
+
 
         case UPDATE_ACCOUNT:
             const { accountId, accountAttrs} = action.payload;

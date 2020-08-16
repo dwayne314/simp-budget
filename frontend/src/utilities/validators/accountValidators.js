@@ -10,9 +10,9 @@ export const newAccountValidator = ({name='', description=''}) => {
         errors.name = getErrors('max', {fieldName: 'Name', max: 25})
 
     }
-    if (!description) {
-        errors.description = getErrors('required', {fieldName: 'Description'})
-    }
+    // if (!description) {
+    //     errors.description = getErrors('required', {fieldName: 'Description'})
+    // }
     
     return {
         errors: isEmpty(errors) ? null : errors,

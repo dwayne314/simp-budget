@@ -10,15 +10,14 @@ const DeleteAccount = (props) => {
 
     const dispatch = useDispatch();
 
+    const execDeleteAccount = async () => {
+        await dispatch(deleteAccount(accountId, currentAccount.name));
+        props.history.push('/accounts');
+    }
 
     useEffect(() => {
-        const execDeleteAccount = async () => {
-            await dispatch(deleteAccount(accountId, currentAccount.name));
-            props.history.push('/accounts');
-        }
-
         execDeleteAccount();
-    })
+    }, [])
     return null;
 }
 
