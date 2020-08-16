@@ -13,14 +13,12 @@ const CreateAccount = (props) => {
     const errors = useSelector(getErrors);
 
     const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
     const [newAccountError, setNewAccountError] = useState('');
 
     const updateName = e => setName(e.target.value);
-    const updateDescription = e => setDescription(e.target.value);
 
     const submitForm = async () => {
-        const accountAttrs = { name, description };
+        const accountAttrs = { name };
         const { errors, result, isValid } = newAccountValidator(accountAttrs);
 
         if (isValid) {
@@ -38,8 +36,7 @@ const CreateAccount = (props) => {
     }
 
     const formFields = [
-        {name: "Name", value: name, onChange:updateName, id: "name", errors: errors.name},
-        {name: "Description", value: description, onChange:updateDescription, id: "description", errors: errors.description}
+        {name: "Name", value: name, onChange:updateName, id: "name", errors: errors.name}
     ];
 
     return (

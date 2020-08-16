@@ -7,12 +7,8 @@ export const newAccountValidator = ({name='', description=''}) => {
     if (!name) {
         errors.name = getErrors('required', {fieldName: 'Name'})
     } else if (name.length > 25) {
-        errors.name = getErrors('max', {fieldName: 'Name', max: 25})
-
+        errors.name = getErrors('max', {fieldName: 'Name', max: 25});
     }
-    // if (!description) {
-    //     errors.description = getErrors('required', {fieldName: 'Description'})
-    // }
     
     return {
         errors: isEmpty(errors) ? null : errors,
