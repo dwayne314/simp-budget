@@ -33,17 +33,25 @@ const Accounts = (props) => {
     const getAccountTransactions = (accountId) => transactions
         .filter(transaction => transaction.account_id === accountId);
     const viewAccount = account => props.history.push(`/accounts/${account.id}/view`);
-    const toggleSearch = () => setIsSearching(isSearching ? false : true)
+    const toggleSearch = () => setIsSearching(isSearching ? false : true);
 
 
     const accountBalanceById = accounts.reduce((acc, acct) => {
         const accountBalance = getAccountTransactions(acct.id).reduce((bal, tran) => {
-            return bal + tran.amount
+            return bal + tran.amount;
         }, 0)
 
-        acc[acct.id] = formatUSD(accountBalance)
-        return acc
-    }, {})
+        acc[acct.id] = formatUSD(accountBalance);
+        return acc;
+    }, {});
+
+    const totalBalance = accounts.reduce((acc, acct) => {
+        const accountBalance = getAccountTransactions(acct.id).reduce((bal, tran) => {
+            return bal + tran.amount;
+        }, 0);
+
+        return acc + accountBalance;
+    }, 0);
 
 
     const showAllAccounts = allAccounts.map((account, index) => {
@@ -61,16 +69,19 @@ const Accounts = (props) => {
     return (
         <Fragment>
             <div className="accounts-container">
-                <div className="accounts-header-container">
+                <div className="page-header-container">
                     <div className="accounts-header-text">Accounts</div>
+                    <div className="account-balance">{formatUSD(totalBalance)}</div>
                 </div>
-                <div className="view-account-actions-container">
-                    <Icon type={addIcon} alt="plus-icon" linkPath={`/accounts/create`}/>
-                    <Icon
-                        type={searchIcon} 
-                        alt="magnifying-glass"
-                        onClick={toggleSearch}
-                    />
+                <div className="domain-actions-container">
+                    <div className="domain-actions-sub-container">
+                        <Icon type={addIcon} alt="plus-icon" linkPath={`/accounts/create`}/>
+                        <Icon
+                            type={searchIcon} 
+                            alt="magnifying-glass"
+                            onClick={toggleSearch}
+                        />
+                    </div>
                 </div>
 
                 {

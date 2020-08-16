@@ -6,3 +6,37 @@
     padding: 20px;
     box-sizing: border-box;
 }
+
+.page-header-container {
+    display: flex;
+    justify-content: space-between;
+    font-size: 24px;
+}
+
+.domain-actions-container {
+    height: 25px;
+    margin: 30px auto;
+}
+
+.domain-actions-sub-container {
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.domain-actions-sub-container a {
+    display: inline-block;
+    margin: auto 0px;
+}
+
+.domain-actions-sub-container .icon-containers {
+    display: inline-block;
+    margin: auto 0px;
+}
+
+.domain-actions-sub-container img {
+    height: 20px;
+    width: 20px;
+}

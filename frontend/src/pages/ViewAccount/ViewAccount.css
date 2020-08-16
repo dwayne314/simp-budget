@@ -31,43 +31,9 @@
     color: #12a64d;
 }
 
-.view-account-header-container {
-    display: flex;
-    justify-content: space-between;
-    font-size: 24px;
-    margin-bottom: 10px;
-}
 
 .account-description-container {
     margin-bottom: 10px;
-}
-
-.account-actions-container {
-    height: 25px;
-    margin: 20px auto;
-}
-
-.account-actions-sub-container {
-    height: 100%;
-    margin: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.account-actions-sub-container a {
-    display: inline-block;
-    margin: auto 0px;
-}
-
-.account-actions-sub-container .icon-containers {
-    display: inline-block;
-    margin: auto 0px;
-}
-
-.account-actions-sub-container img {
-    height: 20px;
-    width: 20px;
 }
 
 .toggle-switch-container {

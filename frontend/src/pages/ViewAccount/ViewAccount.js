@@ -203,15 +203,15 @@ const ViewAccount = (props) => {
         :
         <div className="view-account-container">
             <div className="view-account-body-container">
-                <div className="view-account-header-container">
+                <div className="page-header-container">
                     <div className="view-account-header-text">{currentAccount.name}</div>
                     <div className="account-balance">{formatUSD(accountBalance)}</div>
                 </div>
                 <div className="account-description-container">
                     {currentAccount.description}
                 </div>
-                <div className="account-actions-container">
-                    <div className="account-actions-sub-container">
+                <div className="domain-actions-container">
+                    <div className="domain-actions-sub-container">
                         <Icon type={addIcon} alt="plus-icon" linkPath={`/accounts/${currentAccount.id}/transactions/create`}/>
                         <Icon
                             type={searchIcon} 
