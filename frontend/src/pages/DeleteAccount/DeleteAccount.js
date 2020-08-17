@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteAccount } from '../../redux/actions';
 import { getAccountById } from '../../redux/selectors';
+import SafeDelete from '../../components/SafeDelete/SafeDelete';
 
 
 const DeleteAccount = (props) => {
@@ -10,15 +11,23 @@ const DeleteAccount = (props) => {
 
     const dispatch = useDispatch();
 
+
     const execDeleteAccount = async () => {
         await dispatch(deleteAccount(accountId, currentAccount.name));
         props.history.push('/accounts');
+    };
+
+    const execStopAccountdeletion = () => {
+        props.history.push(`/accounts/${accountId}/view`);
+
     }
 
-    useEffect(() => {
-        execDeleteAccount();
-    }, [])
-    return null;
+    return (
+        <SafeDelete 
+            domain="account" 
+            safeDelete={execDeleteAccount} 
+            unsafeDelete={execStopAccountdeletion}
+        />)
 }
 
 export default DeleteAccount;
