@@ -20,6 +20,7 @@ input:focus {
     --app-margin: 0 auto;
     --app-max-width: 640px;
     --header-height: 54px;
+    --app-padding: 20px;
    
     /* Colors */
     --primary-color: #1c5f9d;
