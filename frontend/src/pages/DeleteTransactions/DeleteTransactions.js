@@ -4,14 +4,13 @@ import { deleteTransactions } from '../../redux/actions';
 
 
 const DeleteTransactions = (props) => {
-    const { id: accountId } = props.match.params;
-    const { data={data: {transactions: ''}} } = props.location;
+    const { id: accountId, transactionId } = props.match.params;
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (data.transactions) {
+        if (transactionId) {
             const execDeleteTransactions = async () => {
-                await dispatch(deleteTransactions(data.transactions, accountId));
+                await dispatch(deleteTransactions([transactionId], accountId));
                 props.history.push(`/accounts/${accountId}/view`);
             }
             execDeleteTransactions();

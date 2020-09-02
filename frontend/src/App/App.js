@@ -18,8 +18,10 @@ import {
     EditAccount,
     DeleteAccount,
     CreateTransaction,
+    ViewTransaction,
     EditTransaction,
     DeleteTransactions,
+    ViewRecurringTransaction,
     EditRecurringTransaction,
     DeleteRecurringTransactions,
     PageNotFound
@@ -88,11 +90,14 @@ const App = (props) => {
                     <Route exact path="/accounts/:id/view" component={ViewAccount}></Route>
                     <Route exact path="/accounts/:id/edit" component={EditAccount}></Route>
                     <Route exact path="/accounts/:id/delete" component={DeleteAccount}></Route>
-                    <Route exact path="/accounts/:id/transactions/create" component={CreateTransaction}></Route>                
+                    <Route exact path="/accounts/:id/transactions/create" component={CreateTransaction}></Route>
+                    <Route exact path="/accounts/:id/transactions/:transactionId/view" component={ViewTransaction}></Route>
                     <Route exact path="/accounts/:id/transactions/:transactionId/edit" component={EditTransaction}></Route>
                     <Route exact path="/accounts/:id/transactions/delete" component={DeleteTransactions}></Route>
+                    <Route exact path="/accounts/:id/transactions/:transactionId/delete" component={DeleteTransactions}></Route>
+                    <Route exact path="/accounts/:id/recurringTransactions/:recurringTransactionId/view" component={ViewRecurringTransaction}></Route>
                     <Route exact path="/accounts/:id/recurringTransactions/:recurringTransactionId/edit" component={EditRecurringTransaction}></Route>
-                    <Route exact path="/accounts/:id/recurringTransactions/delete" component={DeleteRecurringTransactions}></Route>
+                    <Route exact path="/accounts/:id/recurringTransactions/:recurringTransactionId/delete" component={DeleteRecurringTransactions}></Route>
                     <Route path="*" component={PageNotFound} />
                 </Switch>
             </div>

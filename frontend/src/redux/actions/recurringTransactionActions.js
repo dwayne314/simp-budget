@@ -124,7 +124,7 @@ export const deleteRecurringTransactions = (transactionIds, accountId) => async 
 
     if (!authError) {
         // Remove recurring transactions from redux
-        dispatch(removeRecurringTransactions(deletedIds))
+        dispatch(removeRecurringTransactions(deletedIds.map(accountId => Number(accountId))));
 
         if (errorIds.length && !deletedIds.length) {
             return {success: false, error: 'These recurring transactions could not be deleted at this time.'};

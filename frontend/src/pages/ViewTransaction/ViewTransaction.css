@@ -1,0 +1,60 @@
+.view-transaction-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0px !important;
+    height: calc(100vh - var(--header-height));
+}
+
+.view-transaction-body-header {
+    max-width: var(--app-max-width);
+    box-sizing: border-box;
+    height: 100%;
+    overflow: auto;
+    margin: 0px auto;
+    width: 100%;
+}
+
+.view-transaction-container > div {
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.transaction-balance {
+    margin: auto 0px;
+    color: #12a64d;
+}
+
+.view-transaction-change-page-container {
+    margin: 50px auto;
+
+}
+
+.view-transaction-change-page-container > div {
+    margin: 20px auto;
+}
+.view-transaction-details-section-container {
+    margin: 30px auto;
+}
+
+.view-transaction-details-section > div {
+    margin: 20px auto;
+}
+
+.view-transaction-change-page-section {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    margin: 10px auto;
+}
+
+.view-transaction-change-page > div {
+    margin: 10px auto;
+}
+
+.view-transaction-change-transaction-header {
+    text-align: center;
+    font-weight: 700;
+}
+.view-transaction-details-header {
+    font-weight: 700;
+}

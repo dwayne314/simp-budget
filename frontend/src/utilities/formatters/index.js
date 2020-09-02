@@ -224,3 +224,26 @@ export const getSpecialDayFromIndex = specialDayIndex => {
     };
     return specialDayMapping[specialDayIndex];
 };
+
+export const getRecurringTransactionText = (recurringTransaction) => {
+
+    const constainsFrequencyGap = recurringTransaction.frequency !== 1;
+
+    if (recurringTransaction.transaction_type === 'daily') {
+        return 'Daily';
+    }
+    else {
+        if (recurringTransaction.transaction_type === 'weekly') {
+            const frequencyText = constainsFrequencyGap ? `Every ${recurringTransaction.frequency} weeks ` : 'weekly ';
+            return frequencyText + `on ${getWeekDayFromIndex(recurringTransaction.scheduled_day)}`;
+        }
+        else {
+            const frequencyText = constainsFrequencyGap ? `Every ${recurringTransaction.frequency} months ` : 'monthly ';
+
+            if (recurringTransaction.special_day) {
+                return frequencyText + `on the ${recurringTransaction.special_day} day of the the month`;
+            }
+            return frequencyText + `on the ${mapOrdinalIndicators(recurringTransaction.scheduled_day)}`;
+        }
+    }
+};

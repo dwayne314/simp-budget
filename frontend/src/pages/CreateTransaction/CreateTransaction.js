@@ -24,6 +24,7 @@ import {
 
 const CreateTransaction = (props) => {
     const { id: accountId } = props.match.params;
+    const { data={transactionType: 'transaction'} } = props.location
     const dispatch = useDispatch();
     const errors = useSelector(getErrors);
 
@@ -36,7 +37,9 @@ const CreateTransaction = (props) => {
     const [scheduledDayIndex, setScheduledDayIndex] = useState();
     const [specialDayIndex, setSpecialDayIndex] = useState();
     const [transactionErrors, setTransactionErrors] = useState('');
-    const [isRecurringTransaction, setRecurringTransaction] = useState(false);
+
+    // Defaults to a transaction when no data is supplied
+    const [isRecurringTransaction, setRecurringTransaction] = useState(data.transactionType === 'recurringTransaction');
     const updateAmount = e => setAmount(e.target.value);
     const updateNote = e => setNote(e.target.value);
     const updateDate = date => setDate(date);

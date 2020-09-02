@@ -8,9 +8,11 @@ import ViewAccount from './ViewAccount/ViewAccount';
 import EditAccount from './EditAccount/EditAccount';
 import DeleteAccount from './DeleteAccount/DeleteAccount';
 import CreateTransaction from './CreateTransaction/CreateTransaction';
+import ViewTransaction from './ViewTransaction/ViewTransaction';
 import EditTransaction from './EditTransaction/EditTransaction';
 import DeleteTransactions from './DeleteTransactions/DeleteTransactions';
 import EditRecurringTransaction from './EditRecurringTransaction/EditRecurringTransaction';
+import ViewRecurringTransaction from './ViewRecurringTransaction/ViewRecurringTransaction';
 import DeleteRecurringTransactions from './DeleteRecurringTransactions/DeleteRecurringTransactions';
 import PageNotFound from './PageNotFound/PageNotFound';
 
@@ -26,8 +28,10 @@ export {
     EditAccount,
     DeleteAccount,
     CreateTransaction,
+    ViewTransaction,
     EditTransaction,
     DeleteTransactions,
+    ViewRecurringTransaction,
     EditRecurringTransaction,
     DeleteRecurringTransactions,
     PageNotFound

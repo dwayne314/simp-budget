@@ -85,30 +85,21 @@ const ViewAccount = (props) => {
         setSelectTransactionToggle(false);
         setRecurringTransactions(isRecurringTransactions ? false : true);
     }
-    const updateSelectTransactionToggle = () => {
-        setSelectedTransactions([]);        
-        setSelectTransactionToggle(selectTransactionToggle ? false : true);
-    };
-    const toggleSelection = transactionId => {
-        const transactionIndex = selectedTransactions.indexOf(transactionId);
-        if (transactionIndex === -1) {
-            setSelectedTransactions([...selectedTransactions, transactionId]);
-        }
-        else {
-            setSelectedTransactions(selectedTransactions.filter(tranId => tranId !== transactionId));
-        }
-    };
+    const redirectToAccounts = () => props.history.push('/accounts');
+
+    const viewTransaction = (transactionId, transactionType) => {
+        props.history.push(`/accounts/${accountId}/${transactionType === 'recurringTransaction' ? 'recurringTransactions' : 'transactions'}/${transactionId}/view`)
+    }
 
     // Sorts and creates elements from transactions
     const showAllTransactions = Object.keys(transactionMapper)
         .sort((a, b) => new Date(b) - new Date(a))
         .map((tranDate, dateIndex) => {
             const transactions = transactionMapper[tranDate].flat().map(tran => {
-                let transactionClasses = `view-account-transaction-container${(selectedTransactions.indexOf(tran.id) !== -1) ? ' selected-transaction' : ''}`
-                transactionClasses = transactionClasses + `${selectTransactionToggle ? ' selectable-transaction' : ''}` 
+                let transactionClasses = `view-account-transaction-container selected-transaction`;
 
                 return (
-                    <div key={tran.id} onClick={selectTransactionToggle ? () => toggleSelection(tran.id) : null} 
+                    <div key={tran.id} onClick={() => viewTransaction(tran.id, 'transaction')} 
                           className={transactionClasses}>
                         <div className="view-account-transaction-header">
                             <div className="view-account-transaction-note">{tran.note}</div>
@@ -132,14 +123,13 @@ const ViewAccount = (props) => {
         .sort((a, b) => recurringTransactionsSortOrder.indexOf(a) - recurringTransactionsSortOrder.indexOf(b))
         .map((tranType, tranTypeIndex) => {
             const recurringTransaction = recurringTransactionMapper[tranType].map(tran => {
-                let transactionClasses = `view-account-transaction-container${(selectedTransactions.indexOf(tran.id) !== -1) ? ' selected-transaction' : ''}`
-                transactionClasses = transactionClasses + `${selectTransactionToggle ? ' selectable-transaction' : ''}` 
+                let transactionClasses = `view-account-transaction-container selected-transaction`;
 
                 return (
                     <div 
                         key={`recurring-transaction-${tran.id}`}
                         className={transactionClasses}
-                        onClick={selectTransactionToggle ? () => toggleSelection(tran.id) : null} >
+                        onClick={() => viewTransaction(tran.id, 'recurringTransaction')} >
                         <div className="view-account-transaction-header">
                             <div className="view-account-recurring-transaction-note">{tran.note}</div>
                             <div className="view-account-recurring-transaction-amount">{formatUSD(tran.amount)}</div>
@@ -256,13 +246,7 @@ const ViewAccount = (props) => {
                 {!isRecurringTransactions ? showAllTransactions : showAllRecurringTransactions}  
             </div>
             <div className="modify-account-transaction-floating-buttons">
-                {!selectTransactionToggle ? 
-                    <Fragment>
-                        <Button onClick={updateSelectTransactionToggle} isPrimary={true} cta={"Select Transactions"}/>
-                    </Fragment>
-                    :
-                    <Button onClick={updateSelectTransactionToggle} isPrimary={true} cta={"Stop Selection"}/>
-                }
+                <Button onClick={redirectToAccounts} isPrimary={true} cta={"Back To Accounts"}/>
             </div>
         </div>
     );

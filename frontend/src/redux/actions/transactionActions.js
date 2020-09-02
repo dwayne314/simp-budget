@@ -125,8 +125,7 @@ export const deleteTransactions = (transactionIds, accountId) => async (dispatch
 
     if (!authError) {
         // Remove transactions from redux
-        dispatch(removeTransactions(deletedIds))
-
+        dispatch(removeTransactions(deletedIds.map(accountId => Number(accountId))));
         if (errorIds.length && !deletedIds.length) {
             return {success: false, error: 'These transactions could not be deleted at this time.'};
         } else if (errorIds.length && deletedIds.length) {

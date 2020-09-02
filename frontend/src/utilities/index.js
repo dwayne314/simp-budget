@@ -8,7 +8,8 @@ import {
     getWeeklyFrequencyFromIndex,
     getMonthlyFrequencyFromIndex,
     mapOrdinalIndicators,
-    getSpecialDayFromIndex
+    getSpecialDayFromIndex,
+    getRecurringTransactionText
 } from './formatters';
 import {
     registrationValidator,
@@ -33,6 +34,7 @@ export {
     getMonthlyFrequencyFromIndex,
     mapOrdinalIndicators,
     getSpecialDayFromIndex,
+    getRecurringTransactionText,
     registrationValidator,
     loginValidator,
     newAccountValidator,
@@ -41,5 +43,5 @@ export {
     getErrors,
     generateCsrfHeader,
     isAuthError,
-    isProtectedRoute
+    isProtectedRoute,
 };

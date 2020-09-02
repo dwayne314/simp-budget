@@ -4,14 +4,13 @@ import { deleteRecurringTransactions } from '../../redux/actions';
 
 
 const DeleteRecurringTransactions = (props) => {
-    const { id: accountId } = props.match.params;
-    const { data={data: {transactions: ''}} } = props.location;
+    const { id: accountId, recurringTransactionId } = props.match.params;
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (data.transactions) {
+        if (recurringTransactionId) {
             const execDeleteRecurringTransactions = async () => {
-                await dispatch(deleteRecurringTransactions(data.transactions, accountId));
+                await dispatch(deleteRecurringTransactions([recurringTransactionId], accountId));
                 props.history.push(`/accounts/${accountId}/view`);
             }
             execDeleteRecurringTransactions();

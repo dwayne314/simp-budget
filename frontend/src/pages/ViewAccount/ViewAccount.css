@@ -111,9 +111,9 @@
 }
 
 .selected-transaction {
-    background-color: #7f8686;
+    cursor: pointer;
 }
 
-.selectable-transaction {
-    cursor: pointer;
+.selected-transaction:hover {
+    background-color: #7f8686;
 }
