@@ -131,8 +131,8 @@ const ViewAccount = (props) => {
                         className={transactionClasses}
                         onClick={() => viewTransaction(tran.id, 'recurringTransaction')} >
                         <div className="view-account-transaction-header">
-                            <div className="view-account-recurring-transaction-note">{tran.note}</div>
-                            <div className="view-account-recurring-transaction-amount">{formatUSD(tran.amount)}</div>
+                            <div className="view-account-transaction-note">{tran.note}</div>
+                            <div className="view-account-transaction-amount">{formatUSD(tran.amount)}</div>
                         </div>
                         {
                             tranType !== 'daily' ?
