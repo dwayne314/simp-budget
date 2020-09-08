@@ -3,9 +3,12 @@
 import base64
 import os
 from datetime import datetime, timedelta
+import time
 from sqlalchemy import event
 from sqlalchemy.schema import CheckConstraint
 from werkzeug.security import generate_password_hash, check_password_hash
+import jwt
+from flask import current_app
 from app import db
 from app.utilities.mixins import SerializerMixin
 
@@ -23,7 +26,7 @@ class Users(db.Model, SerializerMixin):
     """Represents a user."""
 
     __serializeable__ = ['first_name', 'last_name', 'email', 'created_at',
-                         'updated_at', 'auth_token_expiration']
+                         'updated_at', 'auth_token_expiration', 'email_verified_at']
 
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(128), nullable=False)
@@ -33,6 +36,7 @@ class Users(db.Model, SerializerMixin):
     password_hash = db.Column(db.String(128))
     auth_token = db.Column(db.String(32), index=True, unique=True)
     auth_token_expiration = db.Column(db.DateTime)
+    email_verified_at = db.Column(db.DateTime())
     created_at = db.Column(
         db.DateTime(), default=datetime.utcnow, nullable=False)
     updated_at = db.Column(
@@ -66,6 +70,30 @@ class Users(db.Model, SerializerMixin):
         """Revokes a user's auth token"""
         self.auth_token_expiration = datetime.utcnow() - timedelta(seconds=1)
 
+
+    def get_web_token(self, expires_in=172800):
+        """Returns a web token for user identification.
+
+        Arguments:
+            expires_in (int): The number of seconds before the web_token
+                expires.  Defaults to 48 hours.
+        """
+
+        return jwt.encode(
+            {'user_id': self.id, 'exp': time.time() + expires_in},
+            current_app.config['SECRET_KEY'],
+            algorithm='HS256').decode('utf-8')
+
+    @staticmethod
+    def verify_web_token(token):
+        """Verifies a registration token"""
+
+        try:
+            id = jwt.decode(token, current_app.config['SECRET_KEY'],
+                            algorithms=['HS256'])['user_id']
+        except:
+            return None
+        return Users.query.get(id)
 
     @classmethod
     def is_duplicate(cls, email):

@@ -17,6 +17,13 @@ class Config:
     SQLALCHEMY_DATABASE_URI = secret.get('DATABASE_URI')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SESSION_COOKIE_SECURE = False
+    MAIL_USERNAME = secret.get('MAIL_USERNAME')
+    MAIL_USERNAME = secret.get('MAIL_USERNAME')
+    MAIL_PASSWORD = secret.get('MAIL_PASSWORD')
+    MAIL_PORT = secret.get('MAIL_PORT')
+    MAIL_SERVER = secret.get('MAIL_SERVER')
+    MAIL_USE_TLS = secret.get('MAIL_USE_TLS')
+    MAIL_DEBUG = False
 
 
 class ProdConfig:

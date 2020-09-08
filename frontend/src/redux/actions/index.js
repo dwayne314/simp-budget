@@ -1,12 +1,15 @@
 import {
-    LOGIN,
     login,
     postLogin,
     getToken,
     logout,
     postRegister,
     setCsrfToken,
-    CSRF_TOKEN } from './authActions';
+    postVerifyEmail,
+    LOGIN,    
+    CSRF_TOKEN,
+    SET_EMAIL_VERIFICATION_DATE
+} from './authActions';
 import {
     fetchAccounts,
     postAccount,
@@ -64,7 +67,9 @@ export {
     logout,
     postRegister,    
     setCsrfToken,
+    postVerifyEmail,
     CSRF_TOKEN,
+    SET_EMAIL_VERIFICATION_DATE,
     fetchAccounts,
     postAccount,
     patchAccount,

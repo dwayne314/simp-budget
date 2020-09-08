@@ -121,6 +121,7 @@ export const postRegister = userData => dispatch => {
         .post('/api/users', userData)
         .then(response => {
             dispatch(logout());
+            dispatch(pushFlashMessage(`Please check your email for an account verification link`, 'success'));
             return {success: true};
         })
         .catch(err => {
@@ -129,6 +130,33 @@ export const postRegister = userData => dispatch => {
             return {success: false};
         })
 };
+
+//
+// Email Verification Actions 
+//
+
+export const postVerifyEmail = webToken => dispatch => {
+    return axios
+        .post('/api/verifyEmail/'+webToken)
+        .then(response => {
+            dispatch(pushFlashMessage(`Email verified`, 'success'));
+            dispatch(setEmailVerificationDate(new Date().toISOString()));
+        })
+        .catch(err => {
+            dispatch(pushFlashMessage(`Email verification failure`, 'error'));            
+        })
+};
+
+export const SET_EMAIL_VERIFICATION_DATE = 'SET_EMAIL_VERIFICATION_DATE';
+
+export const setEmailVerificationDate = date => {
+    return {
+        type: SET_EMAIL_VERIFICATION_DATE,
+        payload: {
+            date: date
+        }
+    };
+}
 
 // 
 // CSRF Tokens

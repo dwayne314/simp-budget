@@ -8,6 +8,7 @@ from app.utilities.helpers import create_token
 from app.utilities.decorators import (err_if_not_found, roles_required,
                                       enforce_owner_by_id, add_child_result,
                                       csrf_enforced)
+from app.utilities.email import (send_email_verification)
 from app.api.validators import (UserValidator, AccountValidator,
                                 TransactionValidator,
                                 RecurringTransactionValidator)
@@ -114,9 +115,10 @@ def post_users():
         password = validate_results['result'].pop('password')
         new_user = Users(**validate_results['result'])
         new_user.hash_password(password)
-
         db.session.add(new_user)
         db.session.commit()
+
+        send_email_verification(new_user)
         serialized_user = Users.serialize_one(new_user.id)
         return {'success': True,
                 'message': 'User created',
@@ -363,8 +365,8 @@ def get_recurring_transactions(user_id, account_id, result):
 @bp.route('/users/<int:user_id>/accounts/<int:account_id>/'
           'recurring_transactions', methods=['POST'])
 @token_auth.login_required
-# @csrf_enforced()
-# @enforce_owner_by_id('user_id', ['admin'])
+@csrf_enforced()
+@enforce_owner_by_id('user_id', ['admin'])
 @add_child_result('user_id', 'account_id')
 def post_recurring_transactions(user_id, account_id, result):
     """Creates a transaction for an account"""

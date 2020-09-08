@@ -24,7 +24,8 @@ import {
     ViewRecurringTransaction,
     EditRecurringTransaction,
     DeleteRecurringTransactions,
-    PageNotFound
+    PageNotFound,
+    VerifyEmail
 } from '../pages';
 import './App.css';
 
@@ -98,6 +99,7 @@ const App = (props) => {
                     <Route exact path="/accounts/:id/recurringTransactions/:recurringTransactionId/view" component={ViewRecurringTransaction}></Route>
                     <Route exact path="/accounts/:id/recurringTransactions/:recurringTransactionId/edit" component={EditRecurringTransaction}></Route>
                     <Route exact path="/accounts/:id/recurringTransactions/:recurringTransactionId/delete" component={DeleteRecurringTransactions}></Route>
+                    <Route exact path="/verifyEmail" component={VerifyEmail} />
                     <Route path="*" component={PageNotFound} />
                 </Switch>
             </div>

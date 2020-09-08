@@ -1,0 +1,13 @@
+<p>Welcome to SimpBudget</p>
+
+<p>Please click the link below to verify your email address</p>
+{% set actionLink = 'http://localhost:3000/verifyEmail?token='~token %}
+
+{{ host_name~'verifyEmail?token='~token }}
+
+<p>
+    <a href="{{ actionLink }}">Verify email address</a>
+</p>
+
+<p>Best,</p>
+<p>The SimpBudget Team</p>

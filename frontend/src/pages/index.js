@@ -15,6 +15,7 @@ import EditRecurringTransaction from './EditRecurringTransaction/EditRecurringTr
 import ViewRecurringTransaction from './ViewRecurringTransaction/ViewRecurringTransaction';
 import DeleteRecurringTransactions from './DeleteRecurringTransactions/DeleteRecurringTransactions';
 import PageNotFound from './PageNotFound/PageNotFound';
+import VerifyEmail from './VerifyEmail/VerifyEmail';
 
 
 export {
@@ -34,5 +35,6 @@ export {
     ViewRecurringTransaction,
     EditRecurringTransaction,
     DeleteRecurringTransactions,
-    PageNotFound
+    PageNotFound,
+    VerifyEmail
 }

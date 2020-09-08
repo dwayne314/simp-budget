@@ -1,7 +1,12 @@
-from flask import g, abort, request
+"""This module contains all of the application's authentication routes"""
+
+from datetime import datetime
+from flask import g, abort, request, redirect
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
+from app import db
 from app.models import Users
 from app.utilities.decorators import extract_auth_token
+from app.api import bp
 
 
 basic_auth = HTTPBasicAuth()
@@ -36,6 +41,16 @@ def verify_token(token, auth_from_cookie=None):
     token_to_verify = token if token else auth_from_cookie
     g.current_user = Users.check_token(token_to_verify) if token_to_verify else None
     return g.current_user is not None
+
+@bp.route('/verifyEmail/<token>', methods=['POST'])
+def verify_email(token):
+    """Updated the users email verification date if the web token is valid"""
+    user = Users.verify_web_token(token)
+    if user:
+        setattr(user, 'email_verified_at', datetime.utcnow())
+        db.session.commit()
+        return {'status': 'success'}
+    return abort(401)
 
 @token_auth.error_handler
 def token_auth_error():

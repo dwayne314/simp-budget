@@ -1,6 +1,7 @@
 import { 
     LOGIN,
     CSRF_TOKEN,
+    SET_EMAIL_VERIFICATION_DATE,
     SET_ACCOUNTS,
     UPDATE_ACCOUNT,
     ADD_ACCOUNT,
@@ -41,6 +42,15 @@ const rootReducer = (state=initialState, action) => {
             return {
                 ...state,
                 csrfToken: action.payload.csrfToken
+            };
+
+        case SET_EMAIL_VERIFICATION_DATE:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    email_verified_at: action.payload.date
+                }
             };
 
         case SET_ACCOUNTS:
