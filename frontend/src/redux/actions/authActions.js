@@ -87,7 +87,6 @@ export const logout = (authError) => (dispatch, getState) => {
         dispatch(set_transactions([]));
         dispatch(setRecurringTransactions([]));
         dispatch(set_accounts([]));
-        dispatch(setFlashMessages([]));
         dispatch(login({}));
     }
     else {
@@ -98,13 +97,11 @@ export const logout = (authError) => (dispatch, getState) => {
                 dispatch(set_transactions([]));
                 dispatch(setRecurringTransactions([]));
                 dispatch(set_accounts([]));
-                dispatch(setFlashMessages([]));
             })
             .catch(err => {
                 dispatch(set_transactions([]));
                 dispatch(setRecurringTransactions([]));
                 dispatch(set_accounts([]));
-                dispatch(setFlashMessages([]));
                 dispatch(login({}));
             })
     }
