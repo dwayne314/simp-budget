@@ -9,14 +9,17 @@ import {
     getMonthlyFrequencyFromIndex,
     mapOrdinalIndicators,
     getSpecialDayFromIndex,
-    getRecurringTransactionText
+    getRecurringTransactionText,
+    decodeJWT
 } from './formatters';
 import {
     registrationValidator,
     loginValidator,
+    sendResetPasswordEmailValidator,
     newAccountValidator,
     newTransactiontValidator,
-    newRecurringTransactionValidator
+    newRecurringTransactionValidator,
+    resetPasswordEmailValidator
 } from './validators';
 import { getErrors } from './errors';
 import { isEmpty, generateCsrfHeader, isAuthError, isProtectedRoute } from './helpers';
@@ -35,11 +38,14 @@ export {
     mapOrdinalIndicators,
     getSpecialDayFromIndex,
     getRecurringTransactionText,
+    decodeJWT,
     registrationValidator,
     loginValidator,
+    sendResetPasswordEmailValidator,
     newAccountValidator,
     newTransactiontValidator,
     newRecurringTransactionValidator,
+    resetPasswordEmailValidator,
     getErrors,
     generateCsrfHeader,
     isAuthError,

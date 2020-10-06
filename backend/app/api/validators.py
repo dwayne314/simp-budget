@@ -142,6 +142,20 @@ class UserValidator(Validator):
             'result': {} if self.errors else self.get_results()
         }
 
+    def validate_update_password(self, authToken):
+        """Validates a password update"""
+        self.extract_common_validators()
+
+        valid_auth_token = Users.verify_web_token(authToken)
+
+        if not valid_auth_token:
+            self.errors['session'] = 'Your password reset link has expired.'
+
+        return {
+            'isValid': not self.errors,
+            'errors': self.errors,
+            'result': {} if self.errors else self.get_results()
+        }
 
 class AccountValidator(Validator):
     """Validates keyword arguments for an Account

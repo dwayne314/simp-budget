@@ -1,4 +1,4 @@
-import { registrationValidator, loginValidator } from './authValidators';
+import { registrationValidator, loginValidator, sendResetPasswordEmailValidator, resetPasswordEmailValidator } from './authValidators';
 import { newAccountValidator } from './accountValidators';
 import { newTransactiontValidator, newRecurringTransactionValidator } from './transactionValidators';
 
@@ -6,6 +6,8 @@ import { newTransactiontValidator, newRecurringTransactionValidator } from './tr
 export {
     registrationValidator,
     loginValidator,
+    sendResetPasswordEmailValidator,
+    resetPasswordEmailValidator,
     newAccountValidator,
     newTransactiontValidator,
     newRecurringTransactionValidator

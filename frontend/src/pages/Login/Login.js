@@ -61,7 +61,7 @@ const Login = (props) => {
 
     const formFields = [
         {name: "Email", value: email, onChange:updateEmail, id: "email", errors: errors.email},
-        {name: "Password", value: password, onChange:updatePassword, id: "password", errors: errors.password, inputType:'password'}
+        {name: "Password", value: password, onChange:updatePassword, id: "password", errors: errors.password, inputType:'password', additionalText:{cta: 'Forgot Password?', linkTo: '/sendPasswordReset'}}
     ];
 
     return (
@@ -73,6 +73,7 @@ const Login = (props) => {
                       submitCTA={"Login Here"}
                       formErrors={formErrors}
                       bottomText={{introText: "Don't have an account? ", linkText: "Register Here", linkTo:"/register"}}/>
+
             </div>
         </Fragment>
     );

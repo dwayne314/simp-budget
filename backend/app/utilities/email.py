@@ -28,7 +28,7 @@ def send_email(subject, sender, recipients, html_body, cc=None,
     return new_thread
 
 def send_email_verification(user):
-    """Sends a registration email to an user"""
+    """Sends a registration email to a user"""
 
     # The port for the link needs to be the frontend server (3000)
     host_name = request.host_url.replace('5000', '3000')
@@ -37,5 +37,17 @@ def send_email_verification(user):
                sender=current_app.config['MAIL_USERNAME'],
                recipients=[user.email],
                html_body=render_template('email/verify_email.html',
+                                         user=user, token=token,
+                                         host_name=host_name))
+
+def send_password_reset(user):
+    """Sends a passoword reset email to a user"""
+
+    host_name = request.host_url.replace('5000', '3000')
+    token = user.get_web_token()
+    send_email('[SimpBudget] Reset Password',
+               sender=current_app.config['MAIL_USERNAME'],
+               recipients=[user.email],
+               html_body=render_template('email/reset_password.html',
                                          user=user, token=token,
                                          host_name=host_name))

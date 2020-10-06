@@ -9,7 +9,7 @@ import {
     setRecurringTransactions,
     setFlashMessages
 } from './'
-import { getCsrfToken } from '../selectors';
+import { getCsrfToken, currentUserId } from '../selectors';
 import { isEmpty, generateCsrfHeader } from '../../utilities';
 
 // 
@@ -168,4 +168,20 @@ export const setCsrfToken = token => {
             csrfToken: token
         }
     };
+};
+
+// 
+// Reset Pasword Acounts
+// 
+
+export const sendPasswordResetEmail = email => dispatch => {
+    return axios
+        .post('/email/sendResetEmail', email=email)
+        .then(response => {
+            dispatch(pushFlashMessage(`Email verification has been sent`, 'success'));            
+            return {success:true}
+        })
+        .catch(response => {
+            return {}
+        })
 };

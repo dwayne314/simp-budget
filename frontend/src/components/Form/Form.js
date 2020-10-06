@@ -10,7 +10,7 @@ import './Form.css';
 
 const Form = (props) => {
 
-    const { formHeader, fields, bottomText='', formErrors='', submit, submitCTA } = props;
+    const { formHeader, fields, bottomText='', formErrors='', additionalText='', submit, submitCTA } = props;
     const textFieldFormTypes = ['text', 'password']
 
     const formFields = fields.map((field, index) => {
@@ -19,6 +19,15 @@ const Form = (props) => {
              <div key={`form-field-${index}`} className={`form-item-container${field.horizontalAlign ? ' form-item-vertical' : ''}`}>
                 <div className="form-label">
                     <label htmlFor={field.id}>{field.name}</label>
+                    {(() => {
+                        if (field.additionalText) {
+                            return (
+                                <div className="form-label-link">
+                                    <Link to={field.additionalText.linkTo}>{field.additionalText.cta}</Link>       
+                                </div>
+                            )
+                        }
+                    })()}
                     {(() => {
                         if (field.onClear && field.value) {
                             return (

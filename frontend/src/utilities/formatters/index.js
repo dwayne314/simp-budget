@@ -247,3 +247,9 @@ export const getRecurringTransactionText = (recurringTransaction) => {
         }
     }
 };
+
+export const decodeJWT = (token) => {
+    const base64Url = token.split('.')[1];
+    const decoded = Buffer.from(base64Url, 'base64').toString();
+    return JSON.parse(decoded);
+};

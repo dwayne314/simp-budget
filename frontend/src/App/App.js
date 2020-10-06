@@ -24,8 +24,10 @@ import {
     ViewRecurringTransaction,
     EditRecurringTransaction,
     DeleteRecurringTransactions,
+    SendPasswordReset,
     PageNotFound,
-    VerifyEmail
+    VerifyEmail,
+    ResetPassword
 } from '../pages';
 import './App.css';
 
@@ -99,7 +101,11 @@ const App = (props) => {
                     <Route exact path="/accounts/:id/recurringTransactions/:recurringTransactionId/view" component={ViewRecurringTransaction}></Route>
                     <Route exact path="/accounts/:id/recurringTransactions/:recurringTransactionId/edit" component={EditRecurringTransaction}></Route>
                     <Route exact path="/accounts/:id/recurringTransactions/:recurringTransactionId/delete" component={DeleteRecurringTransactions}></Route>
+                    <Route exact path="/sendPasswordReset" component={SendPasswordReset} />
+
+                    {/* Email Source Routes */}
                     <Route exact path="/verifyEmail" component={VerifyEmail} />
+                    <Route exact path="/resetPassword" component={ResetPassword} />
                     <Route path="*" component={PageNotFound} />
                 </Switch>
             </div>

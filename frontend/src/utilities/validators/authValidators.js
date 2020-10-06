@@ -44,3 +44,33 @@ export const loginValidator = ({email, password}) => {
         isValid: isEmpty(errors)
     };
 };
+
+export const sendResetPasswordEmailValidator = ({email}) => {
+    let errors = {};
+    if (!email) {
+        errors.email = getErrors('required', {fieldName: 'Email'})
+    }
+
+    return {
+        errors: isEmpty(errors) ? null : errors,
+        result: isEmpty(errors) ? {email} : null,
+        isValid: isEmpty(errors)
+    };
+}
+
+export const resetPasswordEmailValidator = ({password}) => {
+    let errors = {};
+    const passwordMinMax = {min: 7, max: 30};
+
+    if (!password) {
+        errors.password = getErrors('required', {fieldName: 'Password'})
+    } else if (!Validator.isLength(password, passwordMinMax)) {
+        errors.password = getErrors('minMax', {...passwordMinMax, fieldName: 'Password'})
+    }
+
+    return {
+        errors: isEmpty(errors) ? null : errors,
+        result: isEmpty(errors) ? {password} : null,
+        isValid: isEmpty(errors)
+    };
+}

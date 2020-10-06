@@ -13,7 +13,7 @@ const isAuthError = (err) => {
 };
 
 const isProtectedRoute = (route) => {
-    const unprotectedRoutes = ['/', '/login', '/register'];
+    const unprotectedRoutes = ['/', '/login', '/register', '/sendPasswordReset', '/resetPassword'];
     return !unprotectedRoutes.includes(route);
 }
     

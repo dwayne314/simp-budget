@@ -7,7 +7,7 @@ from app.models import Users, Accounts, Transactions, RecurringTransactions
 from app.utilities.helpers import create_token
 from app.utilities.decorators import (err_if_not_found, roles_required,
                                       enforce_owner_by_id, add_child_result,
-                                      csrf_enforced)
+                                      csrf_enforced, extract_auth_token)
 from app.utilities.email import (send_email_verification)
 from app.api.validators import (UserValidator, AccountValidator,
                                 TransactionValidator,
@@ -154,6 +154,38 @@ def patch_user(user_id):
         return {'success': True,
                 'message': 'User updated',
                 'data': serialized_user}, 200
+
+    return abort(400, validate_results["errors"])
+
+@bp.route('/users/<int:user_id>/changePassword', methods=['PATCH'])
+@err_if_not_found(Users, 'user_id')
+@extract_auth_token('password_reset_token')
+def patch_user_password(user_id, auth_from_cookie):
+    """Patches a users password which doesn't require logging in"""
+    user = Users.query.get(user_id)
+    validator = UserValidator({'email': user.email}, **request.get_json())
+    validate_results = validator.validate_update_password(auth_from_cookie)
+
+    try:
+        session_password_change_token = session.pop('password_reset_token')
+    except KeyError:
+        return abort(401)
+
+    if validate_results['isValid']:
+        if session_password_change_token == auth_from_cookie:
+            password = validate_results['result'].pop('password')
+
+            # These passwords are not working....after this clean up the remaining files
+            user.hash_password(password)
+            db.session.add(user)
+            db.session.commit()
+
+            # Pull updated user data
+            serialized_user = Users.serialize_one(user_id)
+            return {'success': True,
+                    'message': 'User updated',
+                    'data': serialized_user}, 200
+        return abort(403)
 
     return abort(400, validate_results["errors"])
 

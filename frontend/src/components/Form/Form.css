@@ -52,6 +52,13 @@
 }
 .form-label {
     font-size: 22px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-label-link {
+    font-size: 14px;
+    margin: auto 0px;
 }
 
 .form-label > .clear-field-btn {

@@ -5,6 +5,7 @@ import {
     logout,
     postRegister,
     setCsrfToken,
+    sendPasswordResetEmail,
     postVerifyEmail,
     LOGIN,    
     CSRF_TOKEN,
@@ -57,7 +58,9 @@ import {
     setErrors,
     SET_ERRORS
 } from './notificationActions';
-
+import {
+    resetPassword
+} from './userActions';
 
 export {
     LOGIN,
@@ -67,6 +70,7 @@ export {
     logout,
     postRegister,    
     setCsrfToken,
+    sendPasswordResetEmail,
     postVerifyEmail,
     CSRF_TOKEN,
     SET_EMAIL_VERIFICATION_DATE,
@@ -109,4 +113,5 @@ export {
     pushFlashMessage,
     SET_ERRORS,
     setErrors,
+    resetPassword
 };
