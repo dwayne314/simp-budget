@@ -1,5 +1,5 @@
 import { getCurrentUser, currentUserId, getAuthTokenExpiration, getCsrfToken } from './authSelectors';
-import { flashMessages, getErrors} from './notificationSelectors';
+import { flashMessages, getErrors, isSettingsDrawerOpen, isMobileDisplay } from './displaySelectors';
 import { getAccounts, getAccountById } from './accountSelectors';
 import { getTransactions, getTransactionsByAccountId, getTransactionById } from './transactionSelectors';
 import { 
@@ -18,6 +18,8 @@ export {
     currentState,
     flashMessages,
     getErrors,
+    isSettingsDrawerOpen,
+    isMobileDisplay,
     getAccounts,
     getAccountById,
     getTransactions,

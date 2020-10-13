@@ -6,10 +6,9 @@ import {
     pushFlashMessage,
     set_accounts,
     set_transactions,
-    setRecurringTransactions,
-    setFlashMessages
+    setRecurringTransactions
 } from './'
-import { getCsrfToken, currentUserId } from '../selectors';
+import { getCsrfToken } from '../selectors';
 import { isEmpty, generateCsrfHeader } from '../../utilities';
 
 // 

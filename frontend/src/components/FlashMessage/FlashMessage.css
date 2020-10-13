@@ -2,6 +2,7 @@
     position: absolute;
     height: 30px;
     width: 100%;
+    z-index: var(--flash-message-z-index);
 }
 
 .flash-message {

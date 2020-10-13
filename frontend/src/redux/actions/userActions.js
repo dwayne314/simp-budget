@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { getCsrfToken, currentUserId } from '../selectors';
-import { isEmpty, generateCsrfHeader, decodeJWT } from '../../utilities';
+import { decodeJWT } from '../../utilities';
 
 
 export const resetPassword = password => (dispatch, getState) => {

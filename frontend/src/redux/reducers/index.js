@@ -13,6 +13,8 @@ import {
     SET_FLASH_MESSAGES,
     PUSH_FLASH_MESSAGE,
     SET_ERRORS,
+    TOGGLE_SETTINGS_DRAWER,
+    TOGGLE_MOBILE_DISPLAY,
     ADD_RECURRING_TRANSACTIONS,
     SET_RECURRING_TRANSACTIONS,
     UPDATE_RECURRING_TRANSACTION,
@@ -27,7 +29,9 @@ const initialState = {
     transactions: [],
     recurringTransactions: [],
     flashMessages: [],
-    errors: {}
+    errors: {},
+    isSettingsDrawerOpen: false,
+    isMobileDisplay: null
 };
 
 const rootReducer = (state=initialState, action) => {
@@ -174,7 +178,23 @@ const rootReducer = (state=initialState, action) => {
             return {
                 ...state,
                 errors: action.payload.errors
-            }
+            };
+
+        case TOGGLE_SETTINGS_DRAWER:
+            const { isSettingsDrawerOpen } = action.payload;
+
+            return {
+                ...state,
+                isSettingsDrawerOpen: isSettingsDrawerOpen
+            };
+
+        case TOGGLE_MOBILE_DISPLAY:
+            const { isMobileDisplay } = action.payload;
+            return {
+                ...state,
+                isMobileDisplay: isMobileDisplay
+            };
+
         default:
             return state
     };

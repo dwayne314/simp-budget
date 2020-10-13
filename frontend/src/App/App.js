@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router';
-import { setErrors, getToken } from '../redux/actions';
-import { getAuthTokenExpiration, getCurrentUser } from '../redux/selectors';
-import { isEmpty, isProtectedRoute } from '../utilities';
+import { setErrors, getToken, toggleMobileDisplay, toggleSettingsDrawer } from '../redux/actions';
+import { getAuthTokenExpiration, getCurrentUser, isSettingsDrawerOpen, isMobileDisplay } from '../redux/selectors';
+import { isEmpty, isProtectedRoute, useCurrentWidth } from '../utilities';
 import FlashMessage from '../components/FlashMessage/FlashMessage';
 import Header from '../components/Header/Header';
 import {
@@ -33,15 +33,19 @@ import './App.css';
 
 
 const App = (props) => {
-    const [formHeader, setFormHeader] = useState(false);
     const dispatch = useDispatch();
     const authTokenExpiration = useSelector(getAuthTokenExpiration);
     const currentUser = useSelector(getCurrentUser);
+    const isSettingsOpen = useSelector(isSettingsDrawerOpen);
+    const isMobile = useSelector(isMobileDisplay);
+    const windowWidth = useCurrentWidth();
+    const mobileDisplayIndicator = windowWidth > 600;
     const expiresIn5Minutes = authTokenExpiration - (new Date().getTime() + 60000 * 5);
 
+    // Clear errors and close settings on every page update
     useEffect(() => {
-        // Clear errors on every page update
         dispatch(setErrors({}));
+        dispatch(toggleSettingsDrawer(false));
         
     }, [props.location.pathname, dispatch]);
 
@@ -62,27 +66,17 @@ const App = (props) => {
         }
     }, [props.location.pathname, props.history, currentUser]);
 
-    // Use the form header if the page is a form 
     useEffect(() => {
-        // Update to the opposite so arror pages can get goBack
-        const formRoutes = ['/create', '/edit', '/login', '/register'];
-        const route = props.location.pathname;
-        const routeAction = route.slice(route.lastIndexOf('/'), route.length);
-        const isformRoute = formRoutes.indexOf(routeAction) !== -1;
+        if (mobileDisplayIndicator) dispatch(toggleMobileDisplay(false));
+        else dispatch(toggleMobileDisplay(true));
 
-        if (isformRoute) {
-            setFormHeader(true);
-        }
-        else {
-            setFormHeader(false);
-        }
-    }, [props.location.pathname])
+    }, [mobileDisplayIndicator, dispatch]);
 
     return (
         <div className='app-container'>
             <FlashMessage />
-            <Header isPrimary={true} formHeader={formHeader}/>
-            <div className="app-sub-container">
+            <Header isPrimary={true} />
+            <div className={`app-sub-container${isMobile && isSettingsOpen ? ' hidden' : ''}`}>
                 <Switch>
                     <Route exact path="/" component={Home}></Route>
                     <Route exact path="/login" component={Login}></Route>

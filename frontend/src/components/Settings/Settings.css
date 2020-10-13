@@ -1,0 +1,73 @@
+.settings-icon img {
+    height: 20px;
+    width: 20px;
+}
+
+.settings-container {
+    /* Excludes the margin from the next position relative */
+    top: calc(var(--header-height) - 10px);    
+    width: calc(100% + 40px);
+    margin-left: -20px;
+    margin-right: -20px;
+    background-color: white;
+    position: absolute;
+    box-sizing: border-box;
+}
+
+.settings-container-large-screen {
+    width: 200px;
+    right: 0px;
+    margin-left: 0px;
+    margin-right: 0px;    
+    top: calc(var(--header-height) + 10px);
+    border: 1px solid;
+    border-color: var(--secondary-color);
+    height: inherit;
+    max-width: 600px;
+}
+
+.settings-drawer-sections {
+    background-color: white
+}
+
+.settings-drawer-section {
+    height: var(--mobile-settings-section-height);
+    border-bottom: 1px solid #b6b6b6;
+    padding-left: var(--app-padding);
+    padding-right: var(--app-padding);
+    box-sizing: border-box;
+}
+
+.settings-drawer-section-disabled {
+    height: var(--mobile-settings-section-height);
+    border-bottom: 1px solid #b6b6b6;
+    padding-left: var(--app-padding);
+    padding-right: var(--app-padding);
+    box-sizing: border-box;
+    background-color: #c4c4c4;
+
+}
+
+.settings-drawer-section:hover {
+    background-color: #5081af9e;
+    cursor: pointer;
+}
+
+.settings-drawer-label {
+    line-height: var(--mobile-settings-section-height);
+    text-align: center;
+    font-size: 22px;
+}
+
+.settings-drawer-section-large-screen {
+    height: var(--desktop-settings-section-height);
+}
+
+.settings-drawer-section-large-screen:last-child {
+    border-bottom: none;
+}
+
+.settings-drawer-label-large-screen {
+    text-align: left;
+    line-height: var(--desktop-settings-section-height);    
+}

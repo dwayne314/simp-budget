@@ -13,6 +13,7 @@
 
 .header-sub-container {
     display: flex;
+    position: relative;
     max-width: 600px;
     flex-direction: row;
     justify-content: space-between;
@@ -52,4 +53,13 @@
 
 .home-button-container img {
     vertical-align: middle;
+}
+
+.settings-icon .icon-container {
+    height: 35px;
+    display: flex;
+}
+
+.settings-icon img {
+    align-self: center;
 }

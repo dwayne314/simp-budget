@@ -52,12 +52,16 @@ import {
 } from './recurringTransactionActions';
 import {
     setFlashMessages,
-    SET_FLASH_MESSAGES,
     pushFlashMessage,
-    PUSH_FLASH_MESSAGE,
     setErrors,
-    SET_ERRORS
-} from './notificationActions';
+    toggleSettingsDrawer,
+    toggleMobileDisplay,
+    SET_FLASH_MESSAGES,    
+    PUSH_FLASH_MESSAGE,
+    SET_ERRORS,
+    TOGGLE_SETTINGS_DRAWER,
+    TOGGLE_MOBILE_DISPLAY
+} from './displayActions';
 import {
     resetPassword
 } from './userActions';
@@ -109,9 +113,13 @@ export {
     UPDATE_RECURRING_TRANSACTION,
     REMOVE_RECURRING_TRANSACTIONS,
     setFlashMessages,
-    PUSH_FLASH_MESSAGE,
     pushFlashMessage,
-    SET_ERRORS,
     setErrors,
+    toggleSettingsDrawer,
+    toggleMobileDisplay,
+    PUSH_FLASH_MESSAGE,
+    SET_ERRORS,
+    TOGGLE_SETTINGS_DRAWER,
+    TOGGLE_MOBILE_DISPLAY,
     resetPassword
 };

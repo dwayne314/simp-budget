@@ -38,3 +38,29 @@ export const setErrors = errors => {
         }
     };
 };
+
+//
+// Settings Actions
+//
+
+export const TOGGLE_SETTINGS_DRAWER = 'TOGGLE_SETTINGS_DRAWER';
+
+export const toggleSettingsDrawer = (isSettingsDrawerOpen) => {
+    return {
+        type: TOGGLE_SETTINGS_DRAWER,
+        payload: {
+            isSettingsDrawerOpen: isSettingsDrawerOpen
+        }
+    };
+};
+
+export const TOGGLE_MOBILE_DISPLAY = 'TOGGLE_MOBILE_DISPLAY';
+
+export const toggleMobileDisplay = (isMobileDisplay) => {
+    return {
+        type: TOGGLE_MOBILE_DISPLAY,
+        payload: {
+            isMobileDisplay: isMobileDisplay
+        }
+    };
+};

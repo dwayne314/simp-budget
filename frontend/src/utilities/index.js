@@ -23,6 +23,7 @@ import {
 } from './validators';
 import { getErrors } from './errors';
 import { isEmpty, generateCsrfHeader, isAuthError, isProtectedRoute } from './helpers';
+import { useCurrentWidth } from './hooks';
 
 
 export {
@@ -50,4 +51,5 @@ export {
     generateCsrfHeader,
     isAuthError,
     isProtectedRoute,
+    useCurrentWidth
 };

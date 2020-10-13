@@ -21,6 +21,10 @@ input:focus {
     --app-max-width: 640px;
     --header-height: 54px;
     --app-padding: 20px;
+    --mobile-settings-section-height: 100px;
+    --desktop-settings-section-height: 50px;
+    --header-height: 55px;
+    --flash-message-z-index: 100;
    
     /* Colors */
     --primary-color: #1c5f9d;
