@@ -12,6 +12,7 @@
     background-color: white;
     position: absolute;
     box-sizing: border-box;
+    z-index: var(--settings-drawer-z-index);
 }
 
 .settings-container-large-screen {
@@ -27,7 +28,7 @@
 }
 
 .settings-drawer-sections {
-    background-color: white
+    background-color: white;
 }
 
 .settings-drawer-section {
@@ -45,7 +46,6 @@
     padding-right: var(--app-padding);
     box-sizing: border-box;
     background-color: #c4c4c4;
-
 }
 
 .settings-drawer-section:hover {

@@ -25,6 +25,7 @@ input:focus {
     --desktop-settings-section-height: 50px;
     --header-height: 55px;
     --flash-message-z-index: 100;
+    --settings-drawer-z-index: 90;
    
     /* Colors */
     --primary-color: #1c5f9d;
