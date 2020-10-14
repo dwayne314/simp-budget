@@ -12,6 +12,7 @@ import {
     REMOVE_TRANSACTIONS,
     SET_FLASH_MESSAGES,
     PUSH_FLASH_MESSAGE,
+    REMOVE_FLASH_MESSAGE,
     SET_ERRORS,
     TOGGLE_SETTINGS_DRAWER,
     TOGGLE_MOBILE_DISPLAY,
@@ -170,8 +171,19 @@ const rootReducer = (state=initialState, action) => {
                 ...state,
                 flashMessages: [...state.flashMessages, {
                     message: action.payload.message,
-                    messageType: action.payload.messageType
+                    messageType: action.payload.messageType,
+                    id: state.flashMessages.reduce((agg, msg) => {
+                        if (agg > msg.id) return agg
+                        else return msg.id
+                    } ,0) + 1
                 }]
+            };
+
+        case REMOVE_FLASH_MESSAGE:
+            const { messageId } = action.payload;
+            return {
+                ...state,
+                flashMessages: state.flashMessages.filter((message, index) => message.id !== messageId)
             };
 
         case SET_ERRORS:

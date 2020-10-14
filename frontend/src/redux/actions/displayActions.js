@@ -24,6 +24,17 @@ export const pushFlashMessage = (message, messageType='error') => {
     };
 };
 
+export const REMOVE_FLASH_MESSAGE = 'REMOVE_FLASH_MESSAGE';
+
+export const removeFlashMessage = (messageId) => {
+    return {
+        type: REMOVE_FLASH_MESSAGE,
+        payload: {
+            messageId: messageId
+        }
+    };
+};
+
 // 
 // Error Actions
 // 

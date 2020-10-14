@@ -1,23 +1,39 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import Close from '../../static/icons/close-white.svg';
+import Icon from '../../components/Icon/Icon';
 import { flashMessages } from '../../redux/selectors';
-import { setFlashMessages } from '../../redux/actions';
+import { setFlashMessages, removeFlashMessage } from '../../redux/actions';
 import './FlashMessage.css';
 
 
 const FlashMessage = (props) => {
 
     const colorMapper = {
-        'error': '#d85d52',
-        'success': '#80d250'
+        'error': '#c63a3a',
+        'success': '#3ac672'
     }
 
     const messages = useSelector(flashMessages);
     const dispatch = useDispatch();
 
     const showMessages = messages.map((message, index) => (
-        <div key={`message ${index}`} className="flash-message" style={{backgroundColor: colorMapper[message.messageType]}}>
-            {message.message}
+        <div key={`message ${message.id}`} className="flash-message-container" style={{backgroundColor: colorMapper[message.messageType]}}>
+            <div className="flash-message-sub-container">
+                <div className="flash-message">
+                    {message.message}
+                </div>
+                <div className="close-message-icon">
+                        <div className="close-message-icon">
+                            <Icon
+                                type={Close} 
+                                alt="X-icon"
+                                onClick={() => dispatch(removeFlashMessage(message.id))}
+                            />
+                        </div>
+
+                </div>
+            </div>
         </div>
     ));
 
@@ -35,13 +51,9 @@ const FlashMessage = (props) => {
 
     }, [dispatch, messages]);
 
-    useEffect(() => {
-    })
-
-
     return (
         (messages.length) ? 
-        <div className="flash-message-container">
+        <div className="flash-messages-container">
             {showMessages}
         </div>
         : ""
