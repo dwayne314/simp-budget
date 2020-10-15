@@ -20,7 +20,6 @@ def send_email_confirmation(user_id):
 
 
 @bp.route('/sendResetEmail', methods=['POST'])
-# @enforce_owner_by_id('user_id', ['admin'])
 def send_password_reset_confirmation():
     """Sends a password reset email and attraches a reset token as a cookie"""
     email = request.get_json().get('email')

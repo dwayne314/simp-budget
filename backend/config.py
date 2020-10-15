@@ -24,15 +24,18 @@ class Config:
     MAIL_SERVER = secret.get('MAIL_SERVER')
     MAIL_USE_TLS = secret.get('MAIL_USE_TLS')
     MAIL_DEBUG = False
+    FRONTEND_HOST_NAME = 'http://localhost:3000/'
 
 
-class ProdConfig:
+class StagingConfig(Config):
+    """The staging config class for the application"""
+    FRONTEND_HOST_NAME = 'http://simpbudgetstaging-env.eba-zqucjvya.us-east-2.elasticbeanstalk.com/'
+
+
+class ProdConfig(Config):
     """The production config class for the application"""
-    APP_NAME = secret.get('APP_NAME')
-    SECRET_KEY = secret.get('SECRET_KEY')
-    SQLALCHEMY_DATABASE_URI = secret.get('DATABASE_URI')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
     SESSION_COOKIE_SECURE = True
+    FRONTEND_HOST_NAME = 'https://simpbudget.com/'
 
 
 class TestConfig(Config):

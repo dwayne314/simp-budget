@@ -1,10 +1,11 @@
 """This module contains all of the globals used by the api."""
 
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_mail import Mail
-from config import Config
+from config import Config, ProdConfig, StagingConfig
 
 
 # Globals used throughout the application
@@ -12,7 +13,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 mail = Mail()
 
-def create_app(config_class=Config):
+def create_app():
     """Initializes the core application with an application factory
 
     Returns:
@@ -20,7 +21,14 @@ def create_app(config_class=Config):
 
     """
     app = Flask(__name__)
-    app.config.from_object(config_class)
+    app_environment = os.environ.get("ENVIRONMENT")
+
+    if app_environment == 'PRODUCTION':
+        app.config.from_object(ProdConfig)
+    elif app_environment == 'STAGING':
+        app.config.from_object(StagingConfig)
+    else:
+        app.config.from_object(ProdConfig)
 
 
     # Initialize external plugins
