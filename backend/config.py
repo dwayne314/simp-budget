@@ -24,6 +24,9 @@ class Config:
     MAIL_SERVER = secret.get('MAIL_SERVER')
     MAIL_USE_TLS = secret.get('MAIL_USE_TLS')
     MAIL_DEBUG = False
+
+class DevelopmentConfig(Config):
+    """The development config class for the application"""
     FRONTEND_HOST_NAME = 'http://localhost:3000/'
 
 
